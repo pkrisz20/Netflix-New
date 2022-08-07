@@ -11,7 +11,7 @@
             :autoplay="true" >
 
             <slide v-for="item in images" :key="item.id" class="slide">
-                <div class="box" data-aos="zoom-in" data-aos-delay="600">
+                <div class="box">
                     <h3 class="box-title">{{ item.movieName }}</h3>
                     <button class="box-btn" @click="routeDetails(item.id)">Details</button>
                 </div>

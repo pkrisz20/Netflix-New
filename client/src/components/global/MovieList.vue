@@ -35,7 +35,7 @@
         <div class="wrapper">
             <div class="listCards">
 
-                <div class="card" v-for="item in movies" :key="item.id" :id="item.id">
+                <div class="card" v-for="item in movies" :key="item.id">
                     <div class="card_stickers">
                         <div class="info" @click="routeToDetails(item.id)">
                             <i class="fas fa-info-circle"></i>
@@ -81,10 +81,6 @@
 <script>
 import Axios from "axios";
 import { mapGetters, mapState } from "vuex";
-import { gsap } from "gsap";
-gsap.config({ nullTargetWarn: false, trialWarn: false });
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger);
 
 export default {
     name: "MovieList",
@@ -180,23 +176,6 @@ export default {
         removeMyList (movieID) {
             this.$store.dispatch("deleteFromMyList", movieID);
         }
-    },
-    mounted() {
-        //todo: have to be fixed for the animation
-        console.log(".movies_list .movies_section .listCards #" + this.$props.movies["id"]);
-        // const scrollTrigger = {
-        //     trigger: ".movies_list .movies_section .listCards",
-        //     start: 'center bottom',
-        // };
-        const cardTimeLine = gsap.timeline({
-            scrollTrigger: {
-                trigger: ".movies_list .movies_section .listCards #" + this.$props.movies["id"],
-                start: "center bottom"
-            },
-            defaults: { duration: .5 }
-        });
-        cardTimeLine.from(".movies_list .movies_section .listCards #" + this.$props.movies.id, { y: 200, opacity: 0, stagger: .1, duration: .3 });
-        // gsap.timeline({ scrollTrigger }).from(".movies_list .movies_section .listCards .card", { opacity: 0, y: 200, stagger: .1, duration: .3 });
     }
 }
 </script>

@@ -1,12 +1,12 @@
 <template>
     <div class="nav" :class="{ sticky: scrollPosition > 0 }">
         <div class="wrapper">
-            <router-link to="/" class="logo" data-aos="fade-in" data-aos-delay="300">
+            <router-link to="/" class="logo">
                 <img alt="logo" class="logo-img" src="../../assets/images/netflix.png">
             </router-link>
 
             <div class="nav-links" :class="{ open_sidebar: openSidebar }">
-                <ul class="nav-links-list" data-aos="fade-in" data-aos-delay="500">
+                <ul class="nav-links-list">
                     <router-link class="link" to="/">Home</router-link>
                     <router-link class="link" to="/author">Author</router-link>
                     <Dropdown
@@ -20,7 +20,7 @@
                 </ul>
             </div>
 
-            <div class="search-box" data-aos="fade-in" data-aos-delay="700">
+            <div class="search-box">
                 
                 <div class="search-box_results" v-if="this.searchText.length > 0">
                     <h4 class="header">{{ filterMovies(this.searchText).length > 1 ? 'Results:' : 'Result:' }} {{ filterMovies(this.searchText).length }}</h4>

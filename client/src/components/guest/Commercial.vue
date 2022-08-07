@@ -1,7 +1,7 @@
 <template>
     <div class="commercial">
         <div class="commercial_img">
-            <div class="text" data-aos="fade-up">
+            <div class="text">
                 <h2 class="text-main">Unlimited Movies</h2>
                 <h3 class="text-sub">Watch anytime, anywhere you just want</h3>
                 <p class="text-desc">We bring comfort to your home. Without any advertisment or whatever else which could disturb you as well. You can choose from over 15 categories. Join to us, enjoy your free movies and be part of our friendly community.</p>
