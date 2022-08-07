@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Poppins:wght@300;400;500;700;900&display=swap");
+
+$c-main-font: "Montserrat", sans-serif;
+
+$c-dark-theme: #111;
+$c-green-theme: #00b60b;
+$c-skyblue: #3d8d8f;
+$c-dark-blue: #082a2e;
+$c-blue: #2874a6;
+$c-middleblue: #0b5a8f;
+$c-success: #117a4b;
+$c-error: #b31e1e;
+$c-error2: #b10101;
+$c-yellow: #b4e800;
+$c-orange: #fbbc05;
+$c-purple: #a500d8;
+
+$c-facebook: #4267b2;
+$c-instagram: #e1306c;
+$c-phone: #32cd32;
+$c-discord: #5865f2;
+$c-github: #967bb6;
+$c-twitter: #1DA1F2;
+$c-youtube: #FF0000;
+
+$c-white: #fff;
+$c-e: #eee;
+$c-d: #ddd;
+$c-c: #ccc;
+$c-b: #bbb;
+$c-a: #aaa;
+$c-9: #999;
+$c-8: #888;
+$c-6: #666;
+$c-5: #555;
+$c-4: #444;
+$c-3: #333;
+$c-black: #000;
+$c-red: #c70000;
+
+$r-mobile-s: "(min-width: 420px)";
+$r-mobile-l: "(min-width: 540px)";
+$r-tablet: "(min-width: 768px)";
+$r-laptop-s: "(min-width: 1024px)";
+$r-laptop-m: "(min-width: 1200px)";
+$r-laptop-xl: "(min-width: 1500px)";
+
+$r-max-mobile-s: "(max-width: 419px)";
+$r-max-mobile-l: "(max-width: 539px)";
+$r-max-tablet: "(max-width: 767px)";
+$r-max-laptop-s: "(max-width: 1023px)";
+$r-max-laptop-m: "(max-width: 1199px)";
+$r-max-laptop-xl: "(max-width: 1499px)";
+
+@mixin object-fit {
+  object-fit: cover;
+  object-position: center;
+}
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin absoluteCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
