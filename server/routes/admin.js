@@ -1,0 +1,43 @@
+const { db } = require("../db-config");
+const { insertMovie } = require("../admin/insertMovie");
+const { deleteMovie } = require("../admin/deleteMovie");
+const { updateMovie } = require("../admin/updateMovie");
+const { uploadThumbnail } = require("../admin/uploadThumbnail");
+const { uploadMovie } = require("../admin/uploadMovie");
+const { adminStatus } = require("../admin/adminStatus");
+const { adminLogin } = require("../admin/adminLogin");
+const { adminLogout } = require("../admin/adminLogout");
+const { getAdminData } = require("../admin/getAdminData");
+const { selectUsers } = require("../admin/selectUsers");
+const { deleteUser } = require("../admin/deleteUser");
+const { setPermission } = require("../admin/setPermission");
+const { deleteCategory } = require("../admin/deleteCategory");
+const { updateCategory } = require("../admin/updateCategory");
+const { insertCategory } = require("../admin/insertCategory");
+const { addUser } = require("../admin/addUser");
+const { updateUser } = require("../admin/updateUser");
+const { adminProfileChange } = require("../admin/setProfilePicture");
+
+const express = require("express");
+const adminRouter = express.Router();
+
+insertMovie(adminRouter, db);
+deleteMovie(adminRouter, db);
+updateMovie(adminRouter, db);
+uploadThumbnail(adminRouter, db);
+uploadMovie(adminRouter, db);
+adminStatus(adminRouter, db);
+adminLogin(adminRouter, db);
+adminLogout(adminRouter, db);
+getAdminData(adminRouter, db);
+selectUsers(adminRouter, db);
+deleteUser(adminRouter, db);
+setPermission(adminRouter, db);
+deleteCategory(adminRouter, db);
+updateCategory(adminRouter, db);
+insertCategory(adminRouter, db);
+addUser(adminRouter, db);
+updateUser(adminRouter, db);
+adminProfileChange(adminRouter, db);
+
+exports.adminRouter = adminRouter;
