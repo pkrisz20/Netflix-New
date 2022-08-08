@@ -37,6 +37,10 @@ export default {
         this.$router.push("/author").catch(() => { return; });
         console.log('SPECIFIC IF');
       }
+      if (!this.isLoggedIn && this.$route.name == "NotFound") {
+        this.$router.push({ name: "NotFound" }).catch(() => { return; });
+        console.log('SPECIFIC IF');
+      }
     },
     '$store.state.adminLoggedIn': function() {
       if (!this.adminLoggedIn) {

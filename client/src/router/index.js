@@ -111,6 +111,11 @@ const routes = [
     name: "AdminNotifications",
     component: () => import("../views/admin/AdminNotifications.vue"),
   },
+  {
+    path: "*",
+    name: "NotFound",
+    component: () => import("../views/errors/NotFound.vue"),
+  }
 ];
 
 const router = new VueRouter({
