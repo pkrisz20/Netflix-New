@@ -35,7 +35,7 @@
         <div class="wrapper">
             <div class="listCards">
 
-                <div class="card" v-for="item in movies" :key="item.id">
+                <div class="card" v-for="item in movies" :key="item.id" data-aos="fade-up">
                     <div class="card_stickers">
                         <div class="info" @click="routeToDetails(item.id)">
                             <i class="fas fa-info-circle"></i>
