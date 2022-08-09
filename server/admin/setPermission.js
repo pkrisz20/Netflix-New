@@ -13,10 +13,10 @@ const setPermission = (adminRouter, db) => adminRouter.put("/setpermission", ver
                 console.log(err);
             }
             if (result) {
-                res.json({ status: true, message: "User's status has been successfully updated" });
+                return res.json({ status: true, message: "User's status has been successfully updated" });
             }
             else {
-                res.json({ status: false, message: "Something went wrong" });
+                return res.json({ status: false, message: "Something went wrong" });
             }
         });
     }
@@ -28,10 +28,10 @@ const setPermission = (adminRouter, db) => adminRouter.put("/setpermission", ver
                 console.log(err);
             }
             if (result) {
-                res.json({ status: true, message: "User's status has been successfully updated" });
+                return res.json({ status: true, message: "User's status has been successfully updated" });
             }
             else {
-                res.json({ status: false, message: "Something went wrong" });
+                return res.json({ status: false, message: "Something went wrong" });
             }
         });
     }

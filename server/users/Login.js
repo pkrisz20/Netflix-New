@@ -24,16 +24,16 @@ const Login = (usersRouter, db) => usersRouter.post("/login", (req, res) => {
                         refresh: refreshToken
                     };
                     console.log('session created');
-                    res.send({ status: true });
+                    return res.json({ status: true });
                 }
                 else {
-                    res.json({ status: false, message:"Wrong username or password" });
+                    return res.json({ status: false, message:"Wrong username or password" });
                 }
             });
         }
 
         else {
-            res.json({ status: false, message:"Wrong username or password" });
+            return res.json({ status: false, message:"Wrong username or password" });
         }
     });
 });

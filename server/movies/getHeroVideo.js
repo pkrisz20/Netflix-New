@@ -4,11 +4,11 @@ const getHeroVideo = (moviesRouter, db) => moviesRouter.get("/getherovideo", (re
     db.query(sqlSelect, (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: false, message: err });
+            return res.json({ status: false, message: err });
         }
 
         else if (result) {
-            res.json({ status: true, result: result });
+            return res.json({ status: true, result: result });
         }
     });
 });

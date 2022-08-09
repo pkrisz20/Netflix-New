@@ -6,11 +6,11 @@ const getTopMovies = (moviesRouter, db) => moviesRouter.get("/topmovies", (req, 
 
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Error with getting TOP movies: " + err });
+            return res.json({ status: false, message: "Error with getting TOP movies: " + err });
         }
 
         else if (result) {
-            res.json({ status: true, result: result });
+            return res.json({ status: true, result: result });
         }
     });
 });

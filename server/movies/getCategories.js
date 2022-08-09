@@ -5,15 +5,15 @@ const getCategories = (moviesRouter, db) => moviesRouter.get("/getcategories", (
 
         if (err) {
             console.log(err);
-            res.json({ message: "Something went wrong..." });
+            return res.json({ message: "Something went wrong..." });
         }
 
         else if (result.length > 0) {
-            res.send(result);
+            return res.send(result);
         }
 
         else if (result === 0) {
-            res.json({ message: "No categories in the database!" });
+            return res.json({ message: "No categories in the database!" });
         }
     });
 });

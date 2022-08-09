@@ -11,10 +11,10 @@ const updateCategory = (adminRouter, db) => adminRouter.put("/updatecategory", v
             console.log(err);
         }
         if (result) {
-            res.json({ status: true, message: "Category has been successfully updated" });
+            return res.json({ status: true, message: "Category has been successfully updated" });
         }
         else {
-            res.json({ status: false, message: "Something went wrong" });
+            return res.json({ status: false, message: "Something went wrong" });
         }
     });
 });

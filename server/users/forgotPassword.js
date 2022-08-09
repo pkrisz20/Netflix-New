@@ -11,8 +11,7 @@ const forgotPassword = (usersRouter, db) => usersRouter.post("/forgotpassword", 
 
     db.query("SELECT * FROM users WHERE email = ?", emailAddress, (err, result) => {
         if (err) {
-            console.log("Error with forgot password email sending...");
-            return res.json({ status: false, message: err });
+            return res.json({ status: false, message: "Error with forgot password email sending..." });
         }
 
         if (result.length > 0) {
@@ -76,10 +75,10 @@ const forgotPassword = (usersRouter, db) => usersRouter.post("/forgotpassword", 
                         transporter.sendMail(mailOptions, function(error, info) {
                             if (error) {
                                 console.log(error);
-                                return res.json({ status: false, message: "Email could not sent due to error!" });
+                                return res.json({ status: false, message: "Email could not sent due to error! Try it later..." });
                             } else {
                                 console.log('Email sent: ' + info.response);
-                                return res.json({ status: true, message: "Check your mail! You have 10 minutes, until the code expires!" });
+                                return res.json({ status: true, message: "If you typed the email address correct, then check your mail! You have 10 minutes, until the code expires!" });
                             }
                         });
                     });
@@ -88,7 +87,7 @@ const forgotPassword = (usersRouter, db) => usersRouter.post("/forgotpassword", 
         }
 
         else if (result.length == 0) {
-            res.json({ status: false, message: "There is no registered user with this email" });
+            return res.json({ status: false, message: "If you typed the email address correct, then check your mail! You have 10 minutes, until the code expires!" });
         }
     });
 });

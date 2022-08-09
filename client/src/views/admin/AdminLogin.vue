@@ -60,7 +60,12 @@ Axios.defaults.withCredentials = true;
                     .then((res) => {
                         
                         if (!res.data.status) {
-                            this.adminErrorMessage = res.data.message;
+                            if (res.data.message === "You don't have admin permission") {
+                                this.$router.push("/403");
+                            }
+                            else {
+                                this.adminErrorMessage = res.data.message;
+                            }
                         }
 
                         else if (res.data.status) {

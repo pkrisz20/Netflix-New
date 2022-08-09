@@ -8,10 +8,10 @@ const deleteUser = (adminRouter, db) => adminRouter.delete("/deleteuser/:userID"
     db.query(sqlDelete, ID, (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Something went wrong..." });
+            return res.json({ status: false, message: "Something went wrong..." });
         }
         else if (result) {
-            res.json({ status: true, message: "User has been successfully deleted"});
+            return res.json({ status: true, message: "User has been successfully deleted"});
         }
     });
 });

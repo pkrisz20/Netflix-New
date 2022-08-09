@@ -4,11 +4,11 @@ const getHeroImages = (moviesRouter, db) => moviesRouter.get("/getheroimages", (
     db.query(sqlSelect, (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: false, message: err });
+            return res.json({ status: false, message: err });
         }
 
         else if (result) {
-            res.json({ status: true, images: result });
+            return res.json({ status: true, images: result });
         }
     });
 });

@@ -35,11 +35,11 @@ const adminProfileChange = (adminRouter, db) => adminRouter.post("/profilechange
 
     upload(req, res, (err) => {
         if (err) {
-            res.json({ status: false, message: err });
+            return res.json({ status: false, message: err });
         }
         else {
             if (req.file == undefined) {
-                res.json({ status: false, message: "No file selected!" });
+                return res.json({ status: false, message: "No file selected!" });
             }
             else {
                 // upload to database
@@ -49,10 +49,10 @@ const adminProfileChange = (adminRouter, db) => adminRouter.post("/profilechange
                 db.query(sqlQuery, [finalImageName, user], (error, result) => {
                     if (error) {
                         console.log(error);
-                        res.json({ status: false, message: "Something went wrong" });
+                        return res.json({ status: false, message: "Something went wrong" });
                     }
                     if (result) {
-                        res.json({ status: true, message: "Successfully changed profile picture!" });
+                        return res.json({ status: true, message: "Successfully changed profile picture!" });
                     }
                 });
             }

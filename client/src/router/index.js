@@ -115,6 +115,11 @@ const routes = [
     path: "*",
     name: "NotFound",
     component: () => import("../views/errors/NotFound.vue"),
+  },
+  {
+    path: "/403",
+    name: "NoPermission",
+    component: () => import("../views/errors/NoPermission.vue"),
   }
 ];
 

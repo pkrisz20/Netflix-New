@@ -33,11 +33,11 @@ const changeProfile = (usersRouter, db) => usersRouter.post("/changeprofile", ve
 
     upload(req, res, (err) => {
         if (err) {
-            res.json({ status: false, message: err });
+            return res.json({ status: false, message: err });
         }
         else {
             if (req.file == undefined) {
-                res.json({ status: false, message: "No file selected!" });
+                return res.json({ status: false, message: "No file selected!" });
             }
             else {
                 // upload to database
@@ -46,10 +46,10 @@ const changeProfile = (usersRouter, db) => usersRouter.post("/changeprofile", ve
                 db.query(sqlQuery, [finalImageName, req.session.user.data[0].user_id], (error, result) => {
                     if (error) {
                         console.log(error);
-                        res.json({ status: false, message: "Something went wrong" });
+                        return res.json({ status: false, message: "Something went wrong" });
                     }
                     if (result) {
-                        res.json({ status: true, message: "Successfully changed your profile picture!" });
+                        return res.json({ status: true, message: "Successfully changed your profile picture!" });
                     }
                 });
             }

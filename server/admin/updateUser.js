@@ -10,17 +10,17 @@ const updateUser = (adminRouter, db) => adminRouter.put("/updateuser", verifyAdm
     bcrypt.hash(password, salt, (error, hash) => {
         if (error) {
             console.log(error);
-            res.json({ status: false, message: "Something went wrong..." });
+            return res.json({ status: false, message: "Something went wrong..." });
         }
 
         db.query(sqlUpdate, [email, username, hash, userID], (err, result) => {
             if (err) {
                 console.log(err);
-                res.json({ status: false, message: "Something went wrong..." });
+                return res.json({ status: false, message: "Something went wrong..." });
             }
 
             else if (result) {
-                res.json({ status: true, message: "User has been successfully updated" });
+                return res.json({ status: true, message: "User has been successfully updated" });
             }
         });
     });

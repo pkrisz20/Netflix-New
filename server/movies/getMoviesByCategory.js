@@ -7,15 +7,15 @@ const getMoviesByCategory = (moviesRouter, db) => moviesRouter.get("/getbycatego
 
         if (err) {
             console.log(err);
-            res.json({ status: false });
+            return res.json({ status: false });
         }
 
         else if (result == 0) {
-            res.json({ status: false });
+            return res.json({ status: false });
         }
 
         else if (result.length > 0) {
-            res.json({ status: true, result: result });
+            return res.json({ status: true, result: result });
         }
     });
 });

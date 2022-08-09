@@ -14,7 +14,7 @@ const updateMovie = (adminRouter, db) => adminRouter.put("/update/:id", verifyAd
     db.query(sqlUpdate, [movieName, movieReview, releaseDate, movieID], (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Error happened" });
+            return res.json({ status: false, message: "Error happened" });
         }
 
         else if (result) {
@@ -23,7 +23,7 @@ const updateMovie = (adminRouter, db) => adminRouter.put("/update/:id", verifyAd
             db.query(deleteCategories, movieID, (error, response) => {
                 if (error) {
                     console.log(error);
-                    res.json({ status: false, message: "Error happened" });
+                    return res.json({ status: false, message: "Error happened" });
                 }
 
                 else if (response) {
@@ -41,7 +41,7 @@ const updateMovie = (adminRouter, db) => adminRouter.put("/update/:id", verifyAd
                 }
             });
         }
-        res.json({ status: true, message: "Movie's datas have been updated successfully" });
+        return res.json({ status: true, message: "Movie's datas have been updated successfully" });
     });
 });
 

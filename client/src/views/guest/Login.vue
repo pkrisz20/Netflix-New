@@ -84,6 +84,9 @@ Axios.defaults.withCredentials = true;
                 }
             },
         },
+        mounted() {
+            this.$store.httpStatus = 200;   //need to be set
+        }
     }
 </script>
 

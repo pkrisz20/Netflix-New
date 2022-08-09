@@ -6,11 +6,11 @@ const adminLogin = (adminRouter, db) => adminRouter.post("/login", (req, res) =>
     
     db.query("SELECT * FROM users WHERE (username = ? AND is_admin = ?)", [username, 1], (err, result) => {
         if (err) {
-            res.send({ status: false, message: err });
+            return res.json({ status: false, message: err });
         }
 
         if (result.length == 0) {
-            res.send({ status: false, message: "You don't have admin permission" });
+            return res.json({ status: false, message: "You don't have admin permission" });
         }
 
         if (result.length > 0) {
@@ -29,16 +29,16 @@ const adminLogin = (adminRouter, db) => adminRouter.post("/login", (req, res) =>
                         refresh: refreshToken
                     };
                     console.log('session for admin created');
-                    res.json({ status: true });
+                    return res.json({ status: true });
                 }
                 else {
-                    res.send({ status: false, message:"Wrong username or password" });
+                    return res.json({ status: false, message:"Wrong username or password" });
                 }
             });
         }
 
         else {
-            res.send({ status: false, message:"Wrong username or password" });
+            return res.json({ status: false, message:"Wrong username or password" });
         }
     });
 });

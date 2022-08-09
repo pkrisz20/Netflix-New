@@ -1,31 +1,22 @@
 <template>
-    <div class="notfound">
+    <div class="nopermission">
         <div class="wrapper">
-            <section class="notfound-section">
-                <h1 class="notfound-section_number">404</h1>
-                <h3 class="notfound-section_text">Page Not found</h3>
-                <div class="notfound-section_image">
-                    <img class="img" src="../../assets/images/notfound.png">
+            <section class="nopermission-section">
+                <h1 class="nopermission-section_number">403</h1>
+                <h3 class="nopermission-section_text">You don't have permission for this</h3>
+                <div class="nopermission-section_image">
+                    <img class="img" src="../../assets/images/nopermission.png">
                 </div>
-                <a v-if="isActiveUser" class="notfound-section_link" href="/userinterface"><i class="icon far fa-arrow-left"></i>Back to Home page</a>
-                <a v-else-if="!isActiveUser || isActiveUser == null" class="notfound-section_link" href="/"><i class="icon far fa-arrow-left"></i>Back to Home Page</a>
+                <a class="nopermission-section_link" href="/login"><i class="icon far fa-arrow-left"></i>Back to Login page</a>
             </section>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-
     export default {
-        name: "NotFound",
-        computed: {
-            ...mapState({
-                isActiveUser: state => state.isLoggedIn
-            })
-        },
+        name: "NoPermission",
         mounted() {
-            this.$store.dispatch("getLoginStatus");
             this.$store.state.httpStatus = 200;
             document.body.style.overflowY = "hidden";
         }
@@ -33,7 +24,7 @@ import { mapState } from "vuex";
 </script>
 
 <style lang="scss">
-.notfound {
+.nopermission {
     min-height: 100vh;
     background-color: $c-8;
     @include flexCenter();

@@ -5,11 +5,11 @@ const getCards = (moviesRouter, db) => moviesRouter.get("/get", (req, res) => {
 
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Something went wrong" });
+            return res.json({ status: false, message: "Something went wrong" });
         }
 
         else if (result) {
-            res.json({ status: true, result: result });
+            return res.json({ status: true, result: result });
         }
     });
 });

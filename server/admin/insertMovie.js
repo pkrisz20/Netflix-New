@@ -13,12 +13,12 @@ const insertMovie = (adminRouter, db) => adminRouter.post("/insert", verifyAdmin
     db.query(sqlQuery, [movieName, movieReview, null, null, releaseDate], (error, result) => {
         if (error) {
             console.log(error);
-            res.json({ status: false, message: "Something went wrong during the first insert" });
+            return res.json({ status: false, message: "Something went wrong during the first insert" });
         }
         else if (result) {
             db.query(getInsertedMovieID, movieName, (err, response) => {
                 if (err) {
-                    res.json({ status: false, message: "cannot get movie ID error" });
+                    return res.json({ status: false, message: "cannot get movie ID error" });
                     console.log("cannot get movie ID error");
                 }
                 else if (response) {
@@ -39,7 +39,7 @@ const insertMovie = (adminRouter, db) => adminRouter.post("/insert", verifyAdmin
                 }
             });
         }
-        res.json({ status: true, message: "Movie's datas have been inserted successfully" });
+        return res.json({ status: true, message: "Movie's datas have been inserted successfully" });
     });
 });
 

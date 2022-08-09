@@ -20,7 +20,6 @@ new Vue({
       offset: 300,
       anchorPlacement: "bottom-center"
     });
-    window.addEventListener("load", AOS.refresh);
   },
   render: (h) => h(App)
 }).$mount("#app");

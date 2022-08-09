@@ -39,18 +39,18 @@ const changePassword = (usersRouter, db) => usersRouter.put("/changepassword", v
                     }
 
                     else if (newPassword != repeatPassword) {
-                        res.json({ status: false, message: "Passwords don't match" });
+                        return res.json({ status: false, message: "Passwords don't match" });
                     }
                 }
 
                 else if (!result) {
-                    res.json({ status: false, message: "The old password is not correct. Did you get hacked?" });
+                    return res.json({ status: false, message: "The old password is not correct. Did you get hacked?" });
                 }
             });
         }
 
         else {
-            res.json({ status: false, message: "Something went wrong" });
+            return res.json({ status: false, message: "Something went wrong" });
         }
     });
 });

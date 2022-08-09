@@ -8,10 +8,10 @@ const deleteCategory = (adminRouter, db) => adminRouter.delete("/deletecategory/
     db.query(sqlDelete, categoryID, (err, result) => {
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Something went wrong..." });
+            return res.json({ status: false, message: "Something went wrong..." });
         }
         else if (result) {
-            res.json({ status: true, message: "Category has been successfully deleted"});
+            return res.json({ status: true, message: "Category has been successfully deleted"});
         }
     });
 });

@@ -11,7 +11,7 @@ const addUser = (adminRouter, db) => adminRouter.post("/adduser", verifyAdmin, (
         }
         
         if (resp.length > 0) {
-            res.json({ status: false, message: "This username is already taken!" });
+            return res.json({ status: false, message: "This username is already taken!" });
         }
         else {
             salt = parseInt(process.env.SALT_ROUNDS);
@@ -23,10 +23,10 @@ const addUser = (adminRouter, db) => adminRouter.post("/adduser", verifyAdmin, (
                 db.query("INSERT INTO users (email, username, password, is_admin, profile_pic) VALUES (?,?,?,?,?)", [email, username, hash, isAdmin, null], (err, result) => {
             
                     if (err) {
-                        res.json({status: false, message: "Something went wrong" });
+                        return res.json({status: false, message: "Something went wrong" });
                     }
                     else if (result) {
-                        res.json({ status: true, message: "User has been successfully added!" });
+                        return res.json({ status: true, message: "User has been successfully added!" });
                     }
                 });
             });

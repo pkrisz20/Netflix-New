@@ -13,11 +13,11 @@ const getCarouselMovies = (moviesRouter, db) => moviesRouter.post("/getcarouselm
 
         if (err) {
             console.log(err);
-            res.json({ status: false, message: "Error with getting movies for carousels: " + err });
+            return res.json({ status: false, message: "Error with getting movies for carousels: " + err });
         }
 
         else if (result) {
-            res.json({ status: true, result: result });
+            return res.json({ status: true, result: result });
         }
     });
 });

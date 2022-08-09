@@ -34,11 +34,11 @@ const uploadMovie = (adminRouter, db) => adminRouter.post("/upload/video/:id", v
     
     uploadVideo(req, res, (error) => {
         if (error) {
-            res.json({ status: false, message: error });
+            return res.json({ status: false, message: error });
         }
         else {
             if (req.file == undefined) {
-                res.json({ status: false, message: "No movie selected!" });
+                return res.json({ status: false, message: "No movie selected!" });
             }
             else {
                 // upload everything into database
@@ -50,10 +50,10 @@ const uploadMovie = (adminRouter, db) => adminRouter.post("/upload/video/:id", v
                 db.query(sqlQuery, [finalVideo, movieId], (error, result) => {
                     if (error) {
                         console.log(error);
-                        res.json({ status: false, message: "Something went wrong" });
+                        return res.json({ status: false, message: "Something went wrong" });
                     }
                     if (result) {
-                        res.json({ status: true, message: "Successfully changed movie's video!" });
+                        return res.json({ status: true, message: "Successfully changed movie's video!" });
                     }
                 });
             }

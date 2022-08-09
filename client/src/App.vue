@@ -10,6 +10,7 @@
 import SystemMessages from "@/components/global/SystemMessages.vue";
 import LoadingScreen from "@/components/global/LoadingScreen.vue";
 import { mapState } from "vuex";
+import AOS from "aos";
 
 export default {
   name: "App",
@@ -69,6 +70,9 @@ export default {
       }
     }
   },
+  mounted() {
+    window.addEventListener("load", AOS.refresh);
+  }
 }
 </script>
 

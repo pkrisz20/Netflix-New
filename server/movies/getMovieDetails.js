@@ -16,7 +16,7 @@ const getMovieDetails = (moviesRouter, db) => moviesRouter.get("/getmoviedetails
                 }
 
                 else if (response_categories.length > 0) {
-                    res.json({ movie: result, categories: response_categories });
+                    return res.json({ movie: result, categories: response_categories });
                 }
             });
         }
