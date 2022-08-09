@@ -7,12 +7,14 @@ const getMovieDetails = (moviesRouter, db) => moviesRouter.get("/getmoviedetails
     db.query(sqlSelect, movieID, (err, result) => {
         if (err) {
             console.log(err);
+            return res.json({ status: false, message: "Something went wrong!" });
         }
 
         else if (result.length > 0) {
             db.query(selectCategory, movieID, (error, response_categories) => {
                 if (error) {
                     console.log(error);
+                    return res.json({ status: false, message: "Something went wrong!" });
                 }
 
                 else if (response_categories.length > 0) {

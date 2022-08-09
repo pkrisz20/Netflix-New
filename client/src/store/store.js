@@ -27,6 +27,7 @@ export const store = new Vuex.Store({
             email: "",
             image: null
         },
+        serverError: false,
         comments: [],   //comments of the moviedetails
         commentsInfo: "",   //if a movie does not have neither a comment
         eachComment: [],    //comments count for movies list

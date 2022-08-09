@@ -1,13 +1,14 @@
 <template>
-    <div class="nopermission">
+    <div class="serverError">
         <div class="wrapper">
-            <section class="nopermission-section">
-                <h1 class="nopermission-section_number">403</h1>
-                <h3 class="nopermission-section_text">You don't have permission for this</h3>
-                <div class="nopermission-section_image">
-                    <img class="img" src="../../assets/images/nopermission.png">
+            <section class="serverError-section">
+                <h1 class="serverError-section_number">500</h1>
+                <h3 class="serverError-section_text">Server Error</h3>
+                <p class="serverError-section_desc">Oops... Something went wrong. Don't worry, it's not you - it's us. Sorry about that! Try this service a bit later...</p>
+                <div class="serverError-section_image">
+                    <img class="img" src="../../assets/images/serverError.png">
                 </div>
-                <a class="nopermission-section_link" href="/login"><i class="icon far fa-arrow-left"></i>Back to Login page</a>
+                <a class="serverError-section_link" href="/"><i class="icon far fa-arrow-left"></i>Back to Home page</a>
             </section>
         </div>
     </div>
@@ -15,7 +16,7 @@
 
 <script>
     export default {
-        name: "NoPermission",
+        name: "ServerError",
         mounted() {
             this.$store.state.httpStatus = 200;
             document.body.style.overflowY = "hidden";
@@ -24,7 +25,7 @@
 </script>
 
 <style lang="scss">
-.nopermission {
+.serverError {
     min-height: 100vh;
     background-color: $c-8;
     @include flexCenter();
@@ -62,6 +63,14 @@
                 font-size: 25px;
                 margin: 20px 0;
             }
+        }
+
+        &_desc {
+            font-size: 18px;
+            text-transform: none;
+            text-align: center;
+            line-height: 30px;
+            max-width: 600px;
         }
 
         &_image {

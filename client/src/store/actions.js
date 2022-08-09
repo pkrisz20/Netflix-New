@@ -22,6 +22,14 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getmoviedetails/${movieId}`)
         .then((response) => {
             commit('GET_MOVIE_DETAILS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status == 500) {
+                this.state.serverError = true;
+                console.log("Data: " + error.response.data);
+                console.log("Status: " + error.response.status);
+                console.log("Headers: " + error.response.headers);
+            }
         });
     },
 

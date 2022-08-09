@@ -74,6 +74,7 @@ import { mapState } from "vuex";
         }
 
         &_image {
+            margin-bottom: 20px;
             width: auto;
             height: 100%;
             

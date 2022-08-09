@@ -120,6 +120,11 @@ const routes = [
     path: "/403",
     name: "NoPermission",
     component: () => import("../views/errors/NoPermission.vue"),
+  },
+  {
+    path: "/500",
+    name: "ServerError",
+    component: () => import("../views/errors/ServerError.vue"),
   }
 ];
 

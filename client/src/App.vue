@@ -22,10 +22,12 @@ export default {
     ...mapState({
       httpStatus: state => state.httpStatus,
       isLoggedIn: state => state.isLoggedIn,
-      adminLoggedIn: state => state.adminLoggedIn
+      adminLoggedIn: state => state.adminLoggedIn,
+      serverError: state => state.serverError
     })
   },
   watch: {
+    //if the user session is expired => redirect to login page
     '$store.state.isLoggedIn': function() {
       if (!this.isLoggedIn) {
         console.log('test FALSE case');
@@ -43,6 +45,8 @@ export default {
         console.log('SPECIFIC IF');
       }
     },
+
+    //if the admin user session is expired => redirect to admin login page
     '$store.state.adminLoggedIn': function() {
       if (!this.adminLoggedIn) {
         this.$router.push("/admin").catch(() => { return; });
@@ -51,6 +55,17 @@ export default {
         return;
       }
     },
+
+    //if there is a server error => redirect to 500 error page
+    '$store.state.serverError': function() {
+      if (this.serverError) {
+        this.$router.push({ name: "ServerError" });
+      }
+      else if (!this.serverError) {
+        return;
+      }
+    },
+
     $route (to) {
       if (to.path === '/login' && this.isLoggedIn) {
         this.$router.push({ name: 'UserInterface'});
