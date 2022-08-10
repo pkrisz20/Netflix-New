@@ -38,6 +38,7 @@
                 <form class="search-form">
                     <input ref="searchBox"
                         class="search-field"
+                        @blur="searchBarMethod(false)"
                         v-model="searchText"
                         :class="{ open_search : openSearchBar }"
                         placeholder="Type here to search..." type="text" name="search"
@@ -70,7 +71,7 @@
 </template>
 
 <script>
-import Dropdown from '../global/Dropdown.vue';
+import Dropdown from "@/components/global/Dropdown.vue";
 import { mapGetters } from "vuex";
 
     export default {
@@ -83,13 +84,13 @@ import { mapGetters } from "vuex";
                 scrollPosition: null,
                 selectedType: null,
                 openSearchBar: false,
-                searchText: '',
+                searchText: "",
                 openSidebar: false
             }
         },
         computed: {
             ...mapGetters({
-                filterMovies: 'filterMovies'
+                filterMovies: "filterMovies"
             })
         },
         
@@ -102,16 +103,16 @@ import { mapGetters } from "vuex";
                 this.openSidebar = !this.openSidebar;
 
                 if (this.openSidebar) {
-                    document.body.style.overflowY = 'hidden';
+                    document.body.style.overflowY = "hidden";
                 }
 
                 else if (!this.openSidebar) {
-                    document.body.style.overflowY = 'scroll';
+                    document.body.style.overflowY = "scroll";
                 }
             },
 
             scrollTop() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: "smooth" });
             },
 
             updateScroll() {
@@ -124,7 +125,7 @@ import { mapGetters } from "vuex";
                 }
 
                 else if (!value) {
-                    this.searchText = '';
+                    this.searchText = "";
                     this.openSearchBar = false;
                 }
             }

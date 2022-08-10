@@ -1,5 +1,5 @@
 const getHeroImages = (moviesRouter, db) => moviesRouter.get("/getheroimages", (req, res) => {
-    const sqlSelect = "SELECT id, movieName, image FROM movies ORDER BY RAND() LIMIT 6;";
+    const sqlSelect = "SELECT id, movieName, image FROM movies ORDER BY RAND() LIMIT 8;";
 
     db.query(sqlSelect, (err, result) => {
         if (err) {

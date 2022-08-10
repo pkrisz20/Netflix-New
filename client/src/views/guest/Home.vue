@@ -33,20 +33,24 @@ export default {
       heroImages: []
     }
   },
+  methods: {
+    async getHeroImages() {
+      await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getheroimages`)
+      .then((response) => {
+        if (!response.data.status) {
+          console.log("Hero guest error: " + response.data.message);
+        }
+        else if (response.data.status) {
+          this.heroImages = response.data.images;
+        }
+      });
+    }
+  },
   mounted() {
     this.$store.dispatch('getAllMovies');
     this.$store.dispatch("getEachComment");
     this.$store.dispatch("getLikes");
-    
-    Axios.get(`${process.env.VUE_APP_API_URL}/movies/getheroimages`)
-    .then((response) => {
-      if (!response.data.status) {
-        console.log("Hero guest error: " + response.data.message);
-      }
-      else if (response.data.status) {
-        this.heroImages = response.data.images;
-      }
-    });
+    this.getHeroImages();
   },
 };
 </script>

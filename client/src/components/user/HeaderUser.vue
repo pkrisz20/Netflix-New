@@ -80,6 +80,7 @@
 
                 <form class="search-form">
                     <input ref="searchBox"
+                        @blur="searchBarMethod(false)"
                         :class="{ open_search : openSearchBar }"
                         v-model="searchText"
                         class="search-field"

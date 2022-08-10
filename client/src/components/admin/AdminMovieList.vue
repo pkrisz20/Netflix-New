@@ -180,11 +180,11 @@ export default {
             this.movieVideo = e.target.files[0];
             console.log(this.movieVideo);
         },
-        uploadImage() {
+        async uploadImage() {
             const data = new FormData();
             data.append("image", this.thumbnailImage);
             
-            Axios.post(`${process.env.VUE_APP_API_URL}/admin/upload/image/${this.movieID}`, data,
+            await Axios.post(`${process.env.VUE_APP_API_URL}/admin/upload/image/${this.movieID}`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -205,11 +205,11 @@ export default {
             this.thumbnailImage = null;
             this.imageForm = false;
         },
-        uploadMovie() {
+        async uploadMovie() {
             const data = new FormData();
             data.append("video", this.movieVideo);
             
-            Axios.post(`${process.env.VUE_APP_API_URL}/admin/upload/video/${this.movieID}`, data,
+            await Axios.post(`${process.env.VUE_APP_API_URL}/admin/upload/video/${this.movieID}`, data,
             {
                 headers: {
                     'Content-Type': 'application/json',

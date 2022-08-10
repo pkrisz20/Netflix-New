@@ -176,7 +176,7 @@ import { Carousel, Slide } from "vue-carousel";
                 .VueCarousel-dot {
                     outline: none;
                     border-radius: 3px;
-                    width: 30px !important;
+                    width: 20px !important;
                     height: 4px !important;
                     background-color: $c-white;
                     padding: 0 10px !important;

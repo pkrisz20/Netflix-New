@@ -34,18 +34,21 @@ import LoadingScreen from "@/components/global/LoadingScreen.vue";
             routeDetails(movieId) {
                 this.$router.push({ path: `/detailsuser/${movieId}` });
             },
+            async getHeroVideo() {
+                await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getherovideo`)
+                .then((response) => {
+                    if (!response.data.status) {
+                        console.log("Hero errors: " + response.data.message);
+                    }
+                    else if (response.data.status) {
+                        this.heroVideo = response.data.result;
+                        this.status = 200;
+                    }
+                });
+            }
         },
         mounted() {
-            Axios.get(`${process.env.VUE_APP_API_URL}/movies/getherovideo`)
-            .then((response) => {
-                if (!response.data.status) {
-                    console.log("Hero errors: " + response.data.message);
-                }
-                else if (response.data.status) {
-                    this.heroVideo = response.data.result;
-                    this.status = 200;
-                }
-            });
+            this.getHeroVideo();
         }
     }
 </script>

@@ -35,20 +35,25 @@ import Axios from "axios";
             BackButton,
             BlockTitle
         },
-        mounted() {
-            Axios.get(`${process.env.VUE_APP_API_URL}/movies/getbycategory/${this.categoryParam}`)
-            .then((response) => {
-                if (!response.data.status) {
-                    this.notFound = true;
-                }
+        methods: {
+            async getMoviesByCategory() {
+                await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getbycategory/${this.categoryParam}`)
+                .then((response) => {
+                    if (!response.data.status) {
+                        this.notFound = true;
+                    }
 
-                else if (response.data.status) {
-                    this.moviesByCategory = response.data.result;
-                }
-                setTimeout(() => {
-                    this.requestStatus = 200;
-                }, 500);
-            });
+                    else if (response.data.status) {
+                        this.moviesByCategory = response.data.result;
+                    }
+                    setTimeout(() => {
+                        this.requestStatus = 200;
+                    }, 500);
+                });
+            }
+        },
+        mounted() {
+            this.getMoviesByCategory();
             this.$store.dispatch('getAllMovies');
             this.$store.dispatch("getLikes");
             this.$store.dispatch("getEachComment");

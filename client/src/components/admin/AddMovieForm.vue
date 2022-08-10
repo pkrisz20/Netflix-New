@@ -93,10 +93,10 @@ import { mapState } from "vuex";
                 }
             },
 
-            submitForm() {
+            async submitForm() {
                 if (this.checkForm()) {
                     if (this.action == 'insert') {
-                        Axios.post(`${process.env.VUE_APP_API_URL}/admin/insert`,
+                        await Axios.post(`${process.env.VUE_APP_API_URL}/admin/insert`,
                         {
                             movieName: this.movieName,
                             movieReview: this.movieReview,
@@ -117,7 +117,7 @@ import { mapState } from "vuex";
                     }
 
                     else if (this.action == 'update') {
-                        Axios.put(`${process.env.VUE_APP_API_URL}/admin/update/${this.updateMovieID}`,
+                        await Axios.put(`${process.env.VUE_APP_API_URL}/admin/update/${this.updateMovieID}`,
                         {
                             movieName: this.movieName,
                             movieReview: this.movieReview,
