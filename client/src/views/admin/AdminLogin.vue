@@ -1,5 +1,6 @@
 <template>
-<div class="admin">
+<div class="login">
+    <a class="login-back" href="/"><i class="icon far fa-arrow-left"></i> Back to Home</a>
     <div class="container">
         <div class="admin">
             <h2 class="admin-title">Admin Login</h2>
@@ -85,6 +86,46 @@ Axios.defaults.withCredentials = true;
 </script>
 
 <style lang="scss" scoped>
+.login {
+    position: relative;
+
+    &-back {
+        position: absolute;
+        left: 40px;
+        top: 40px;
+        z-index: 5;
+        padding: 12px 20px;
+        border-radius: 5px;
+        background-color: $c-blue;
+        color: $c-d;
+        font-family: $c-main-font;
+        font-size: 20px;
+        cursor: pointer;
+        transition: .3s ease-in-out;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        @media #{$r-max-tablet} {
+            font-size: 16px;
+        }
+
+        i {
+            margin-right: 10px;
+            transition: transform .3s ease-in-out;
+        }
+
+        &:hover {
+            background-color: $c-middleblue;
+
+            i {
+                transform: translateX(-8px);
+            }
+        }
+    }
+
     .container {
         width: 100%;
         height: 100vh;
@@ -237,4 +278,5 @@ Axios.defaults.withCredentials = true;
             }
         }
     }
+}
 </style>
