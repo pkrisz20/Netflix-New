@@ -73,12 +73,12 @@ import Axios from "axios";
                 }
             },
 
-            submitReset() {
+            async submitReset() {
                 this.errorMessage = "";
                 this.successMessage = "";
 
                 if (this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/users/reset-password`,
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/users/reset-password`,
                     {
                         email: this.email,
                         password: this.password,

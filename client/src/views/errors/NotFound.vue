@@ -4,6 +4,7 @@
             <section class="notfound-section">
                 <h1 class="notfound-section_number">404</h1>
                 <h3 class="notfound-section_text">Page Not found</h3>
+                <p class="notfound-section_desc">This page, which you want to access, doesn't exist</p>
                 <div class="notfound-section_image">
                     <img class="img" src="../../assets/images/notfound.png">
                 </div>
@@ -71,6 +72,14 @@ import { mapState } from "vuex";
                 font-size: 25px;
                 margin: 20px 0;
             }
+        }
+
+        &_desc {
+            font-size: 18px;
+            text-transform: none;
+            text-align: center;
+            line-height: 30px;
+            max-width: 600px;
         }
 
         &_image {

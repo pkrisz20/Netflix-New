@@ -53,10 +53,10 @@ Axios.defaults.withCredentials = true;
                     return true;
                 }
             },
-            submitAdminLogin() {
+            async submitAdminLogin() {
                 
                 if (this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/admin/login`, { username: this.adminUsername, pass: this.adminPassword })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/admin/login`, { username: this.adminUsername, pass: this.adminPassword })
                     .then((res) => {
                         
                         if (!res.data.status) {

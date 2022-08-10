@@ -6,6 +6,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/get`)
         .then((response) => {
             commit('GET_ALL_MOVIES', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -14,6 +19,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getcategories`)
         .then((response) => {
             commit('GET_ALL_CATEGORIES', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -24,11 +34,8 @@ export default {
             commit('GET_MOVIE_DETAILS', response.data);
         })
         .catch(function (error) {
-            if (error.response.status == 500) {
-                this.state.serverError = true;
-                console.log("Data: " + error.response.data);
-                console.log("Status: " + error.response.status);
-                console.log("Headers: " + error.response.headers);
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
             }
         });
     },
@@ -38,6 +45,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/users/getuserdata`)
         .then((response) => {
             commit('GET_ACTUAL_USER_DATA', response);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -46,6 +58,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/admin/getdata`)
         .then((response) => {
             commit('GET_ADMIN_DATA', response);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -60,6 +77,11 @@ export default {
         })
         .then((response) => {
             commit('SET_MESSAGE', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -67,6 +89,11 @@ export default {
         await Axios.put(`${process.env.VUE_APP_API_URL}/users/logout`)
         .then((response) => {
             commit('LOG_OUT', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -74,6 +101,11 @@ export default {
         await Axios.put(`${process.env.VUE_APP_API_URL}/admin/logout`)
         .then((response) => {
             commit('ADMIN_LOG_OUT', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -81,6 +113,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/users/getloginstatus`)
         .then((response) => {
             commit('SET_LOGIN_STATUS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -88,6 +125,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/admin/getadminstatus`)
         .then((response) => {
             commit('SET_ADMIN_STATUS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -98,6 +140,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getcomments/${movieID}`)
         .then((response) => {
             commit('GET_COMMENTS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -106,6 +153,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/geteachcomment`)
         .then((response) => {
             commit('GET_EACH_COMMENT', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -114,6 +166,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getreactions`)
         .then((response) => {
             commit('GET_REACTIONS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -122,6 +179,11 @@ export default {
         .then((response) => {
             dispatch("getReactions");
             commit("SET_MESSAGE", response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -130,6 +192,11 @@ export default {
         .then((response) => {
             dispatch("getReactions");
             commit("SET_MESSAGE", response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -138,6 +205,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getlikes`)
         .then((response) => {
             commit('GET_LIKES', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -149,6 +221,11 @@ export default {
             }
             else if (!response.data.status) {
                 console.log("Something went wrong");
+            }
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
             }
         });
     },
@@ -162,6 +239,11 @@ export default {
             else if (!response.data.status) {
                 console.log("Something went wrong");
             }
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -171,6 +253,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getfavourites`)
         .then((response) => {
             commit('GET_FAVOURITES', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -180,6 +267,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getmylist`)
         .then((response) => {
             commit('GET_MY_LIST', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -188,6 +280,11 @@ export default {
         .then((response) => {
             dispatch("getMyList");
             commit('SET_MESSAGE', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -196,6 +293,11 @@ export default {
         .then((response) => {
             dispatch("getMyList");
             commit('SET_MESSAGE', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -204,6 +306,11 @@ export default {
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/favs`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_FAVOURITES', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -212,6 +319,11 @@ export default {
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/each`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_EACH', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -220,6 +332,11 @@ export default {
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/mylist`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_MY_LIST', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -228,6 +345,11 @@ export default {
         .then((response) => {
             dispatch("getAllMovies");
             commit('SET_MESSAGE', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -237,6 +359,11 @@ export default {
         await Axios.get(`${process.env.VUE_APP_API_URL}/admin/getusers`)
         .then((response) => {
             commit('GET_USERS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -245,6 +372,11 @@ export default {
         .then((response) => {
             commit('SET_MESSAGE', response.data);
             dispatch("getUsers");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -253,6 +385,11 @@ export default {
         .then((response) => {
             commit('SET_MESSAGE', response.data);
             dispatch("getUsers");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -261,6 +398,11 @@ export default {
         .then((response) => {
             commit('SET_MESSAGE', response.data);
             dispatch("getCategories");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -269,6 +411,11 @@ export default {
         .then((response) => {
             commit('SET_MESSAGE', response.data);
             dispatch("getCategories");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 
@@ -277,6 +424,11 @@ export default {
         .then((response) => {
             commit('SET_MESSAGE', response.data);
             dispatch("getCategories");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
         });
     },
 };

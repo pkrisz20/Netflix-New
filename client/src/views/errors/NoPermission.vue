@@ -3,7 +3,8 @@
         <div class="wrapper">
             <section class="nopermission-section">
                 <h1 class="nopermission-section_number">403</h1>
-                <h3 class="nopermission-section_text">You don't have permission for this</h3>
+                <h3 class="nopermission-section_text">Forbidden</h3>
+                <p class="nopermission-section_desc">You don't have permission for this page or resource</p>
                 <div class="nopermission-section_image">
                     <img class="img" src="../../assets/images/nopermission.png">
                 </div>
@@ -62,6 +63,14 @@
                 font-size: 25px;
                 margin: 20px 0;
             }
+        }
+
+        &_desc {
+            font-size: 18px;
+            text-transform: none;
+            text-align: center;
+            line-height: 30px;
+            max-width: 600px;
         }
 
         &_image {

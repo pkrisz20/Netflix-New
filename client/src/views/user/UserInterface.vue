@@ -85,6 +85,17 @@ import { mapState } from "vuex";
             },
             updateScroll() {
                 this.scrollPosition = window.scrollY;
+            },
+            async getTopMovies() {
+                await Axios.get(`${process.env.VUE_APP_API_URL}/movies/topmovies`)
+                .then(response => {
+                    if (response.data.status) {
+                        this.topMovies = response.data.result;
+                    }
+                    else if (!response.data.status) {
+                        console.log("Error movie carousels with top movies request");
+                    }
+                });
             }
         },
         created() {
@@ -95,16 +106,7 @@ import { mapState } from "vuex";
             this.$store.dispatch('getLikes');
             this.$store.dispatch('getFavourites');
             this.$store.dispatch("getMyList");
-
-            Axios.get(`${process.env.VUE_APP_API_URL}/movies/topmovies`)
-            .then(response => {
-                if (response.data.status) {
-                    this.topMovies = response.data.result;
-                }
-                else if (!response.data.status) {
-                    console.log("Error movie carousels with top movies request");
-                }
-            });
+            this.getTopMovies();
         }
     }
 </script>

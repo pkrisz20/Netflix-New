@@ -101,10 +101,10 @@ import Axios from "axios";
                     return true;
                 }
             },
-            submitRegistration() {
+            async submitRegistration() {
                 
                 if(this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/users/register`, { email: this.email, username: this.username, pass: this.password })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/users/register`, { email: this.email, username: this.username, pass: this.password })
                     .then((res) => {
                         if (!res.data[0]) {
                             this.errorMessage = res.data[1];

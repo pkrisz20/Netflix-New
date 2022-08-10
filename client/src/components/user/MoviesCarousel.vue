@@ -62,10 +62,8 @@ import { Carousel, Slide } from "vue-carousel";
             routeToDetails(movieId) {
                 this.$router.push({ path: `/detailsuser/${movieId}` });
             },
-        },
-        mounted() {
-            if (this.$props.categories) {
-                Axios.post(`${process.env.VUE_APP_API_URL}/movies/getcarouselmovies`, { categories: this.$props.categories })
+            async getCarouselMovies() {
+                await Axios.post(`${process.env.VUE_APP_API_URL}/movies/getcarouselmovies`, { categories: this.$props.categories })
                 .then(response => {
                     if (response.data.status) {
                         this.localMovies = response.data.result;
@@ -74,6 +72,11 @@ import { Carousel, Slide } from "vue-carousel";
                         console.log(response.data.message);
                     }
                 });
+            }
+        },
+        mounted() {
+            if (this.$props.categories) {
+                this.getCarouselMovies();
             }
         }
     }

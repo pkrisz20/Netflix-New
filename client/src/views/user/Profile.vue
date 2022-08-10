@@ -192,7 +192,7 @@ export default {
             return re.test(emailData);
         },
 
-        submitEmail() {
+        async submitEmail() {
             if (!this.newEmail) {
                 this.errorEmail = "Fill out the field!";
                 return;
@@ -203,14 +203,14 @@ export default {
             }
 
             else {
-                Axios.put(`${process.env.VUE_APP_API_URL}/users/changemail`, { newEmail: this.newEmail })
+                await Axios.put(`${process.env.VUE_APP_API_URL}/users/changemail`, { newEmail: this.newEmail })
                 .then((res) => {
                     this.$store.commit("SET_MESSAGE", res.data);
                 });
             }
         },
 
-        submitUsername() {
+        async submitUsername() {
             if (!this.newUsername) {
                 this.errorUsername = "Fill out the field!";
                 return;
@@ -226,14 +226,14 @@ export default {
             }
 
             else {
-                Axios.put(`${process.env.VUE_APP_API_URL}/users/changeusername`, { newUsername: this.newUsername })
+                await Axios.put(`${process.env.VUE_APP_API_URL}/users/changeusername`, { newUsername: this.newUsername })
                 .then((res) => {
                     this.$store.commit("SET_MESSAGE", res.data);
                 });
             }
         },
 
-        submitPassword() {
+        async submitPassword() {
             if (!this.oldPassword || !this.newPassword || !this.repeatPassword) {
                 this.errorPassword = "Fill out each field!";
                 return;
@@ -250,7 +250,7 @@ export default {
             }
 
             else {
-                Axios.put(`${process.env.VUE_APP_API_URL}/users/changepassword`,
+                await Axios.put(`${process.env.VUE_APP_API_URL}/users/changepassword`,
                 {
                     oldPassword: this.oldPassword,
                     newPassword: this.newPassword,

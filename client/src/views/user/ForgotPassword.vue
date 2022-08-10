@@ -59,12 +59,12 @@ import Axios from "axios";
                 }
             },
 
-            submitEmail() {
+            async submitEmail() {
                 this.successMessage = "";
                 this.errorMessage = "";
 
                 if (this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/users/forgotpassword`, { email: this.email })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/users/forgotpassword`, { email: this.email })
                     .then((res) => {
                         if (res.data.status) {
                             this.successMessage = res.data.message;

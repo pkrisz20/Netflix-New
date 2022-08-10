@@ -64,10 +64,10 @@ Axios.defaults.withCredentials = true;
                     return true;
                 }
             },
-            submitLogin() {
+            async submitLogin() {
                 
                 if (this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/users/login`, { username: this.username, pass: this.password })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/users/login`, { username: this.username, pass: this.password })
                     .then((res) => {
                         
                         if (!res.data.status) {

@@ -4,7 +4,7 @@
             <section class="serverError-section">
                 <h1 class="serverError-section_number">500</h1>
                 <h3 class="serverError-section_text">Server Error</h3>
-                <p class="serverError-section_desc">Oops... Something went wrong. Don't worry, it's not you - it's us. Sorry about that! Try this service a bit later...</p>
+                <p class="serverError-section_desc">Oops... Something went wrong. Don't worry, it's not you - it's us. Sorry about that! We're working on the problem.</p>
                 <div class="serverError-section_image">
                     <img class="img" src="../../assets/images/serverError.png">
                 </div>
@@ -18,8 +18,15 @@
     export default {
         name: "ServerError",
         mounted() {
-            this.$store.state.httpStatus = 200;
+            this.$store.state.httpStatus = 200; //just to not get the loading page
             document.body.style.overflowY = "hidden";
+
+            //only the button can navigate the user back to home page
+            this.$router.beforeEach(async (to, from) => {
+                if (from.path === "/500" && to.path !== "/") {
+                    this.$router.push({ name: "ServerError" }).catch(() => { return; });
+                }
+            });
         }
     }
 </script>

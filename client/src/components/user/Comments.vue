@@ -169,7 +169,7 @@ import { mapState, mapGetters } from "vuex";
                 }
             },
 
-            submitComment(movie) {
+            async submitComment(movie) {
                 if (!this.$store.state.isLoggedIn) {
                     this.error = "Please sign in to write a comment!";
                     return;
@@ -186,7 +186,7 @@ import { mapState, mapGetters } from "vuex";
                 }
 
                 else {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/movies/postcomment`, { comment: this.comment, movie: movie })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/movies/postcomment`, { comment: this.comment, movie: movie })
                     .then((response) => {
                         this.comment = '';
                         this.$store.commit("SET_MESSAGE", response.data);

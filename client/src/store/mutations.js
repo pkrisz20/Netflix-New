@@ -286,5 +286,13 @@ export default {
             state.successMessage = "";
             state.errorMessage = "";
         }, 2000);
+    },
+    SET_SERVER_ERROR_STATUS (state, data) {
+        if (data.status >= 500 && data.status <= 599) {
+            state.serverError = true;
+        }
+        else {
+            state.serverError = false;
+        }
     }
 };

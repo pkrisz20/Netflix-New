@@ -36,10 +36,14 @@ export default {
       else if (this.isLoggedIn) {
         console.log('test TRUE case');
       }
+
+      //if the value is null either redirect to author
       if (!this.isLoggedIn && this.$route.path == "/author") {
         this.$router.push("/author").catch(() => { return; });
         console.log('SPECIFIC IF');
       }
+
+      //if the page does not exist => redirect to notfound page
       if (!this.isLoggedIn && this.$route.name == "NotFound") {
         this.$router.push({ name: "NotFound" }).catch(() => { return; });
         console.log('SPECIFIC IF');
@@ -59,29 +63,30 @@ export default {
     //if there is a server error => redirect to 500 error page
     '$store.state.serverError': function() {
       if (this.serverError) {
-        this.$router.push({ name: "ServerError" });
+        this.$router.push({ name: "ServerError" }).catch(() => { return; });
       }
       else if (!this.serverError) {
         return;
       }
     },
 
+    //routes by status of user
     $route (to) {
       if (to.path === '/login' && this.isLoggedIn) {
-        this.$router.push({ name: 'UserInterface'});
+        this.$router.push({ name: 'UserInterface'}).catch(() => { return; });
       }
 
       if (to.path === '/admin' && this.adminLoggedIn) {
-        this.$router.push({ name: 'AdminPanel'});
+        this.$router.push({ name: 'AdminPanel'}).catch(() => { return; });
       }
 
       if (to.path === '/adminpanel' && !this.adminLoggedIn) {
-        this.$router.push({ name: 'AdminLogin'});
+        this.$router.push({ name: 'AdminLogin'}).catch(() => { return; });
       }
 
       if (to.path === '/userinterface' && !this.isLoggedIn) {
         console.log('router FALSE case');
-        this.$router.push({ name: 'Login'});
+        this.$router.push({ name: 'Login'}).catch(() => { return; });
       }
     }
   },

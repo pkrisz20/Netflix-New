@@ -305,9 +305,9 @@ import { mapState, mapGetters } from "vuex";
                     return true;
                 }
             },
-            insertUser() {
+            async insertUser() {
                 if (this.checkForm()) {
-                    Axios.post(`${process.env.VUE_APP_API_URL}/admin/adduser`, { email: this.newEmail, username: this.newUsername, password: this.newPassword, isAdmin: this.isAdmin })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/admin/adduser`, { email: this.newEmail, username: this.newUsername, password: this.newPassword, isAdmin: this.isAdmin })
                     .then((response) => {
                         if (response.data.status) {
                             this.newEmail = "";
@@ -325,9 +325,9 @@ import { mapState, mapGetters } from "vuex";
                     });
                 }
             },
-            updateUser() {
+            async updateUser() {
                 if (this.checkForm()) {
-                    Axios.put(`${process.env.VUE_APP_API_URL}/admin/updateuser`, { userID: this.userId, email: this.newEmail, username: this.newUsername, password: this.newPassword })
+                    await Axios.put(`${process.env.VUE_APP_API_URL}/admin/updateuser`, { userID: this.userId, email: this.newEmail, username: this.newUsername, password: this.newPassword })
                     .then((response) => {
                         if (response.data.status) {
                             this.newEmail = "";
@@ -344,11 +344,11 @@ import { mapState, mapGetters } from "vuex";
                     });
                 }
             },
-            submitProfileChange() {
+            async submitProfileChange() {
                 const data = new FormData();
                 data.append("image", this.newImage);
 
-                Axios.post(`${process.env.VUE_APP_API_URL}/admin/profilechange/${this.userId}`, data,
+                await Axios.post(`${process.env.VUE_APP_API_URL}/admin/profilechange/${this.userId}`, data,
                 {
                     headers: {
                         'Content-Type': 'application/json'
