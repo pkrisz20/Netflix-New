@@ -107,11 +107,6 @@ const routes = [
     component: () => import("../views/admin/AdminCategories.vue"),
   },
   {
-    path: "/adminnotifications",
-    name: "AdminNotifications",
-    component: () => import("../views/admin/AdminNotifications.vue"),
-  },
-  {
     path: "*",
     name: "NotFound",
     component: () => import("../views/errors/NotFound.vue"),

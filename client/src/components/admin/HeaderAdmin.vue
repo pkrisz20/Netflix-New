@@ -10,7 +10,6 @@
                     <!-- MAYBE A GRAPH -->
                     <!-- <router-link class="link" to="/adminlikeslist">Likes</router-link> -->
                     <router-link class="link" to="/admincategories">Categories</router-link>
-                    <router-link class="link" to="/adminnotifications">Notifications</router-link>
                 </ul>
             </div>
         </div>
