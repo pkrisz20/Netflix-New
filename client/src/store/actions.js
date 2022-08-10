@@ -213,7 +213,7 @@ export default {
         });
     },
 
-    async addFeedback ({ dispatch }, [movie, reaction]) {
+    async addFeedback ({ dispatch, commit }, [movie, reaction]) {
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/addfeedback`, { movie, reaction })
         .then((response) => {
             if (response.data.status) {
@@ -230,7 +230,7 @@ export default {
         });
     },
 
-    async updateFeedback ({ dispatch }, [movie, reaction, update]) {
+    async updateFeedback ({ dispatch, commit }, [movie, reaction, update]) {
         await Axios.put(`${process.env.VUE_APP_API_URL}/movies/updatefeedback`, { movie, reaction, update })
         .then((response) => {
             if (response.data.status) {
