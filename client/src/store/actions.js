@@ -150,6 +150,7 @@ export default {
 
     async getEachComment ({ commit }) {
         this.state.eachComment = [];
+        this.state.httpStatus = 0;
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/geteachcomment`)
         .then((response) => {
             commit('GET_EACH_COMMENT', response.data);
@@ -163,6 +164,7 @@ export default {
 
     async getReactions ({ commit }) {
         this.state.reactions = [];
+        this.state.httpStatus = 0;
         await Axios.get(`${process.env.VUE_APP_API_URL}/movies/getreactions`)
         .then((response) => {
             commit('GET_REACTIONS', response.data);
@@ -303,6 +305,7 @@ export default {
 
     async filterFavourites ({ commit }, [categories, fromYear, toYear]) {
         this.state.filteredFavs = [];
+        this.state.httpStatus = 0;
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/favs`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_FAVOURITES', response.data);
@@ -316,6 +319,7 @@ export default {
 
     async searchMovies ({ commit }, [categories, fromYear, toYear]) {
         this.state.filteredMovies = [];
+        this.state.httpStatus = 0;
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/each`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_EACH', response.data);
@@ -329,6 +333,7 @@ export default {
 
     async filterMyList ({ commit }, [categories, fromYear, toYear]) {
         this.state.filteredMyList = [];
+        this.state.httpStatus = 0;
         await Axios.post(`${process.env.VUE_APP_API_URL}/movies/filter/mylist`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
         .then((response) => {
             commit('FILTER_MY_LIST', response.data);

@@ -125,7 +125,6 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  border-radius: 20px;
   background-color: $c-6;
 }
 

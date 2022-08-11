@@ -117,6 +117,9 @@ export default {
                 state.eachComment.push(item);
             });
         }
+        setTimeout(() => {
+            state.httpStatus = 200;
+        }, 500);
     },
     GET_REACTIONS (state, data) {
         state.reactions = [];
@@ -133,6 +136,9 @@ export default {
                 state.reactions.push(i);
             });
         }
+        setTimeout(() => {
+            state.httpStatus = 200;
+        }, 500);
     },
     GET_LIKES (state, data) {
         state.likes = [];
@@ -256,7 +262,9 @@ export default {
         else if (!data.status) {
             state.errorMessage = data.message;
         }
-        state.httpStatus = 200;
+        setTimeout(() => {
+            state.notFound = false;
+        }, 2000);
     },
     SINGLE_ERROR (state, data) {
         state.errorMessage = data;
