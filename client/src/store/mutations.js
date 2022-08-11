@@ -210,8 +210,8 @@ export default {
             });
         }
         setTimeout(() => {
-            state.notFound = false;
-        }, 2000);
+            state.httpStatus = 200;
+        }, 500);
     },
     FILTER_EACH (state, data) {
         state.filteredMovies = [];
@@ -230,8 +230,8 @@ export default {
             });
         }
         setTimeout(() => {
-            state.notFound = false;
-        }, 2000);
+            state.httpStatus = 200;
+        }, 500);
     },
     FILTER_MY_LIST (state, data) {
         state.filteredMyList = [];
@@ -250,8 +250,8 @@ export default {
             });
         }
         setTimeout(() => {
-            state.notFound = false;
-        }, 2000);
+            state.httpStatus = 200;
+        }, 500);
     },
     GET_USERS (state, data) {
         if (data.status) {
@@ -263,8 +263,8 @@ export default {
             state.errorMessage = data.message;
         }
         setTimeout(() => {
-            state.notFound = false;
-        }, 2000);
+            state.httpStatus = 200;
+        }, 500);
     },
     SINGLE_ERROR (state, data) {
         state.errorMessage = data;

@@ -38,7 +38,6 @@
                 <form class="search-form">
                     <input ref="searchBox"
                         class="search-field"
-                        @blur="searchBarMethod(false)"
                         v-model="searchText"
                         :class="{ open_search : openSearchBar }"
                         placeholder="Type here to search..." type="text" name="search"

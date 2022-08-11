@@ -117,7 +117,7 @@ export default {
     this.$store.dispatch("getLikes");
     this.getHeroImages();
 
-    const countUpElement = document.querySelector(".countup");
+    const countUpElement = document.querySelector(".countup-container");
     inViewport(countUpElement, () => {
       console.log("Earn countup element");
       this.simpleCountCategories.start();
