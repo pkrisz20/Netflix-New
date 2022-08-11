@@ -143,7 +143,7 @@ import { Carousel, Slide } from "vue-carousel";
                     }
 
                     &:hover::before {
-                        opacity: 0.9;
+                        opacity: 0.75;
                     }
 
                     &:hover {

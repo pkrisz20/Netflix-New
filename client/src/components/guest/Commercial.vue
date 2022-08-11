@@ -23,7 +23,6 @@
     height: auto;
     position: relative;
     background-color: $c-dark-theme;
-    padding-top: 80px;
 
     &_img {
         width: 100%;
