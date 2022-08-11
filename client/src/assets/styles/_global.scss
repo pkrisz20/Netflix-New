@@ -5,3 +5,15 @@ $c-main-font: "Montserrat", sans-serif;
 @import "./colors.scss";
 @import "./breakpoints.scss";
 @import "./mixins.scss";
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba($c-green-theme, 0.5);
+    }
+    70% {
+        box-shadow: 0 0 0 40px rgba($c-green-theme, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba($c-green-theme, 0);
+    }
+}

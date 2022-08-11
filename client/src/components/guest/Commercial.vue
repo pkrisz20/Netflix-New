@@ -4,7 +4,7 @@
             <div class="text" data-aos="fade-up" data-aos-duration="800">
                 <h2 class="text-main">Unlimited Movies</h2>
                 <h3 class="text-sub">Watch anytime, anywhere you just want</h3>
-                <p class="text-desc">We bring comfort to your home. Without any advertisment or whatever else which could disturb you as well. You can choose from over 15 categories. Join to us, enjoy your free movies and be part of our friendly community.</p>
+                <p class="text-desc">We bring comfort to your home. Without any advertisment or whatever else which could disturb you as well. You can choose from <span class="bold">{{ this.categoriesCount }} categories</span> and <span class="bold">{{ this.moviesCount }} movies</span>. Join to us, enjoy your free movies and be part of our friendly community.</p>
                 <a class="text-btn" href="/register">Join us</a>
             </div>
         </div>
@@ -14,6 +14,14 @@
 <script>
     export default {
         name: "Commercial",
+        computed: {
+            categoriesCount() {
+                return this.$store.getters.getCategoriesCount;
+            },
+            moviesCount() {
+                return this.$store.getters.getMoivesCount;
+            }
+        }
     }
 </script>
 
@@ -26,13 +34,17 @@
 
     &_img {
         width: 100%;
-        min-height: 500px;
+        min-height: 700px;
         background-image: url("../../assets/images/avengers.jpg");
         background-position: center top;
         background-size: cover;
         background-attachment: fixed;
         position: relative;
         @include flexCenter();
+
+        @media #{$r-max-tablet} {
+            min-height: 550px;
+        }
 
         &::before {
             position: absolute;
@@ -87,6 +99,11 @@
                 font-size: 18px;
                 line-height: 26px;
 
+                .bold {
+                    font-weight: 700;
+                    color: $c-orange;
+                }
+
                 @media #{$r-max-tablet} {
                     font-size: 16px;
                 }
@@ -97,7 +114,7 @@
                 }
             }
 
-            &-btn{
+            &-btn {
                 cursor: pointer;
                 text-decoration: none;
                 padding: 12px 30px;
@@ -106,15 +123,9 @@
                 font-size: 24px;
                 font-weight: 600;
                 text-transform: uppercase;
-                transition: .5s;
-
-                &:hover {
-                    box-shadow: 0 0 10px $c-green-theme,
-                    0 0 20px $c-green-theme,
-                    0 0 40px $c-green-theme,
-                    0 0 80px $c-green-theme,
-                    0 0 160px $c-green-theme;
-                }
+                border-radius: 3px;
+                transition: .5s ease-in-out;
+                animation: pulse 1s linear infinite;
             }
         }
     }
