@@ -3,7 +3,7 @@ const { verifyAdmin } = require('../adminVerify');
 
 const addUser = (adminRouter, db) => adminRouter.post("/adduser", verifyAdmin, (req, res) => {
 
-    const { email, username, password, isAdmin } = req.body;
+    const { email, username, password, isAdmin, isVerified } = req.body;
 
     db.query("SELECT * FROM users WHERE username = ?", username, (err, resp) => {
         if (err) {
@@ -20,7 +20,7 @@ const addUser = (adminRouter, db) => adminRouter.post("/adduser", verifyAdmin, (
                     console.log(err);
                 }
 
-                db.query("INSERT INTO users (email, username, password, is_admin, profile_pic) VALUES (?,?,?,?,?)", [email, username, hash, isAdmin, null], (err, result) => {
+                db.query("INSERT INTO users (email, username, password, is_admin, is_verified) VALUES (?,?,?,?,?)", [email, username, hash, isAdmin, isVerified], (err, result) => {
             
                     if (err) {
                         return res.json({status: false, message: "Something went wrong" });

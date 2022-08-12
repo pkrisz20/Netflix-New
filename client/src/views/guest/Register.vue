@@ -106,12 +106,12 @@ import Axios from "axios";
                 if(this.checkForm()) {
                     await Axios.post(`${process.env.VUE_APP_API_URL}/users/register`, { email: this.email, username: this.username, pass: this.password })
                     .then((res) => {
-                        if (!res.data[0]) {
-                            this.errorMessage = res.data[1];
+                        if (!res.data.status) {
+                            this.errorMessage = res.data.message;
                         }
 
-                        else if (res.data[0]) {
-                            this.successMessage = res.data[1];
+                        else if (res.data.status) {
+                            this.successMessage = res.data.message;
                         }
                     });
 

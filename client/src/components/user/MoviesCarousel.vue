@@ -71,6 +71,11 @@ import { Carousel, Slide } from "vue-carousel";
                     else if (!response.data.status) {
                         console.log(response.data.message);
                     }
+                })
+                .catch(function (error) {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
                 });
             }
         },

@@ -85,6 +85,14 @@
                         <input class="radio-input" type="radio" id="user" name="permission" value="0" v-model="isAdmin">
                         <label class="radio-label" for="user">User</label>
                     </div>
+
+                    <div class="modal_container-radio">
+                        <input class="radio-input" type="radio" id="verified" name="verified" value="1" v-model="isVerified">
+                        <label class="radio-label" for="verified">Verified</label>
+
+                        <input class="radio-input" type="radio" id="not-verified" name="verified" value="0" v-model="isVerified">
+                        <label class="radio-label" for="not-verified">Not Verified</label>
+                    </div>
                 </form>
                 <div class="operations">
                     <button @click="insertUser()" class="operations_btn delete">ADD USER</button>
@@ -211,6 +219,7 @@ import { mapState, mapGetters } from "vuex";
                 newEmail: "",
                 newUsername: "",
                 isAdmin: null,
+                isVerified: null,
                 newPassword: "",
                 passwordAgain: "",
                 newImage: null
@@ -250,6 +259,7 @@ import { mapState, mapGetters } from "vuex";
                     this.newPassword = "";
                     this.passwordAgain = "";
                     this.isAdmin = null;
+                    this.isVerified = null;
                 }
             },
             openImageModal(item) {
@@ -307,7 +317,7 @@ import { mapState, mapGetters } from "vuex";
             },
             async insertUser() {
                 if (this.checkForm()) {
-                    await Axios.post(`${process.env.VUE_APP_API_URL}/admin/adduser`, { email: this.newEmail, username: this.newUsername, password: this.newPassword, isAdmin: this.isAdmin })
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/admin/adduser`, { email: this.newEmail, username: this.newUsername, password: this.newPassword, isAdmin: this.isAdmin, isVerified: this.isVerified })
                     .then((response) => {
                         if (response.data.status) {
                             this.newEmail = "";
@@ -315,8 +325,9 @@ import { mapState, mapGetters } from "vuex";
                             this.newPassword = "";
                             this.passwordAgain = "";
                             this.isAdmin = null;
+                            this.isVerified = null;
                             this.userUpdateForm = false;
-                            this.$store.commit("SINGLE_SUCCESSS", response.data.message);
+                            this.$store.commit("SINGLE_SUCCESS", response.data.message);
                             this.$store.dispatch("getUsers");
                         }
                         else if (!response.data.status) {
@@ -335,7 +346,7 @@ import { mapState, mapGetters } from "vuex";
                             this.newPassword = "";
                             this.passwordAgain = "";
                             this.userUpdateForm = false;
-                            this.$store.commit("SINGLE_SUCCESSS", response.data.message);
+                            this.$store.commit("SINGLE_SUCCESS", response.data.message);
                             this.$store.dispatch("getUsers");
                         }
                         else if (!response.data.status) {

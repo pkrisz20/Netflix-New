@@ -78,6 +78,11 @@ Axios.defaults.withCredentials = true;
                             this.$store.state.isLoggedIn = true;
                             this.$router.push({ name: 'UserInterface'});
                         }
+                    })
+                    .catch(function (error) {
+                        if (error.response.status >= 500 && error.response.status <= 599) {
+                            commit('SET_SERVER_ERROR_STATUS', error.response);
+                        }
                     });
                     this.username = '';
                     this.password = '';

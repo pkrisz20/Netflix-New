@@ -134,6 +134,11 @@ import { mapState, mapGetters } from "vuex";
                 .then((response) => {
                     this.$store.commit("SET_MESSAGE", response.data);
                     this.$store.dispatch("getComments", this.$props.movieID);
+                })
+                .catch(function (error) {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
                 });
             },
             addLike(commentID) {
@@ -191,6 +196,11 @@ import { mapState, mapGetters } from "vuex";
                         this.comment = '';
                         this.$store.commit("SET_MESSAGE", response.data);
                         this.$store.dispatch("getComments", this.$props.movieID);
+                    })
+                    .catch(function (error) {
+                        if (error.response.status >= 500 && error.response.status <= 599) {
+                            commit('SET_SERVER_ERROR_STATUS', error.response);
+                        }
                     });
                 }
             }

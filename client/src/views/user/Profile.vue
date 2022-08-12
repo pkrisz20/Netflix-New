@@ -206,6 +206,11 @@ export default {
                 await Axios.put(`${process.env.VUE_APP_API_URL}/users/changemail`, { newEmail: this.newEmail })
                 .then((res) => {
                     this.$store.commit("SET_MESSAGE", res.data);
+                })
+                .catch(function (error) {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
                 });
             }
         },
@@ -229,6 +234,11 @@ export default {
                 await Axios.put(`${process.env.VUE_APP_API_URL}/users/changeusername`, { newUsername: this.newUsername })
                 .then((res) => {
                     this.$store.commit("SET_MESSAGE", res.data);
+                })
+                .catch(function (error) {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
                 });
             }
         },
@@ -258,6 +268,11 @@ export default {
                 })
                 .then((res) => {
                     this.$store.commit("SET_MESSAGE", res.data);
+                })
+                .catch(function (error) {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
                 });
             }
         },

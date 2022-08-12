@@ -3,9 +3,13 @@ const { createToken, createRefreshToken } = require('../JWT');
 
 const Login = (usersRouter, db) => usersRouter.post("/login", (req, res) => {
     const { username, pass } = req.body;
-    db.query("SELECT * FROM users WHERE (username = ? AND is_admin = ?)", [username, 0], (err, result) => {
+    db.query("SELECT * FROM users WHERE (username = ? AND is_admin = ? AND is_verified = ?)", [username, 0, 1], (err, result) => {
         if (err) {
-            res.send({ status: false, message: err });
+            return res.json({ status: false, message: err });
+        }
+
+        if (result.length == 0) {
+            return res.json({ status: false, message: "If you already registered, make sure you have been verified yourself via email, otherwise you can't log in! Or did you even register?" });
         }
 
         if (result.length > 0) {
