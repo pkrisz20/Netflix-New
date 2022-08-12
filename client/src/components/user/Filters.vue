@@ -17,7 +17,7 @@
 
                 <div class="search_box--container">
                     <div class="category" v-for="(item, index) in $store.state.categories" :key="index">
-                        <input type="checkbox" :id="item.category_name" :value="item.category_name" v-model="filteredCategories" />
+                        <input type="checkbox" :id="item.category_name" :value="item.category_name" v-model="selectedCategories" />
                         <label :for="item.category_name">{{ item.category_name }}</label>
                     </div>
                 </div>
@@ -65,70 +65,64 @@ export default {
         return {
             openSearchBox: false,
             dateDisabled: true,
-            filteredCategories: [],
+            selectedCategories: [],
             filterFromYear: null,
             filterToYear: null,
             filterError: ""
         }
     },
     props: { insideOf: String, clearButton: Number },
+    computed: {
+        ...mapState({
+            filteredMovies: state => state.filteredMovies,
+            filteredFavs: state => state.filteredFavs,
+            filteredMyList: state => state.filteredMyList
+        })
+    },
     methods: {
-        executeFiltering() {
-
-            if (this.filteredCategories == 0) {
+        checkFilters() {
+            if (this.selectedCategories == 0) {
                 this.filterError = "Select at least a category";
+                return false;
             }
-
+            if (!this.dateDisabled) {
+                
+                if (!this.filterFromYear && !this.filterToYear) {
+                    console.log("both empty");
+                    this.filterError = "Fill at least one field, if you want to search by date";
+                    return false;
+                }
+                if (this.filterToYear > new Date().getFullYear()) {
+                    this.filterError = `Nowdays it's ${new Date().getFullYear()}, and not ${this.filterToYear}`;
+                    return false;
+                }
+                else {
+                    this.filterError = "";
+                    return true;
+                }
+            }
             else {
                 this.filterError = "";
-
-                if (!this.dateDisabled) {
-                    if (!this.filterFromYear || !this.filterToYear) {
-                        this.filterError = "Fill each field, if you want to search by date";
-                    }
-                    else if (this.filterFromYear < 1970) {
-                        this.filterError = "There are no movies in the database earlier than the '70s";
-                    }
-                    else if (this.filterToYear > new Date().getFullYear()) {
-                        this.filterError = `Nowdays it's ${new Date().getFullYear()}, and not ${this.filterToYear}`;
-                    }
-                    else {
-                        this.filterError = "";
-                    }
-                }
-
-                if (this.filteredCategories != 0 && !this.filterError) {
+                return true;
+            }
+        },
+        executeFiltering() {
+            if (this.checkFilters()) {
+                if (this.selectedCategories != 0 && !this.filterError) {    //check again
                     //filtering favourites
                     if (this.$props.insideOf == "Favs") {
-                        this.$store.dispatch("filterFavourites", [this.filteredCategories, this.filterFromYear, this.filterToYear]);
-                        
-                        if (this.filteredFavs > 0)
-                        {
-                            console.log('scrolling favs');
-                            this.scrollTo('.movies_section');
-                        }
+                        this.$store.dispatch("filterFavourites", [this.selectedCategories, this.filterFromYear, this.filterToYear]);
                     }
                     //filtering each movie
                     else if (this.$props.insideOf == "All") {
-                        this.$store.dispatch("searchMovies", [this.filteredCategories, this.filterFromYear, this.filterToYear]);
-
-                        if (this.filteredMovies > 0)
-                        {
-                            console.log('scrolling');
-                            this.scrollTo('.movies_section');
-                        }
+                        this.$store.dispatch("searchMovies", [this.selectedCategories, this.filterFromYear, this.filterToYear]);
                     }
                     // filtering my list
                     else if (this.$props.insideOf == "MyList") {
-                        this.$store.dispatch("filterMyList", [this.filteredCategories, this.filterFromYear, this.filterToYear]);
-
-                        if (this.filteredMyList > 0)
-                        {
-                            console.log('scrolling mylist');
-                            this.scrollTo('.movies_section');
-                        }
+                        this.$store.dispatch("filterMyList", [this.selectedCategories, this.filterFromYear, this.filterToYear]);
                     }
-                    this.filterError = "";
+                    this.toggleSearchBox();
+                    this.scrollTo('.movies_section');
                 }
             }
         },
@@ -137,7 +131,7 @@ export default {
             this.dateDisabled = true;
             this.filterToYear = null;
             this.filterFromYear = null;
-            this.filteredCategories = [];
+            this.selectedCategories = [];
             this.filterError = "";
         },
 
@@ -150,6 +144,11 @@ export default {
         clearFiltering() {
             this.$emit("clearFiltering");
             this.openSearchBox = false;
+            this.dateDisabled = true;
+            this.filterToYear = null;
+            this.filterFromYear = null;
+            this.selectedCategories = [];
+            this.filterError = "";
         },
 
         scrollTo(element) {
@@ -158,14 +157,7 @@ export default {
                 top: document.querySelector(element).getBoundingClientRect().top - document.body.getBoundingClientRect().top - 100
             });
         }
-    },
-    computed: {
-        ...mapState({
-            filteredMovies: state => state.filteredMovies,
-            filteredFavs: state => state.filteredFavs,
-            filteredMyList: state => state.filteredMyList
-        })
-    },
+    }
 }
 </script>
 

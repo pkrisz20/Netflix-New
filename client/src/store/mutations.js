@@ -202,6 +202,10 @@ export default {
 
         else if (data.status == null) {
             state.notFound = true;
+
+            setTimeout(() => {
+                state.notFound = false;
+            }, 2000);
         }
 
         else if (data.status) {
@@ -222,6 +226,10 @@ export default {
 
         else if (data.status == null) {
             state.notFound = true;
+
+            setTimeout(() => {
+                state.notFound = false;
+            }, 2000);
         }
 
         else if (data.status) {
@@ -242,6 +250,10 @@ export default {
 
         else if (data.status == null) {
             state.notFound = true;
+
+            setTimeout(() => {
+                state.notFound = false;
+            }, 2000);
         }
 
         else if (data.status) {
