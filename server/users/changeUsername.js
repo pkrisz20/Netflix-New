@@ -10,7 +10,7 @@ const changeUsername = (usersRouter, db) => usersRouter.put("/changeusername", v
             return res.json({ status: false, message: "Something went wrong" });
         }
         if (result) {
-            return res.send({ status: true, message: "Your username was successfully changed" });
+            return res.json({ status: true, message: "Your username was successfully changed" });
         }
     });
 });

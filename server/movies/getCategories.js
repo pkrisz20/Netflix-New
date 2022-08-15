@@ -9,7 +9,7 @@ const getCategories = (moviesRouter, db) => moviesRouter.get("/getcategories", (
         }
 
         else if (result.length > 0) {
-            return res.send(result);
+            return res.json({ result: result });
         }
 
         else if (result === 0) {

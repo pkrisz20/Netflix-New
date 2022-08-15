@@ -32,7 +32,7 @@ const changePassword = (usersRouter, db) => usersRouter.put("/changepassword", v
                                     return res.json({ status: false, message: "Something went wrong" });
                                 }
                                 if (success) {
-                                    return res.send({ status: true, message: "Your password was successfully changed" });
+                                    return res.json({ status: true, message: "Your password was successfully changed" });
                                 }
                             });
                         });

@@ -18,7 +18,7 @@ const getUserData = (usersRouter, db) => usersRouter.get("/getuserdata", verifyJ
     }
 
     else if (!req.session.user) {
-        res.send({ status: false, message: "Please sign in" });
+        res.json({ status: false, message: "Please sign in" });
     }
 });
 

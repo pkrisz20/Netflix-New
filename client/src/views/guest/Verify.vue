@@ -4,13 +4,6 @@
         <h1 v-else-if="!this.isVerified" class="verify-title">Verification failed</h1>
         <h3 v-if="this.isVerified" class="verify-subtitle">Thank you to verify yourself! Now you can close this tab and log in!</h3>
         <h3 v-else-if="!this.isVerified" class="verify-subtitle">Sorry, the verification have been failed!</h3>
-        
-        <!-- <div v-if="this.isVerified" class="verify-image">
-            <img class="img" alt="image goes here" src="../../assets/images/happy_cat.png">
-        </div>
-        <div v-else-if="!this.isVerified" class="verify-image">
-            <img class="img" alt="image goes here" src="../../assets/images/notfound.png">
-        </div> -->
     </div>
 </template>
 

@@ -13,7 +13,7 @@ export default {
     },
     GET_ALL_CATEGORIES (state, data) {
         state.categories = [];
-        data.forEach(item => {
+        data.result.forEach(item => {
             state.categories.push(item);
         });
         state.httpStatus = 200;

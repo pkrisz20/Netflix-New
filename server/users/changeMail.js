@@ -10,7 +10,7 @@ const changeMail = (usersRouter, db) => usersRouter.put("/changemail", verifyJWT
             return res.json({ status: false, message: "Something went wrong" });
         }
         if (result) {
-            return res.send({ status: true, message: "Your email address was successfully changed" });
+            return res.json({ status: true, message: "Your email address was successfully changed" });
         }
     });
 });

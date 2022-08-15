@@ -18,7 +18,7 @@ const getAdminData = (adminRouter, db) => adminRouter.get("/getdata", verifyAdmi
     }
 
     else if (!req.session.admin.data) {
-        res.send({ status: false, message: "Please Mr.Admin sign in" });
+        res.json({ status: false, message: "Please Mr.Admin sign in" });
     }
 });
 
