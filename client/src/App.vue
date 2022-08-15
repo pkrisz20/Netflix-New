@@ -3,12 +3,14 @@
     <LoadingScreen v-if="this.httpStatus == 0" />
     <SystemMessages />
     <router-view :key="$route.path" />
+    <Cookies />
   </div>
 </template>
 
 <script>
 import SystemMessages from "@/components/global/SystemMessages.vue";
 import LoadingScreen from "@/components/global/LoadingScreen.vue";
+import Cookies from "@/components/global/Cookies.vue";
 import { mapState } from "vuex";
 import AOS from "aos";
 
@@ -16,7 +18,8 @@ export default {
   name: "App",
   components: {
     SystemMessages,
-    LoadingScreen
+    LoadingScreen,
+    Cookies
   },
   computed: {
     ...mapState({
