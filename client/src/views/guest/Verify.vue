@@ -2,8 +2,7 @@
     <div class="verify" :class="{ fail : !this.isVerified }">
         <h1 v-if="this.isVerified" class="verify-title">Verification was successfully</h1>
         <h1 v-else-if="!this.isVerified" class="verify-title">Verification failed</h1>
-        <h3 v-if="this.isVerified" class="verify-subtitle">Thank you to verify yourself! Now you can close this tab and log in!</h3>
-        <h3 v-else-if="!this.isVerified" class="verify-subtitle">Sorry, the verification have been failed!</h3>
+        <h3 class="verify-subtitle">{{ message }}</h3>
     </div>
 </template>
 
@@ -14,19 +13,22 @@ import Axios from "axios";
         name: "Verify",
         data() {
             return {
-                isVerified: false
+                isVerified: false,
+                message: ""
             }
         },
         methods: {
             async verifyAccount() {
-                await Axios.put(`${process.env.VUE_APP_API_URL}/users/verify/${this.$route.params.userid}`)
+                await Axios.put(`${process.env.VUE_APP_API_URL}/users/verify?user=${this.$route.query.userid}&code=${this.$route.query.code}`)
                 .then((res) => {
                     console.log(res.data.status);
                     if (res.data.status) {
                         this.isVerified = true;
+                        this.message = res.data.message;
                     }
                     else if (!res.data.status) {
                         this.isVerified = false;
+                        this.message = res.data.message;
                     }
                     this.$store.state.httpStatus = 200;
                 })

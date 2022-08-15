@@ -1,6 +1,6 @@
-const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const moment = require("moment");
+const crypto = require("crypto");
 
 function generateSecret() {
     return crypto.randomBytes(4).readUInt32BE(0, true);

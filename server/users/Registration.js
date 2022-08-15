@@ -1,18 +1,31 @@
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const moment = require("moment");
+
+function generateSecret() {
+    return crypto.randomBytes(4).readUInt32BE(0, true);
+}
 
 const Registration = (usersRouter, db) => usersRouter.post("/register", (req, res) => {
 
     const { email, username, pass,  } = req.body;
-    db.query("SELECT * FROM users WHERE username = ?", username, (err, resp) => {
+    db.query("SELECT * FROM users WHERE username = ? OR email = ?", [username, email], (err, resp) => {
         if (err) {
             console.log(err);
         }
         
         if (resp.length > 0) {
-            return res.json({ status: false, message: "This username is already taken!" });
+            if (resp[0].username == username) {
+                return res.json({ status: false, message: "This username is already taken! Please change it!" });
+            }
+            else if (resp[0].email == email) {
+                return res.json({ status: false, message: "This email is already taken! Please change it!" });
+            }
         }
         else {
+            const secretExpireDate = moment(new Date()).add(15, "minutes").format("YYYY-MM-DD HH:mm:ss");
+            const createdSecret = generateSecret();
             salt = parseInt(process.env.SALT_ROUNDS);
             bcrypt.hash(pass, salt, (err, hash) => {
                 if (err) {
@@ -20,12 +33,12 @@ const Registration = (usersRouter, db) => usersRouter.post("/register", (req, re
                     return res.json({ status: false, message: "Something went wrong. Try it later..." });
                 }
 
-                db.query("INSERT INTO users (email, username, password) VALUES (?,?,?)", [email, username, hash], (err, result) => {
+                db.query("INSERT INTO users (email, username, password, code, expiration_date) VALUES (?,?,?,?,?)", [email, username, hash, createdSecret, secretExpireDate], (err, result) => {
                     if (err) {
                         return res.json({ status: false, message: "Something went wrong" });
                     }
                     else if (result) {
-                        db.query("SELECT user_id FROM users WHERE email = ? AND username = ?", [email, username], (err, response) => {
+                        db.query("SELECT * FROM users WHERE email = ? AND username = ?", [email, username], (err, response) => {
                             if (err) {
                                 console.log(`Error in registartion select userID ${err}`);
                                 return res.json({ status: false, message: "Something went wrong" });
@@ -34,6 +47,7 @@ const Registration = (usersRouter, db) => usersRouter.post("/register", (req, re
                             //if the userID exists
                             else if (response) {
                                 var registeredUserID = response[0].user_id;
+                                var selectedCode = response[0].code;
 
                                 var transporter = nodemailer.createTransport({
                                     service: 'gmail',
@@ -64,7 +78,7 @@ const Registration = (usersRouter, db) => usersRouter.post("/register", (req, re
                                                 <br />
                                                 <span>
                                                     Click here to verify yourself:
-                                                    <a href="${ process.env.APP_HOST }/verify/${registeredUserID}"
+                                                    <a href="${process.env.APP_HOST}/verify/?userid=${registeredUserID}&code=${selectedCode}"
                                                     target="_blank" style="color: ##00b60b; text-decoration: none; font-weight: 700;">Verify
                                                     </a>
                                                 </span>
@@ -82,7 +96,7 @@ const Registration = (usersRouter, db) => usersRouter.post("/register", (req, re
                                         return res.json({ status: false, message: "An error has appeared. Please try later..." });
                                     } else {
                                         console.log('Email sent: ' + info.response);
-                                        return res.json({ status: true, message: "You have been successfully registered. Check your email and verify yourself!" });
+                                        return res.json({ status: true, message: "You have been successfully registered. Check your email and verify yourself! You have 15 minutes for that!" });
                                     }
                                 });
                             }

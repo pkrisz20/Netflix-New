@@ -122,7 +122,7 @@ const routes = [
     component: () => import("../views/errors/ServerError.vue"),
   },
   {
-    path: "/verify/:userid",
+    path: "/verify",
     name: "Verify",
     component: () => import("../views/guest/Verify.vue"),
   }
