@@ -1,6 +1,7 @@
 <template>
     <section class="support">
         Support site change on feature
+        Another change
     </section>
 </template>
 
