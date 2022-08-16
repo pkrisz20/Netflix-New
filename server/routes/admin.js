@@ -17,6 +17,9 @@ const { insertCategory } = require("../admin/insertCategory");
 const { addUser } = require("../admin/addUser");
 const { updateUser } = require("../admin/updateUser");
 const { adminProfileChange } = require("../admin/setProfilePicture");
+const { getEmails } = require("../admin/getEmails");
+const { deleteMessage } = require("../admin/deleteMessage");
+const { setMessageStatus } = require("../admin/setMessageStatus");
 
 const express = require("express");
 const adminRouter = express.Router();
@@ -39,5 +42,8 @@ insertCategory(adminRouter, db);
 addUser(adminRouter, db);
 updateUser(adminRouter, db);
 adminProfileChange(adminRouter, db);
+getEmails(adminRouter, db);
+deleteMessage(adminRouter, db);
+setMessageStatus(adminRouter, db);
 
 exports.adminRouter = adminRouter;

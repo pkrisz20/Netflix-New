@@ -7,9 +7,8 @@
                 <ul class="nav-links-list">
                     <router-link class="link" to="/adminpanel">Movies</router-link>
                     <router-link class="link" to="/adminuserslist">Users</router-link>
-                    <!-- MAYBE A GRAPH -->
-                    <!-- <router-link class="link" to="/adminlikeslist">Likes</router-link> -->
                     <router-link class="link" to="/admincategories">Categories</router-link>
+                                        <router-link class="link" to="/adminemails">Messages</router-link>
                 </ul>
             </div>
         </div>

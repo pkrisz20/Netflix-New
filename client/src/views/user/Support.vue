@@ -6,19 +6,16 @@
             <div class="wrapper">
                 <BlockTitle :title="'Contact Us'" />
 
-                <form class="support-form" @submit.prevent="sendEmail">
-                    <div class="support-form-msg" v-if="errorMessage" :class="{ error : this.errorMessage }">
-                        {{ errorMessage }}
-                    </div>
-                    <div class="support-form-msg" v-if="successMessage" :class="{ success : this.successMessage }">
-                        {{ successMessage }}
-                    </div>
+                <form class="support-form" @submit.prevent="sendEmail()">
+                    <div class="support-form-msg error" v-if="errorMessage">{{ errorMessage }}</div>
+                    <div class="support-form-msg success" v-if="successMessage">{{ successMessage }}</div>
 
-                    <input v-model="email" class="support-form-input" name="email" type="email" placeholder="Your email..." />
+                    <input v-model="email" class="support-form-input" name="email" type="text" placeholder="Your email..." />
+                    <input v-if="this.activeUser" v-model="username" class="support-form-input" name="username" type="text" placeholder="Your username..." />
                     <input v-model="fullName" class="support-form-input" name="fullname" type="text" placeholder="Your full name..." />
-                    <input v-model="username" class="support-form-input" name="username" type="text" placeholder="Your username..." />
                     <input v-model="subject" class="support-form-input" name="subject" type="text" placeholder="Subject" />
                     <textarea class="support-form-textarea" maxlength="500" placeholder="Message..." v-model="userMessage" />
+                    <span class="support-form-characters">You have {{ charactersCount }} characters.</span>
 
                     <input type="submit" class="support-form_btn" value="SEND" />
                 </form>
@@ -28,6 +25,7 @@
 </template>
 
 <script>
+import Axios from "axios";
 import  BlockTitle from "@/components/global/BlockTitle.vue";
 import Header from "@/components/guest/Header.vue";
 import HeaderUser from "@/components/user/HeaderUser.vue";
@@ -45,21 +43,93 @@ import { mapState } from "vuex";
         computed: {
             ...mapState({
                 activeUser: state => state.isLoggedIn
-            })
+            }),
+            charactersCount() {
+                return 500 - this.userMessage.length;
+            }
         },
         data() {
             return {
                 successMessage: "",
                 errorMessage: "",
                 email: "",
-                username: "",
+                username: null,
                 subject: "",
                 fullName: "",
                 userMessage: ""
             }
         },
+        methods: {
+            validEmail(emailData) {
+                var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(emailData);
+            },
+            hasWhiteSpace(text) {
+                return /\s/.test(text);
+            },
+            checkForm() {
+                this.successMessage = "";
+
+                if (!this.subject || !this.fullName || !this.email || !this.userMessage) {
+                    this.errorMessage = "Each field is required!";
+                    return false;
+                }
+
+                if (this.activeUser && !this.username) {
+                    this.errorMessage = "Each field is required!";
+                    return false;
+                }
+
+                else if (!this.validEmail(this.email)) {
+                    this.errorMessage = "Invalid email!";
+                    return false;
+                }
+
+                else if (!this.hasWhiteSpace(this.fullName)) {
+                    this.errorMessage = "The full name is at least two words!";
+                    return false;
+                }
+
+                else {
+                    this.errorMessage = "";
+                    return true;
+                }
+            },
+            async sendEmail() {
+                if(this.checkForm()) {
+                    await Axios.post(`${process.env.VUE_APP_API_URL}/users/emails`, { email: this.email, subject: this.subject, fullName: this.fullName, message: this.userMessage, username: this.username })
+                    .then((res) => {
+                        if (!res.data.status) {
+                            this.errorMessage = res.data.message;
+                        }
+
+                        else if (res.data.status) {
+                            this.successMessage = res.data.message;
+                        }
+
+                        this.subject = "";
+                        this.fullName = "";
+                        this.email = "";
+                        this.userMessage = "";
+                        this.username = null;
+                    })
+                    .catch(function (error) {
+                        if (error.response.status >= 500 && error.response.status <= 599) {
+                            commit('SET_SERVER_ERROR_STATUS', error.response);
+                        }
+                    });
+                }
+            }
+        },
         mounted() {
             this.$store.state.httpStatus = 200;
+            this.$store.dispatch("getLoginStatus");
+        },
+        updated() {
+            if (this.activeUser) {
+                this.$store.dispatch('getFavourites');
+                this.$store.dispatch("getMyList");
+            }
         }
     }
 </script>
@@ -88,12 +158,12 @@ import { mapState } from "vuex";
             align-items: flex-start;
             flex-direction: column;
             padding: 30px;
-            background-color: $c-3;
+            background-color: rgba($c-3, .75);
             width: 470px;
             border-radius: 5px;
             
             &-msg {
-                width: calc(100% - 10px);
+                width: 100%;
                 color: $c-white;
                 border-radius: 3px;
                 padding: 8px;
@@ -152,6 +222,12 @@ import { mapState } from "vuex";
                 color: $c-3;
             }
 
+            &-characters {
+                color: $c-white;
+                font-size: 14px;
+                font-family: $c-main-font;
+            }
+
             &_btn {
                 width: auto;
                 padding: 12px 25px;
@@ -160,6 +236,7 @@ import { mapState } from "vuex";
                 color: $c-white;
                 background-color: $c-blue;
                 border: none;
+                font-family: $c-main-font;
                 border-radius: 3px;
                 margin: 15px 0 10px;
                 cursor: pointer;

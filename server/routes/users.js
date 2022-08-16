@@ -11,6 +11,7 @@ const { loginStatus } = require("../users/loginStatus");
 const { forgotPassword } = require("../users/forgotPassword");
 const { resetPassword } = require("../users/resetPassword");
 const { verifyAccount } = require("../users/verifyAccount");
+const { receiveEmails } = require("../users/receiveEmails");
 
 const express = require("express");
 const usersRouter = express.Router();
@@ -27,5 +28,6 @@ changePassword(usersRouter, db);
 forgotPassword(usersRouter, db);
 resetPassword(usersRouter, db);
 verifyAccount(usersRouter, db);
+receiveEmails(usersRouter, db);
 
 exports.usersRouter = usersRouter;

@@ -554,6 +554,7 @@ export default {
             }
 
             .delete-btn {
+                font-family: $c-main-font;
                 background: transparent;
                 border: none;
                 font-size: 30px;

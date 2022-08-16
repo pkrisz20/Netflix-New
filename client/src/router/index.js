@@ -107,6 +107,11 @@ const routes = [
     component: () => import("../views/admin/AdminCategories.vue"),
   },
   {
+    path: "/adminemails",
+    name: "AdminEmails",
+    component: () => import("../views/admin/AdminEmails.vue"),
+  },
+  {
     path: "*",
     name: "NotFound",
     component: () => import("../views/errors/NotFound.vue"),

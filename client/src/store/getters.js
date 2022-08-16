@@ -139,5 +139,15 @@ export default {
             });
             return isThereVideo;
         }
-    }
+    },
+    getEmailsCount(state) {
+        return state.adminMessages.length;
+    },
+    getEmailDetails(state) {
+        return ID => {
+            return state.adminMessages.filter(item => {
+                return item.email_id == ID;
+            });
+        }
+    },
 };

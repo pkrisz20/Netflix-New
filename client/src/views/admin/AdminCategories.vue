@@ -364,6 +364,7 @@ import { mapState, mapGetters } from "vuex";
                     border: none;
                     border-radius: 3px;
                     font-size: 12px;
+                    font-family: $c-main-font;
                     letter-spacing: 2px;
                     text-transform: uppercase;
                     margin: 0 15px;
