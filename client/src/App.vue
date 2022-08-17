@@ -46,6 +46,12 @@ export default {
         console.log('SPECIFIC IF');
       }
 
+      //if the value is null either redirect to support
+      if (!this.isLoggedIn && this.$route.path == "/support") {
+        this.$router.push("/support").catch(() => { return; });
+        console.log('SPECIFIC IF');
+      }
+
       //if the page does not exist => redirect to notfound page
       if (!this.isLoggedIn && this.$route.name == "NotFound") {
         this.$router.push({ name: "NotFound" }).catch(() => { return; });
@@ -73,7 +79,7 @@ export default {
       }
     },
 
-    //routes by status of user
+    //prevent active user to earn things that are only for guests
     $route (to) {
       if (to.path === '/login' && this.isLoggedIn) {
         this.$router.push({ name: 'UserInterface'}).catch(() => { return; });

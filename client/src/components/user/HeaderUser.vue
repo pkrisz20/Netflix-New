@@ -18,6 +18,7 @@
                     />
                     <router-link class="link link-sticker" to="/favourites">My Favorites <span>{{ countFavourites }}</span></router-link>
                     <router-link class="link link-sticker" to="/mylist">My List <span>{{ countMyList }}</span></router-link>
+                    <router-link class="link" to="/support">Support</router-link>
                     <li class="link logout" @click="logOut">Log Out</li>
                 </ul>
             </div>
@@ -124,7 +125,8 @@
                 <div class="user-options" v-show="isOpenOptions">
                     <div class="user-options-list">
                         <ul class="list">
-                            <li class="list-item" @click="goProfilePage">Profile</li>
+                            <router-link class="list-item" to="/profile">Profile</router-link>
+                            <router-link class="list-item" to="/support">Support</router-link>
                             <li class="list-item" @click="logOut">Log Out</li>
                         </ul>
                     </div>
@@ -567,7 +569,7 @@ Axios.defaults.withCredentials = true;
                 .user-options {
                     position: absolute;
                     top: 68px;
-                    left: -10px;
+                    left: -35px;
                     width: 120px;
                     height: auto;
                     background-color: $c-c;
@@ -584,7 +586,7 @@ Axios.defaults.withCredentials = true;
                             border-left: 14px solid transparent;
                             border-right: 14px solid transparent;
                             position: absolute;
-                            top: -45px;
+                            top: -35px;
                             right: 20px;
                         }
 
@@ -592,15 +594,18 @@ Axios.defaults.withCredentials = true;
                             margin: 0;
                             padding: 0;
                             list-style-type: none;
-                            color: $c-3;
                             font-weight: 600;
+                            overflow: hidden;
+                            @include flexCenter();
+                            flex-direction: column;
 
                             .list-item {
-                                margin: 10px;
-                                border-radius: 5px;
-                                padding: 8px;
+                                width: 100%;
+                                padding: 12px;
                                 cursor: pointer;
                                 transition: .3s;
+                                text-decoration: none;
+                                color: $c-3;
 
                                 &:hover {
                                     background-color: $c-3;

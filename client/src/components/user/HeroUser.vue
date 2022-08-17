@@ -1,6 +1,5 @@
 <template>
     <div class="herouser">
-        <LoadingScreen v-if="this.status != 200" />
         <div class="hero-video" v-for="item in this.heroVideo" :key="item.id">
             <img v-if="item.video == null" alt="herouser" src="../../assets/images/video_default.png">
             <video v-else-if="item.video != null" id="videoHero" :src="getMoviePath(item.video)" autoplay muted loop></video>
@@ -14,7 +13,6 @@
 
 <script>
 import Axios from "axios";
-import LoadingScreen from "@/components/global/LoadingScreen.vue";
 
     export default {
         name: "UserHero",
@@ -23,9 +21,6 @@ import LoadingScreen from "@/components/global/LoadingScreen.vue";
                 heroVideo: null,
                 status: 0,
             }
-        },
-        components: {
-            LoadingScreen
         },
         methods: {
             getMoviePath (video) {

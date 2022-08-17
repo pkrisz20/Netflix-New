@@ -597,6 +597,7 @@ import { mapState, mapGetters } from "vuex";
                     color: $c-white;
                     font-weight: 600;
                     transition: .2s ease-in-out;
+                    font-family: $c-main-font;
 
                     &.permission {
                         background-color: $c-success;

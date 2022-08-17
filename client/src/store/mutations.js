@@ -278,6 +278,19 @@ export default {
             state.httpStatus = 200;
         }, 500);
     },
+    GET_EMAILS (state, data) {
+        if (data.status) {
+            data.result.forEach(item => {
+                state.adminMessages.push(item);
+            });
+        }
+        else if (!data.status) {
+            state.errorMessage = data.message;
+        }
+        setTimeout(() => {
+            state.httpStatus = 200;
+        }, 500);
+    },
     SINGLE_ERROR (state, data) {
         state.errorMessage = data;
 

@@ -436,4 +436,44 @@ export default {
             }
         });
     },
+
+    async getMessages ({ commit }) {
+        this.state.httpStatus = 0;
+        this.state.adminMessages = [];
+        await Axios.get(`${process.env.VUE_APP_API_URL}/admin/getemails`)
+        .then((response) => {
+            commit('GET_EMAILS', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
+        });
+    },
+
+    async deleteMessage ({ commit, dispatch }, messageID) {
+        await Axios.delete(`${process.env.VUE_APP_API_URL}/admin/deleteemail/${messageID}`)
+        .then((response) => {
+            commit('SET_MESSAGE', response.data);
+            dispatch("getMessages");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
+        });
+    },
+
+    async setMessageStatus ({ commit, dispatch }, [messageID, status]) {
+        await Axios.put(`${process.env.VUE_APP_API_URL}/admin/emailstatus`, { messageID: messageID, status: status })
+        .then((response) => {
+            commit('SET_MESSAGE', response.data);
+            dispatch("getMessages");
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
+        });
+    },
 };

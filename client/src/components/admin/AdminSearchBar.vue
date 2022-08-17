@@ -9,6 +9,14 @@
             placeholder="Type here to search..." />
 
         <input
+            v-if="searchTpye == 'emails'"
+            class="search-box_input"
+            type="text"
+            name="search"
+            v-model="$store.state.adminEmailsFilter"
+            placeholder="Type here to search..." />
+
+        <input
             v-if="searchTpye == 'users'"
             class="search-box_input"
             type="text"

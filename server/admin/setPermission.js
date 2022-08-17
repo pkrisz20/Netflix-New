@@ -11,6 +11,7 @@ const setPermission = (adminRouter, db) => adminRouter.put("/setpermission", ver
         db.query(sqlUpdate, [1, userID], (err, result) => {
             if (err) {
                 console.log(err);
+                return res.json({ status: false, message: "Something went wrong" });
             }
             if (result) {
                 return res.json({ status: true, message: "User's status has been successfully updated" });
@@ -26,6 +27,7 @@ const setPermission = (adminRouter, db) => adminRouter.put("/setpermission", ver
         db.query(sqlUpdate, [0, userID], (err, result) => {
             if (err) {
                 console.log(err);
+                return res.json({ status: false, message: "Something went wrong" });
             }
             if (result) {
                 return res.json({ status: true, message: "User's status has been successfully updated" });

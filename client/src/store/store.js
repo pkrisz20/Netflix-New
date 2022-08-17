@@ -13,8 +13,10 @@ export const store = new Vuex.Store({
         adminLoggedIn: null,    //watching active admin
         list: [],
         users: [],
+        adminMessages: [],
         adminUsersFilter: "",
         adminCategoriesFilter: "",
+        adminEmailsFilter: "",
         movieToUpdate: null,    //movieID which is being updated by form
         categories: [],
         movieDetails: [],

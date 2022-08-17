@@ -139,5 +139,22 @@ export default {
             });
             return isThereVideo;
         }
-    }
+    },
+    getEmailsCount(state) {
+        return state.adminMessages.length;
+    },
+    getEmailDetails(state) {
+        return ID => {
+            return state.adminMessages.filter(item => {
+                return item.email_id == ID;
+            });
+        }
+    },
+    filterAdminMessages (state) {
+        return name => {
+            return state.adminMessages.filter(email => {
+                return email.full_name.toLowerCase().includes(name.toLowerCase());
+            });
+        }
+    },
 };
