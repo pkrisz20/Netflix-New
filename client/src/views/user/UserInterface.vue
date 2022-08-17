@@ -96,9 +96,9 @@ import { mapState } from "vuex";
                         console.log("Error movie carousels with top movies request");
                     }
                 })
-                .catch(function (error) {
+                .catch(error => {
                     if (error.response.status >= 500 && error.response.status <= 599) {
-                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                        this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
                     }
                 });
             }

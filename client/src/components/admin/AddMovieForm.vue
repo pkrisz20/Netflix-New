@@ -111,8 +111,10 @@ import { mapState } from "vuex";
                                 this.$store.commit("SINGLE_SUCCESSS", res.data.message);
                             }
                         })
-                        .catch((err) => {
-                            this.$store.commit("SINGLE_ERROR", err.message);
+                        .catch(error => {
+                            if (error.response.status >= 500 && error.response.status <= 599) {
+                                this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                            }
                         });
                     }
 
@@ -132,8 +134,10 @@ import { mapState } from "vuex";
                                 this.$store.commit("SINGLE_SUCCESSS", res.data.message);
                             }
                         })
-                        .catch((err) => {
-                            this.$store.commit("SINGLE_ERROR", err.message);
+                        .catch(error => {
+                            if (error.response.status >= 500 && error.response.status <= 599) {
+                                this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                            }
                         });
                     }
                     this.showForm = false;

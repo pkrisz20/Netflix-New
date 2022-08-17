@@ -162,9 +162,9 @@ export default {
                 this.$store.commit("SET_MESSAGE", response.data);
                 this.$store.dispatch("getFavourites");
             })
-            .catch(function (error) {
+            .catch(error => {
                 if (error.response.status >= 500 && error.response.status <= 599) {
-                    commit('SET_SERVER_ERROR_STATUS', error.response);
+                    this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
                 }
             });
         },
@@ -174,9 +174,9 @@ export default {
                 this.$store.commit("SET_MESSAGE", response.data);
                 this.$store.dispatch("getFavourites");
             })
-            .catch(function (error) {
+            .catch(error => {
                 if (error.response.status >= 500 && error.response.status <= 599) {
-                    commit('SET_SERVER_ERROR_STATUS', error.response);
+                    this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
                 }
             });
         },

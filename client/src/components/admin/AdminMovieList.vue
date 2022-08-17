@@ -198,8 +198,10 @@ export default {
                     this.$store.commit("SINGLE_SUCCESSS", res.data.message);
                 }
             })
-            .catch((err) => {
-                this.$store.commit("SINGLE_ERROR", err.message);
+            .catch(error => {
+                if (error.response.status >= 500 && error.response.status <= 599) {
+                    this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                }
             });
             this.$store.dispatch("getAllMovies");
             this.thumbnailImage = null;
@@ -223,8 +225,10 @@ export default {
                     this.$store.commit("SINGLE_SUCCESSS", res.data.message);
                 }
             })
-            .catch((err) => {
-                this.$store.commit("SINGLE_ERROR", err.message);
+            .catch(error => {
+                if (error.response.status >= 500 && error.response.status <= 599) {
+                    this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                }
             });
             this.movieVideo = null;
             this.videoForm = false;
