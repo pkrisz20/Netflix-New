@@ -12,15 +12,15 @@
                     :disabled-date="disabledAfterToday"
                     type="date"
                     valueType="format"
+                    @clear="clearDateFilter"
                     placeholder="Filter by date range..."
-                    format="YYYY-MM-DD"
-                    @change="dateChange"></date-picker>
+                    format="YYYY-MM-DD"></date-picker>
                 <button @click="searchByDates" class="emails-datepicker-submit">Search between dates</button>
             </div>
-            <h4 class="count">Emails count: {{ emailsCount }}</h4>
+            <h4 class="count">Total emails count: {{ emailsCount }}</h4>
 
             <!-- ALL emails -->
-            <table class="emails_list" v-if="adminEmailsFilter.length == 0">
+            <table class="emails_list" v-if="adminEmailsFilter.length == 0 && this.dateDiffResults.length == 0">
                 <tr class="emails_list-headers">
                     <th>From</th>
                     <th>Name</th>
@@ -92,6 +92,43 @@
                     </td>
                 </tr>
             </table>
+
+            <!-- FILTERED BY DATES -->
+            <table class="emails_list" v-if="this.dateDiffResults.length > 0">
+                <tr class="emails_list-headers">
+                    <th>From</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Operations</th>
+                </tr>
+                <tr class="emails_list-item" v-for="item in this.dateDiffResults" :key="item.email_id" @click="openMessageDetails(item.email_id)">
+                    <td class="emails_list-item__param">{{ item.from_email }}</td>
+                    <td class="emails_list-item__param">{{ item.full_name }}</td>
+                    <td v-if="item.username != null" class="emails_list-item__param">{{ item.username }}</td>
+                    <td v-else class="emails_list-item__param"><i class="fas fa-question"></i></td>
+                    <td class="emails_list-item__param">{{ item.subject }}</td>
+                    <td class="emails_list-item__param">{{ item.sent_at }}</td>
+
+                    <td class="emails_list-item__actions">
+                        <button
+                            @click="deleteMessage(item.email_id)"
+                            class="emails_list-item__actions-btn delete"><i class="fas fa-trash"></i> DELETE
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, true)"
+                            v-if="item.is_seen == 0"
+                            class="emails_list-item__actions-btn unread"><i class="fas fa-eye"></i> UNREAD
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, false)"
+                            v-else-if="item.is_seen == 1"
+                            class="emails_list-item__actions-btn seen"><i class="fas fa-check"></i> SEEN
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
@@ -117,7 +154,7 @@ import { mapGetters, mapState } from "vuex";
             return {
                 showDetails: false,
                 messageDetailsID: null,
-                dateSearchResults: [],
+                dateDiffResults: [],
                 date: null,
                 lang: {
                     formatLocale: {
@@ -156,31 +193,27 @@ import { mapGetters, mapState } from "vuex";
                 today.setHours(0, 0, 0, 0);
                 return date > today;
             },
-            dateChange() {
-                console.log(this.date[0]);
-                console.log(this.date[1]);
-            },
             async searchByDates() {
-                await Axios.get(`${process.env.VUE_APP_API_URL}/admin/datediff`, { dateStart: this.date[0], dateEnd: this.data[1] })
+                await Axios.post(`${process.env.VUE_APP_API_URL}/admin/datediff`, { dateStart: this.date[0], dateEnd: this.date[1] })
                 .then(response => {
-                    
-                    if(response.data.status) {
+
+                    if (response.data.status) {
                         response.data.result.forEach(item => {
-                            this.dateSearchResults = item;
+                            this.dateDiffResults.push(item);
                         });
                     }
-                    if(response.data.status == null) {
-                        console.log("NULL");
-                    }
-                    else if(!response.data.status) {
-                        console.log("ERROR");
+                    else if (!response.data.status) {
+                        this.$store.commit('SET_MESSAGE', response.data);
                     }
                 })
-                .catch(function (error) {
+                .catch(error => {
                     if (error.response.status >= 500 && error.response.status <= 599) {
-                        commit('SET_SERVER_ERROR_STATUS', error.response);
+                        this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
                     }
                 });
+            },
+            clearDateFilter() {
+                this.dateDiffResults = [];
             }
         },
         mounted() {
