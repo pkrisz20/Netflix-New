@@ -4,11 +4,11 @@
         <MessageDetails v-if="this.showDetails" :emailID="messageDetailsID" @closeDetails="closeDetails()" />
 
         <div class="wrapper">
-            <!-- <AdminSearchBar :searchTpye="'emails'" /> -->
+            <AdminSearchBar :searchTpye="'emails'" />
             <h4 class="count">Emails count: {{ emailsCount }}</h4>
 
             <!-- ALL emails -->
-            <table class="emails_list">
+            <table class="emails_list" v-if="adminEmailsFilter.length == 0">
                 <tr class="emails_list-headers">
                     <th>From</th>
                     <th>Name</th>
@@ -43,6 +43,43 @@
                     </td>
                 </tr>
             </table>
+
+            <!-- FILTERED EMAIL -->
+            <table class="emails_list" v-if="adminEmailsFilter.length > 0">
+                <tr class="emails_list-headers">
+                    <th>From</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Operations</th>
+                </tr>
+                <tr class="emails_list-item" v-for="item in filterMessages(adminEmailsFilter)" :key="item.email_id" @click="openMessageDetails(item.email_id)">
+                    <td class="emails_list-item__param">{{ item.from_email }}</td>
+                    <td class="emails_list-item__param">{{ item.full_name }}</td>
+                    <td v-if="item.username != null" class="emails_list-item__param">{{ item.username }}</td>
+                    <td v-else class="emails_list-item__param"><i class="fas fa-question"></i></td>
+                    <td class="emails_list-item__param">{{ item.subject }}</td>
+                    <td class="emails_list-item__param">{{ item.sent_at }}</td>
+
+                    <td class="emails_list-item__actions">
+                        <button
+                            @click="deleteMessage(item.email_id)"
+                            class="emails_list-item__actions-btn delete"><i class="fas fa-trash"></i> DELETE
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, true)"
+                            v-if="item.is_seen == 0"
+                            class="emails_list-item__actions-btn unread"><i class="fas fa-eye"></i> UNREAD
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, false)"
+                            v-else-if="item.is_seen == 1"
+                            class="emails_list-item__actions-btn seen"><i class="fas fa-check"></i> SEEN
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
@@ -50,13 +87,15 @@
 <script>
 import HeaderAdmin from "@/components/admin/HeaderAdmin.vue";
 import MessageDetails from "@/components/admin/MessageDetails.vue";
+import AdminSearchBar from "@/components/admin/AdminSearchBar.vue";
 import { mapGetters, mapState } from "vuex";
 
     export default {
         name: "AdminEmails",
         components: {
             HeaderAdmin,
-            MessageDetails
+            MessageDetails,
+            AdminSearchBar
         },
         data() {
             return {
@@ -67,10 +106,10 @@ import { mapGetters, mapState } from "vuex";
         computed: {
             ...mapState({
                 emails: state => state.adminMessages,
-                // adminUsersFilter: state => state.adminUsersFilter,
+                adminEmailsFilter: state => state.adminEmailsFilter,
             }),
             ...mapGetters({
-                // filterUsers: 'filterUsers',
+                filterMessages: 'filterAdminMessages',
                 emailsCount: 'getEmailsCount'
             }),
         },

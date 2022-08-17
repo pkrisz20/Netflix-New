@@ -67,7 +67,7 @@ import { mapGetters } from "vuex";
             position: absolute;
             top: 5px;
             right: 5px;
-            font-size: 30px;
+            font-size: 34px;
             color: $c-red;
             cursor: pointer;
         }

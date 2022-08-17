@@ -150,4 +150,11 @@ export default {
             });
         }
     },
+    filterAdminMessages (state) {
+        return name => {
+            return state.adminMessages.filter(email => {
+                return email.full_name.toLowerCase().includes(name.toLowerCase());
+            });
+        }
+    },
 };
