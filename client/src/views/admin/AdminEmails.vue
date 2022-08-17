@@ -5,10 +5,22 @@
 
         <div class="wrapper">
             <AdminSearchBar :searchTpye="'emails'" />
-            <h4 class="count">Emails count: {{ emailsCount }}</h4>
+            <div class="emails-datepicker">
+                <date-picker
+                    v-model="date" range
+                    :lang="this.lang"
+                    :disabled-date="disabledAfterToday"
+                    type="date"
+                    valueType="format"
+                    @clear="clearDateFilter"
+                    placeholder="Filter by date range..."
+                    format="YYYY-MM-DD"></date-picker>
+                <button @click="searchByDates" class="emails-datepicker-submit">Search between dates</button>
+            </div>
+            <h4 class="count">Total emails count: {{ emailsCount }}</h4>
 
             <!-- ALL emails -->
-            <table class="emails_list" v-if="adminEmailsFilter.length == 0">
+            <table class="emails_list" v-if="adminEmailsFilter.length == 0 && this.dateDiffResults.length == 0">
                 <tr class="emails_list-headers">
                     <th>From</th>
                     <th>Name</th>
@@ -80,14 +92,54 @@
                     </td>
                 </tr>
             </table>
+
+            <!-- FILTERED BY DATES -->
+            <table class="emails_list" v-if="this.dateDiffResults.length > 0">
+                <tr class="emails_list-headers">
+                    <th>From</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Operations</th>
+                </tr>
+                <tr class="emails_list-item" v-for="item in this.dateDiffResults" :key="item.email_id" @click="openMessageDetails(item.email_id)">
+                    <td class="emails_list-item__param">{{ item.from_email }}</td>
+                    <td class="emails_list-item__param">{{ item.full_name }}</td>
+                    <td v-if="item.username != null" class="emails_list-item__param">{{ item.username }}</td>
+                    <td v-else class="emails_list-item__param"><i class="fas fa-question"></i></td>
+                    <td class="emails_list-item__param">{{ item.subject }}</td>
+                    <td class="emails_list-item__param">{{ item.sent_at }}</td>
+
+                    <td class="emails_list-item__actions">
+                        <button
+                            @click="deleteMessage(item.email_id)"
+                            class="emails_list-item__actions-btn delete"><i class="fas fa-trash"></i> DELETE
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, true)"
+                            v-if="item.is_seen == 0"
+                            class="emails_list-item__actions-btn unread"><i class="fas fa-eye"></i> UNREAD
+                        </button>
+                        <button
+                            @click="setStatus(item.email_id, false)"
+                            v-else-if="item.is_seen == 1"
+                            class="emails_list-item__actions-btn seen"><i class="fas fa-check"></i> SEEN
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </template>
 
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 import HeaderAdmin from "@/components/admin/HeaderAdmin.vue";
 import MessageDetails from "@/components/admin/MessageDetails.vue";
 import AdminSearchBar from "@/components/admin/AdminSearchBar.vue";
+import Axios from "axios";
 import { mapGetters, mapState } from "vuex";
 
     export default {
@@ -95,12 +147,21 @@ import { mapGetters, mapState } from "vuex";
         components: {
             HeaderAdmin,
             MessageDetails,
-            AdminSearchBar
+            AdminSearchBar,
+            DatePicker
         },
         data() {
             return {
                 showDetails: false,
-                messageDetailsID: null
+                messageDetailsID: null,
+                dateDiffResults: [],
+                date: null,
+                lang: {
+                    formatLocale: {
+                        firstDayOfWeek: 1,
+                    },
+                    monthBeforeYear: false
+                }
             }
         },
         computed: {
@@ -126,6 +187,33 @@ import { mapGetters, mapState } from "vuex";
             },
             closeDetails() {
                 this.showDetails = false;
+            },
+            disabledAfterToday(date) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                return date > today;
+            },
+            async searchByDates() {
+                await Axios.post(`${process.env.VUE_APP_API_URL}/admin/datediff`, { dateStart: this.date[0], dateEnd: this.date[1] })
+                .then(response => {
+
+                    if (response.data.status) {
+                        response.data.result.forEach(item => {
+                            this.dateDiffResults.push(item);
+                        });
+                    }
+                    else if (!response.data.status) {
+                        this.$store.commit('SET_MESSAGE', response.data);
+                    }
+                })
+                .catch(error => {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
+                });
+            },
+            clearDateFilter() {
+                this.dateDiffResults = [];
             }
         },
         mounted() {
@@ -134,11 +222,146 @@ import { mapGetters, mapState } from "vuex";
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+
+.mx {
+    &-datepicker-main {
+        border-radius: 5px;
+        color: $c-dark-theme;
+        font-family: $c-main-font;
+    }
+
+    &-calendar {
+        width: 300px;
+
+        &-header {
+            border-bottom: 1px solid $c-dark-theme;
+
+            &-label {
+                font-size: 18px;
+            }
+
+            .mx-btn {
+                font-size: 18px;
+                color: $c-6;
+
+                i {
+                    font-size: 26px;
+
+                    &::before, &::after {
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+            }
+        }
+
+        &-content {
+            .mx-table {
+                thead {
+                    tr {
+                        th {
+                            font-size: 16px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+
+                tbody {
+                    tr {
+                        td {
+                            &.cell {
+                                font-size: 18px;
+                                border-radius: 3px;
+
+                                &:hover {
+                                    background-color: $c-green-theme;
+                                    color: $c-white;
+                                }
+                            }
+
+                            &.today {
+                                color: $c-white;
+                                background-color: $c-blue;
+                            }
+
+                            &.active {
+                                background-color: $c-green-theme;
+                                color: $c-white;
+                            }
+
+                            &.in-range, &.hover-in-range {
+                                background-color: rgba($c-green-theme, .3);
+                                color: $c-3;
+                            }
+
+                            &.disabled {
+                                color: $c-c;
+                                background-color: $c-grayF3;
+
+                                &:hover {
+                                    color: $c-c;
+                                    background-color: $c-grayF3;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 .emails {
     min-height: 100vh;
     padding-bottom: 40px;
     background-color: $c-3;
+
+    &-datepicker {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 10px 0 30px;
+
+        .mx-datepicker {
+            width: 480px;
+
+            .mx-input-wrapper {
+                .mx-input {
+                    height: 40px;
+                    font-family: $c-main-font;
+                    font-size: 18px;
+                    color: $c-3;
+                    padding: 6px 35px;
+                    padding-left: 20px;
+                }
+
+                .mx-icon-clear, .mx-icon-calendar {
+                    font-size: 22px;
+
+                    svg {
+                        width: 22px;
+                        height: 22px;
+                        fill: $c-3;
+                    }
+                }
+            }
+        }
+
+        &-submit {
+            margin-left: 20px;
+            cursor: pointer;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: $c-white;
+            font-weight: 900;
+            background-color: $c-green-theme;
+        }
+    }
 
     .wrapper {
         padding: 60px 15px 0;
