@@ -18,7 +18,7 @@
                     />
                     <router-link class="link link-sticker" to="/favourites">My Favorites <span>{{ countFavourites }}</span></router-link>
                     <router-link class="link link-sticker" to="/mylist">My List <span>{{ countMyList }}</span></router-link>
-                    <router-link class="link" to="/support">Support</router-link>
+                    <router-link class="link support" to="/support">Support</router-link>
                     <li class="link logout" @click="logOut">Log Out</li>
                 </ul>
             </div>
@@ -363,22 +363,24 @@ Axios.defaults.withCredentials = true;
                         cursor: pointer;
                         position: relative;
 
-                        &::before {
-                            transition: transform .3s;
-                            position: absolute;
-                            bottom: -10px;
-                            left: 0;
-                            width: 100%;
-                            content: '';
-                            height: 3px;
-                            background-color: $c-green-theme;
-                            transform: scaleX(0);
-                            transform-origin: right;
-                        }
+                        @media #{$r-laptop-s} {
+                            &::before {
+                                transition: transform .3s;
+                                position: absolute;
+                                bottom: -10px;
+                                left: 0;
+                                width: 100%;
+                                content: '';
+                                height: 3px;
+                                background-color: $c-green-theme;
+                                transform: scaleX(0);
+                                transform-origin: right;
+                            }
 
-                        &:hover::before {
-                            transform: scaleX(1);
-                            transform-origin: left;
+                            &:hover::before {
+                                transform: scaleX(1);
+                                transform-origin: left;
+                            }
                         }
 
                         &-sticker {
@@ -415,7 +417,7 @@ Axios.defaults.withCredentials = true;
                             }
                         }
 
-                        &.logout {
+                        &.logout, &.support {
                             display: none;
                             
                             @media #{$r-max-laptop-s} {

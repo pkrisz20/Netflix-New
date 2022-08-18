@@ -10,12 +10,9 @@
             <div class="movie-details">
                 <h1 class="movie-title">{{ item.movieName }}</h1>
                 <div class="movie-info-box">
-
-                    <!-- <div class="info"><i class="far fa-hourglass-half"></i> Duration: {{ item.movieDuration }}</div> -->
-
                     <div class="info"><i class="far fa-calendar-star"></i> Release: {{ item.releaseDate }}</div>
 
-                    <div class="info category"><i class="fas fa-film-alt"></i> Category:
+                    <div class="info category"><i class="fas fa-layer-group"></i> Category:
                         <span v-for="category in getCategories" :key="category">{{ category }}</span>
                     </div>
                 </div>
