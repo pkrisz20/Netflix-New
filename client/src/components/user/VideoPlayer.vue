@@ -2,6 +2,7 @@
     <div class="video">
         <div @click="closePlayer()" class="video-close"><i class="far fa-times"></i></div>
         <Media
+            id="videoPlayer"
             :kind="'video'"
             :controls="true"
             :autoplay="false"
@@ -10,6 +11,7 @@
             :poster="this.$props.videoPoster"
             :src="this.$props.videoSource"
             :ref="'videoPlayer'"
+            @loadedmetadata="setVideoDuration()"
             @pause="pause()"
             @play="play()">
         </Media>
@@ -35,6 +37,12 @@ import Media from "@dongido/vue-viaudio";
             closePlayer() {
                 this.$refs.videoPlayer.pause();
                 this.$emit("close");
+            },
+            setVideoDuration() {
+                const videoComponent = document.getElementById("videoPlayer");
+                if (videoComponent != null) {
+                    this.$store.state.videoDuration = videoComponent.duration;
+                }
             }
         }
     }

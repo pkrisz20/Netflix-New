@@ -1,5 +1,5 @@
 <template>
-    <div class="comment-section">
+    <section class="comment-section">
         <div class="wrapper">
             <div class="statistics_top">
                 <h3 class="comments_number">{{ commentsCount }} {{ commentsCount > 1 ? 'Comments' : 'Comment' }}</h3>
@@ -81,9 +81,8 @@
                     </div>
                 </div>
             </div>
-        
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -223,7 +222,8 @@ import { mapState, mapGetters } from "vuex";
             align-items: center;
 
             @media #{$r-max-laptop-m} {
-                width: calc(100% - 30px);
+                width: 100%;
+                padding: 0 30px;
             }
 
             .statistics_top {
@@ -285,7 +285,7 @@ import { mapState, mapGetters } from "vuex";
                 width: 75%;
                 position: relative;
 
-                @media #{$r-max-tablet} {
+                @media #{$r-max-laptop-s} {
                     width: 100%;
                 }
 
@@ -313,12 +313,19 @@ import { mapState, mapGetters } from "vuex";
 
                         @media #{$r-max-tablet} {
                             justify-content: center;
+                            flex-direction: column;
                         }
 
                         &_img {
                             width: 80px;
                             height: 80px;
                             margin: 0 5px;
+
+                            @media #{$r-max-tablet} {
+                                margin: 10px 0 25px;
+                                width: 110px;
+                                height: 110px;
+                            }
                             
                             .commenter-img {
                                 width: 100%;
@@ -341,10 +348,6 @@ import { mapState, mapGetters } from "vuex";
                             font-size: 16px;
                             color: $c-3;
                             padding: 10px;
-
-                            @media #{$r-max-tablet} {
-                                width: 80%;
-                            }
                         }
                     }
 
@@ -363,7 +366,7 @@ import { mapState, mapGetters } from "vuex";
                             font-size: 18px;
                             margin: 0 20px;
 
-                            @media #{$r-max-mobile-s} {
+                            @media #{$r-max-mobile-l} {
                                 font-size: 14px;
                                 margin: 0 10px;
                             }
@@ -377,8 +380,9 @@ import { mapState, mapGetters } from "vuex";
                             transition: .3s;
                             cursor: pointer;
 
-                            @media #{$r-max-mobile-s} {
+                            @media #{$r-max-mobile-l} {
                                 font-size: 16px;
+                                margin: 10px 5px;
                             }
 
                             &.cancel {
@@ -397,7 +401,7 @@ import { mapState, mapGetters } from "vuex";
                                 background-color: $c-dark-theme;
                                 padding: 8px 35px;
 
-                                @media #{$r-max-mobile-s} {
+                                @media #{$r-max-mobile-l} {
                                     padding: 6px 20px;
                                 }
 
@@ -407,7 +411,7 @@ import { mapState, mapGetters } from "vuex";
                                     stroke-width: 2;
                                     stroke: $c-white;
 
-                                    @media #{$r-max-mobile-s} {
+                                    @media #{$r-max-mobile-l} {
                                         width: 20;
                                         height: 20;
                                     }
@@ -493,6 +497,7 @@ import { mapState, mapGetters } from "vuex";
 
                             @media #{$r-max-mobile-l} {
                                 flex-direction: column-reverse;
+                                align-items: flex-start;
                             }
 
                             .comment-date {

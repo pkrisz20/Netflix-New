@@ -104,7 +104,6 @@ import { mapState } from "vuex";
             }
         },
         created() {
-            console.log('belepes');
             window.addEventListener('scroll', this.updateScroll);
             this.$store.dispatch('getAllMovies');
             this.$store.dispatch("getEachComment");

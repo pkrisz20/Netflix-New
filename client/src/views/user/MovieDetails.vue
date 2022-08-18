@@ -21,11 +21,11 @@
                     <h1 class="movie-title">{{ item.movieName }}</h1>
                     <div class="movie-info-box">
 
-                        <!-- <div class="info"><i class="far fa-hourglass-half"></i> Duration: {{ movieDuration }}</div> -->
+                        <div v-if="item.video != null" class="info"><i class="far fa-hourglass-half"></i> Duration: {{ formatDuration }}</div>
 
                         <div class="info"><i class="far fa-calendar-star"></i> Release: {{ item.releaseDate }}</div>
 
-                        <div class="info"><i class="fas fa-film-alt"></i> Category:
+                        <div class="info"><i class="fas fa-layer-group"></i> Category:
                             <span v-for="category in getCategories" :key="category">{{ category }}</span>
                         </div>
                     </div>
@@ -80,9 +80,6 @@ import { mapState, mapGetters } from "vuex";
         methods: {
             scrollToTop() {
                 window.scrollTo(0, 0);
-            },
-            errorHandle(e) {
-                console.log(e);
             },
             getImagePath (image) {
                 return require('../../../../server/uploads/movies/' + image);
@@ -158,13 +155,25 @@ import { mapState, mapGetters } from "vuex";
             ...mapState({
                 getMovieDetails: state => state.movieDetails,
                 getCategories: state => state.categoriesDetails,
+                videoDuration: state => state.videoDuration
             }),
             ...mapGetters({
                 isLiked: 'isLikedMovie',
                 isDisliked: 'isDislikedMovie',
                 isOnMyList: 'isOnMyList',
                 hasVideo: 'hasVideo'
-            })
+            }),
+            formatDuration() {
+                const seconds = Math.floor(this.videoDuration % 60);
+                const minutes = Math.floor(this.videoDuration / 60) % 60;
+                const hours = Math.floor(this.videoDuration / 3600);
+                if (hours == 0) {
+                    return `${minutes}m ${seconds}s`;
+                }
+                else {
+                    return `${hours}h ${minutes}m`;
+                }
+            }
         },
         created() {
             this.$store.dispatch("getMovieDetails", this.movieId);
@@ -270,16 +279,20 @@ import { mapState, mapGetters } from "vuex";
             z-index: 6;
 
             @media #{$r-max-laptop-m} {
-                width: calc(100% - 30px);
+                width: 100%;
                 padding-top: 50px;
             }
 
-            @media #{$r-max-tablet} {
-                padding-top: 70px;
+            @media #{$r-max-laptop-s} {
+                padding: 0 30px;
             }
 
             @media #{$r-max-mobile-s} {
                 padding-top: 160px;
+            }
+
+            @media #{$r-max-tablet} {
+                padding-top: 70px;
             }
 
             .movie {
@@ -304,30 +317,37 @@ import { mapState, mapGetters } from "vuex";
                 }
 
                 &-info-box {
-                    font-size: 18px;
                     color: $c-white;
                     display: flex;
                     align-items: center;
 
-                    @media #{$r-max-tablet} {
+                    @media #{$r-max-laptop-s} {
                         flex-direction: column;
                         align-items: flex-start;
                     }
 
                     .info {
-                        margin: 0 30px;
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
                         font-weight: 700;
                         font-size: 24px;
+
+                        i {
+                            margin-right: 5px;
+                        }
+
+                        @media #{$r-laptop-s} {
+                            &:nth-child(2) {
+                                margin: 0 30px;
+                            }
+                        }
 
                         span {
                             margin: 0 8px;
                         }
 
                         @media #{$r-max-laptop-s} {
-                            margin: 0 25px;
-                        }
-
-                        @media #{$r-max-tablet} {
                             margin: 10px 0;
                         }
 

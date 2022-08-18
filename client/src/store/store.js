@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
         adminLoggedIn: null,    //watching active admin
         list: [],
         users: [],
+        videoDuration: 0,
         adminMessages: [],
         adminUsersFilter: "",
         adminCategoriesFilter: "",

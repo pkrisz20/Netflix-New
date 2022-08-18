@@ -22,9 +22,13 @@
     left: 20px;
     z-index: 8;
     cursor: pointer;
+    background-color: $c-blue;
+    padding: 10px;
+    border-radius: 25%;
+    box-shadow: 0px 0px 20px $c-9;
 
     .icon {
-        font-size: 35px;
+        font-size: 30px;
         color: $c-white;
     }
 }

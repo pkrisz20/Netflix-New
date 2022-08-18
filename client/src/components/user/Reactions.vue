@@ -40,6 +40,7 @@
 
         @media #{$r-max-mobile-l} {
             justify-content: center;
+            margin: 5px;
         }
 
         &_number {
