@@ -1,5 +1,6 @@
 <template>
     <div class="video">
+        <div @click="closePlayer()" class="video-close"><i class="far fa-times"></i></div>
         <Media
             :kind="'video'"
             :controls="true"
@@ -9,9 +10,8 @@
             :poster="this.$props.videoPoster"
             :src="this.$props.videoSource"
             :ref="'videoPlayer'"
-            @pause="pauseMethod()"
-            @play="play()"
-        >
+            @pause="pause()"
+            @play="play()">
         </Media>
     </div>
 </template>
@@ -29,10 +29,13 @@ import Media from "@dongido/vue-viaudio";
             play() {
                 this.$refs.videoPlayer.play();
             },
-            pauseMethod() {
-                console.log('paused');
+            pause() {
                 this.$refs.videoPlayer.pause();
             },
+            closePlayer() {
+                this.$refs.videoPlayer.pause();
+                this.$emit("close");
+            }
         }
     }
 </script>
@@ -42,6 +45,19 @@ import Media from "@dongido/vue-viaudio";
     position: relative;
     height: 100%;
     width: 100%;
+
+    &-close {
+        cursor: pointer;
+        position: absolute;
+        z-index: 20;
+        top: 20px;
+        left: 20px;
+
+        i {
+            color: $c-white;
+            font-size: 35px;
+        }
+    }
 
     video {
         position: absolute;

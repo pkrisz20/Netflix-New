@@ -9,9 +9,8 @@
 
                 <div v-if="item.video != null" class="container_video">
                     <div class="container_video-player" v-show="isWatching">
-                        <div @click="closePlayer()" class="container_video-player-close"><i class="far fa-times"></i></div>
                         <VideoPlayer
-                            ref="videoComponent"
+                            @close="closePlayer()"
                             :videoSource="getMoviePath(item.video)"
                             :videoPoster="getImagePath(item.image)"
                         />
@@ -155,7 +154,6 @@ import { mapState, mapGetters } from "vuex";
                 }
             },
             closePlayer() {
-                this.$refs[0].videoComponent.pauseMethod();
                 this.isWatching = false;
                 document.body.style.overflowY = 'scroll';
             }
@@ -232,19 +230,6 @@ import { mapState, mapGetters } from "vuex";
                     background-color: $c-black;
                     width: 100%;
                     height: 100%;
-                }
-
-                &-close {
-                    position: absolute;
-                    z-index: 20;
-                    cursor: pointer;
-                    top: 20px;
-                    left: 20px;
-
-                    i {
-                        color: $c-white;
-                        font-size: 30px;
-                    }
                 }
             }
         }
