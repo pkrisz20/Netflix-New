@@ -8,16 +8,12 @@
                 <img v-else-if="item.image == null" class="cover-image" alt="background" src="../../assets/images/black_bg.jpg">
 
                 <div v-if="item.video != null" class="container_video">
-                    <div v-show="isWatching" class="container_video-player">
-                        <i @click="closePlayer()" id="close-icon" class="fas fa-arrow-left close"></i>
-                        <vue-core-video-player
-                            ref="movie"
-                            @error="errorHandle"
-                            :src="getMoviePath(item.video)"
-                            :cover="getImagePath(item.image)"
-                            :autoplay="false"
-                            :loop="false">
-                        </vue-core-video-player>
+                    <div class="container_video-player" v-show="isWatching">
+                        <VideoPlayer
+                            @close="closePlayer()"
+                            :videoSource="getMoviePath(item.video)"
+                            :videoPoster="getImagePath(item.image)"
+                        />
                     </div>
                 </div>
 
@@ -37,7 +33,7 @@
                     <p class="movie-desc">{{ item.movieDescription }}</p>
 
                     <div class="btns">
-                        <button @click="playMovie()" class="btn watch"><i class="fas fa-play"></i> WATCH</button>
+                        <button @click="showMovie()" class="btn watch"><i class="fas fa-play"></i> WATCH</button>
                         <button v-if="!isOnMyList(item.id)" @click="addToList()" class="btn add"><i class="fas fa-plus"></i> WATCH LATER</button>
                         <button v-else-if="isOnMyList(item.id)" @click="removeMyList()" class="btn add"><i class="fas fa-times"></i> REMOVE FROM LIST</button>
 
@@ -61,21 +57,19 @@
 
 <script>
 import Axios from "axios";
-import Vue from "vue";
 import BackButton from "@/components/global/BackButton.vue";
-import VueCoreVideoPlayer from "vue-core-video-player";
 import HeaderUser from "@/components/user/HeaderUser.vue";
 import Comments from "@/components/user/Comments.vue";
+import VideoPlayer from "@/components/user/VideoPlayer.vue";
 import { mapState, mapGetters } from "vuex";
-
-Vue.use(VueCoreVideoPlayer);
 
     export default {
         name: "Moviedetails",
         components: {
             Comments,
             HeaderUser,
-            BackButton
+            BackButton,
+            VideoPlayer
         },
         data() {
             return {
@@ -146,7 +140,7 @@ Vue.use(VueCoreVideoPlayer);
                     }
                 });
             },
-            playMovie() {
+            showMovie() {
                 if (this.hasVideo(this.movieId)) {
                     this.isWatching = true;
                     document.body.style.overflowY = 'hidden';
@@ -158,7 +152,6 @@ Vue.use(VueCoreVideoPlayer);
             closePlayer() {
                 this.isWatching = false;
                 document.body.style.overflowY = 'scroll';
-                this.$refs.movie[0].pause();
             }
         },
         computed: {
@@ -225,23 +218,14 @@ Vue.use(VueCoreVideoPlayer);
                 height: 100vh;
                 overflow: hidden;
 
-                .close {
+                &::after {
                     position: absolute;
-                    z-index: 15;
-                    top: 30px;
-                    left: 30px;
-                    font-size: 35px;
-                    color: $c-white;
-                    cursor: pointer;
-                }
-
-                video {
-                    position: absolute;
-                    z-index: 20;
-                    width: auto;
-                    height: auto;
-                    min-width: 100%;
-                    min-height: 100%;
+                    top: 0;
+                    left: 0;
+                    content: "";
+                    background-color: $c-black;
+                    width: 100%;
+                    height: 100%;
                 }
             }
         }

@@ -9,6 +9,7 @@
     "test": "vue-cli-service serve --mode test"
   },
   "dependencies": {
+    "@dongido/vue-viaudio": "^0.3.5",
     "aos": "^2.3.4",
     "axios": "^0.26.1",
     "bcrypt": "^5.0.1",
@@ -18,7 +19,6 @@
     "vue": "^2.6.11",
     "vue-axios": "^3.4.0",
     "vue-carousel": "^0.18.0",
-    "vue-core-video-player": "^0.2.0",
     "vue-router": "^3.2.0",
     "vue-simple-countup": "^1.0.6",
     "vue2-datepicker": "^3.11.0",
