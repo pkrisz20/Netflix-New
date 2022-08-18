@@ -57,15 +57,11 @@
 
 <script>
 import Axios from "axios";
-// import Vue from "vue";
 import BackButton from "@/components/global/BackButton.vue";
-// import VueCoreVideoPlayer from "vue-core-video-player";
 import HeaderUser from "@/components/user/HeaderUser.vue";
 import Comments from "@/components/user/Comments.vue";
 import VideoPlayer from "@/components/user/VideoPlayer.vue";
 import { mapState, mapGetters } from "vuex";
-
-// Vue.use(VueCoreVideoPlayer);
 
     export default {
         name: "Moviedetails",
