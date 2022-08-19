@@ -140,7 +140,6 @@ import { mapState } from "vuex";
 
                     .info {
                         color: $c-white;
-                        margin: 0 30px;
                         font-weight: 700;
                         font-size: 24px;
 
@@ -151,6 +150,12 @@ import { mapState } from "vuex";
 
                         i {
                             margin-right: 8px;
+                        }
+
+                        @media #{$r-laptop-s} {
+                            &:nth-child(2) {
+                                margin: 0 30px;
+                            }
                         }
 
                         span {
@@ -176,6 +181,10 @@ import { mapState } from "vuex";
                     color: $c-white;
                     font-size: 18px;
                     text-align: justify;
+
+                    @media #{$r-max-tablet} {
+                        margin: 5px 0;
+                    }
 
                     @media #{$r-max-mobile-l} {
                         font-size: 15px;

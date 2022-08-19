@@ -467,6 +467,12 @@ Axios.defaults.withCredentials = true;
                                     align-items: center;
                                     max-height: 100%;
                                     overflow-y: visible;
+
+                                    .sub-row {
+                                        padding: 10px;
+                                        width: 100%;
+                                        text-align: center;
+                                    }
                                 }
                             }
                         }
@@ -488,19 +494,6 @@ Axios.defaults.withCredentials = true;
             @media #{$r-max-laptop-s} {
                 width: 100%;
                 justify-content: space-evenly;
-            }
-
-            .svg-chats {
-                fill: $c-white;
-                cursor: pointer;
-                margin: 0 10px;
-                width: 20px;
-                height: 20px;
-                transition: .3s;
-
-                &:hover {
-                    fill: $c-green-theme;
-                }
             }
 
             .profile_mobile {
@@ -847,10 +840,9 @@ Axios.defaults.withCredentials = true;
     right: 15px;
     @include flexCenter();
     border-radius: 50%;
-    background-color: $c-blue;
+    background-color: $c-error2;
     z-index: 10;
     cursor: pointer;
-    box-shadow: 0px 0px 20px $c-9;
     transition: all .3s ease-in-out;
 
     @media #{$r-max-tablet} {

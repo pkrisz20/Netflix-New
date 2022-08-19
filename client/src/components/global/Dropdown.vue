@@ -5,8 +5,8 @@
 
         <transition name="slide" appear>
             <div v-show="menuOpen" class="sub-items">
-                <div v-for="(link, i) in links" :key="i" class="sub-row">
-                    <a class="sub-link" @click="routeToSite(link.category_name)">{{ link.category_name }}</a>
+                <div v-for="(link, i) in links" :key="i" class="sub-row" @click="routeToSite(link.category_name)">
+                    <a class="sub-link">{{ link.category_name }}</a>
                 </div>
             </div>
         </transition>
@@ -56,8 +56,7 @@
     }
 
     .sub-row {
-        margin: 5px 0;
-        padding: 8px;
+        padding: 10px 0 10px 10px;
 
         .sub-link {
             font-weight: bold;
@@ -65,8 +64,10 @@
             text-decoration: none;
             transition: .3s;
             cursor: pointer;
+        }
 
-            &:hover {
+        &:hover {
+            .sub-link {
                 color: $c-green-theme;
             }
         }

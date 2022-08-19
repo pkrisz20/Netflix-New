@@ -434,10 +434,9 @@ Axios.defaults.withCredentials = true;
     right: 15px;
     @include flexCenter();
     border-radius: 50%;
-    background-color: $c-blue;
+    background-color: $c-error2;
     z-index: 10;
     cursor: pointer;
-    box-shadow: 0px 0px 20px $c-9;
     transition: all .3s ease-in-out;
 
     @media #{$r-max-tablet} {

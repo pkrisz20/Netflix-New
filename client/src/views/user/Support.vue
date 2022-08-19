@@ -139,7 +139,7 @@ import { mapState } from "vuex";
         position: relative;
         z-index: 0;
         min-height: 100vh;
-        background-image: linear-gradient(to top, $c-success, $c-middleblue);
+        background-color: $c-dark-blue;
     }
 
     .support {

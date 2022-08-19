@@ -18,18 +18,22 @@
 <style lang="scss" scoped>
 .back {
     position: fixed;
-    top: 90px;
+    top: 95px;
     left: 20px;
     z-index: 8;
     cursor: pointer;
-    background-color: $c-blue;
+    background-color: $c-error2;
     padding: 10px;
     border-radius: 25%;
-    box-shadow: 0px 0px 20px $c-9;
+    transition: transform .3s ease;
 
     .icon {
         font-size: 30px;
         color: $c-white;
+    }
+
+    &:hover {
+        transform: translateX(-5px);
     }
 }
 </style>

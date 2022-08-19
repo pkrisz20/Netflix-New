@@ -347,6 +347,14 @@ import { mapGetters } from "vuex";
                                 overflow-y: visible;
                                 top: 10px;
                             }
+
+                            @media #{$r-max-laptop-m} {
+                                .sub-row {
+                                    padding: 10px;
+                                    width: 100%;
+                                    text-align: center;
+                                }
+                            }
                         }
                     }
                 }
@@ -581,10 +589,9 @@ import { mapGetters } from "vuex";
     right: 15px;
     @include flexCenter();
     border-radius: 50%;
-    background-color: $c-blue;
+    background-color: $c-error2;
     z-index: 10;
     cursor: pointer;
-    box-shadow: 0px 0px 20px $c-9;
     transition: all .3s ease-in-out;
 
     @media #{$r-max-tablet} {

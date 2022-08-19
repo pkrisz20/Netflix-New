@@ -13,7 +13,7 @@
             <slide v-for="item in images" :key="item.id" class="slide">
                 <div class="box">
                     <h3 class="box-title">{{ item.movieName }}</h3>
-                    <button class="box-btn" @click="routeDetails(item.id)">Details</button>
+                    <button class="box-btn" @click="routeDetails(item.id)"><i class="fas fa-info-circle"></i> Details</button>
                 </div>
                 <img alt="heroimage" :src="getPath(item.image)">
             </slide>
@@ -101,11 +101,12 @@ import { Carousel, Slide } from "vue-carousel";
                             font-size: 24px;
                             font-weight: 600;
                             text-transform: uppercase;
-                            transition: .5s;
+                            transition: .3s ease;
                             border: none;
+                            border-radius: 3px;
 
                             &:hover {
-                                box-shadow: 0 0 10px $c-green-theme, 0 0 20px $c-green-theme, 0 0 40px $c-green-theme, 0 0 80px $c-green-theme, 0 0 160px $c-green-theme;
+                                background-color: $c-success;
                             }
                         }
                     }

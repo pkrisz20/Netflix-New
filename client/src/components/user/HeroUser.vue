@@ -5,7 +5,7 @@
             <video v-else-if="item.video != null" id="videoHero" :src="getMoviePath(item.video)" autoplay muted loop></video>
             <div class="box">
                 <h3 class="box-title">{{ item.movieName }}</h3>
-                <button class="box-btn" @click="routeDetails(item.id)">Details</button>
+                <button class="box-btn" @click="routeDetails(item.id)"><i class="fas fa-info-circle"></i> Details</button>
             </div>
         </div>
     </div>
@@ -105,11 +105,12 @@ import Axios from "axios";
             font-size: 24px;
             font-weight: 600;
             text-transform: uppercase;
-            transition: .5s;
+            transition: .3s;
             border: none;
+            border-radius: 3px;
 
             &:hover {
-                box-shadow: 0 0 10px $c-green-theme, 0 0 20px $c-green-theme, 0 0 40px $c-green-theme, 0 0 80px $c-green-theme, 0 0 160px $c-green-theme;
+                background-color: $c-success;
             }
         }
     }
