@@ -3,12 +3,16 @@
     <div class="wrapper-user">
 
         <div class="left-side">
+            <a href="/adminpanel" class="logo">
+                <img alt="logo" class="logo-img" src="../../assets/images/logo.png">
+            </a>
+
             <div class="nav-links" :class="{ open_sidebar: openSidebar }">
                 <ul class="nav-links-list">
                     <router-link class="link" to="/adminpanel">Movies</router-link>
                     <router-link class="link" to="/adminuserslist">Users</router-link>
                     <router-link class="link" to="/admincategories">Categories</router-link>
-                                        <router-link class="link" to="/adminemails">Messages</router-link>
+                    <router-link class="link" to="/adminemails">Messages</router-link>
                 </ul>
             </div>
         </div>
@@ -149,7 +153,7 @@ Axios.defaults.withCredentials = true;
 
             .logo {
                 width: auto;
-                height: 65%;
+                height: 90%;
 
                 @media #{$r-max-laptop-s} {
                     position: absolute;

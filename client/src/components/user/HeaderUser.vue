@@ -3,9 +3,9 @@
     <div class="wrapper-user">
 
         <div class="left-side">
-            <router-link to="/userinterface" class="logo">
-                <img alt="logo" class="logo-img" src="../../assets/images/netflix.png">
-            </router-link>
+            <a href="/userinterface" class="logo">
+                <img alt="logo" class="logo-img" src="../../assets/images/logo.png">
+            </a>
 
             <div class="nav-links" :class="{ open_sidebar: openSidebar }">
                 <ul class="nav-links-list">
@@ -305,11 +305,17 @@ Axios.defaults.withCredentials = true;
             }
 
             .logo {
+                margin-right: 20px;
                 width: auto;
-                height: 65%;
+                height: 90%;
 
                 @media #{$r-max-laptop-s} {
-                    height: 35%;
+                    height: 70%;
+                    margin-right: 0;
+                }
+
+                @media #{$r-max-mobile-l} {
+                    height: 38%;
                 }
                 
                 &-img {

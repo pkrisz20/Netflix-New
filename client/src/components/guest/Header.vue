@@ -1,9 +1,9 @@
 <template>
     <div class="nav" :class="{ sticky: scrollPosition > 0 }">
         <div class="wrapper">
-            <router-link to="/" class="logo">
-                <img alt="logo" class="logo-img" src="../../assets/images/netflix.png">
-            </router-link>
+            <a href="/" class="logo">
+                <img alt="logo" class="logo-img" src="../../assets/images/logo.png">
+            </a>
 
             <div class="nav-links" :class="{ open_sidebar: openSidebar }">
                 <ul class="nav-links-list">
@@ -226,7 +226,7 @@ import { mapGetters } from "vuex";
 
         .logo {
             width: auto;
-            height: 80%;
+            height: 90%;
 
             @media #{$r-max-mobile-l} {
                 height: 40%;
@@ -521,7 +521,7 @@ import { mapGetters } from "vuex";
         .wrapper {
 
             .logo {
-                height: 65%;
+                height: 80%;
             }
 
             .nav-links {
