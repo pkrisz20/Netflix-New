@@ -1,7 +1,8 @@
 <template>
     <div class="movies">
         <LoadingScreen v-if="this.requestStatus != 200" />
-        <HeaderUser />
+        <Header v-if="!this.isActiveUser || this.isActiveUser == null" />
+        <HeaderUser v-else-if="this.isActiveUser" />
         <BackButton />
         <BlockTitle :title=category />
         <div class="emptylist" v-if="this.notFound">Not found any movie like this in the database.</div>
@@ -13,12 +14,14 @@
 import LoadingScreen from "@/components/global/LoadingScreen.vue";
 import BlockTitle from "@/components/global/BlockTitle.vue";
 import HeaderUser from "@/components/user/HeaderUser.vue";
+import Header from "@/components/guest/Header.vue";
 import MovieList from "@/components/global/MovieList.vue";
 import BackButton from "@/components/global/BackButton.vue";
 import Axios from "axios";
+import { mapState } from "vuex";
 
 export default {
-    name: "MoviesUser",
+    name: "Movies",
     data() {
         return {
             requestStatus: 0,
@@ -29,6 +32,7 @@ export default {
     },
     props: { category: String },
     components: {
+        Header,
         HeaderUser,
         LoadingScreen,
         MovieList,
@@ -57,13 +61,22 @@ export default {
             });
         }
     },
+    computed: {
+        ...mapState({
+            isActiveUser: state => state.isLoggedIn
+        })
+    },
     mounted() {
         this.getMoviesByCategory();
         this.$store.dispatch('getAllMovies');
         this.$store.dispatch("getEachComment");
         this.$store.dispatch('getLikes');
-        this.$store.dispatch('getFavourites');
-        this.$store.dispatch("getMyList");
+    },
+    updated() {
+        if (this.isActiveUser) {
+            this.$store.dispatch('getFavourites');
+            this.$store.dispatch("getMyList");
+        }
     }
 }
 </script>

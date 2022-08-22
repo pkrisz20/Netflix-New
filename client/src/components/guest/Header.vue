@@ -95,7 +95,7 @@ import { mapGetters } from "vuex";
         
         methods: {
             categoriesRoute(link) {
-                this.$router.push({ path: `/moviesguest/${link}` });
+                this.$router.push({ path: `/movies/${link}` });
             },
 
             openMenu() {

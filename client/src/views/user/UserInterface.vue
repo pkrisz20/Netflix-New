@@ -146,7 +146,7 @@ import { mapState } from "vuex";
 
     .wrapper {
         @media #{$r-max-laptop-m} {
-            width: calc(100% - 30px);
+            width: 100%;
         }
 
         .searchDetailes {

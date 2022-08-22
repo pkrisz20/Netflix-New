@@ -65,15 +65,9 @@ const routes = [
     component: () => import("../views/guest/MovieDetails.vue"),
   },
   {
-    path: "/moviesuser/:category",
-    name: "Moviesuser",
+    path: "/movies/:category",
+    name: "Movies",
     component: () => import("../views/user/Movies.vue"),
-    props: true
-  },
-  {
-    path: "/moviesguest/:category",
-    name: "Moviesguest",
-    component: () => import("../views/guest/Movies.vue"),
     props: true
   },
   {

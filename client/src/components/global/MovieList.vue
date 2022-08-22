@@ -137,7 +137,7 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     row-gap: 55px;
     column-gap: 15px;
-    margin-top: 30px;
+    margin-top: 50px;
 
     @media #{$r-max-laptop-s} {
         grid-template-columns: repeat(2, 1fr);

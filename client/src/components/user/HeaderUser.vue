@@ -197,7 +197,7 @@ Axios.defaults.withCredentials = true;
             },
 
             categoriesRoute(link) {
-                this.$router.push({ path: `/moviesuser/${link}` });
+                this.$router.push({ path: `/movies/${link}` });
             },
 
             openMenu() {
