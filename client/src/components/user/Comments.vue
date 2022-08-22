@@ -15,7 +15,16 @@
             </div>
 
             <div class="comment-form" v-if="returnLoginStatus">
-                <h4 class="form-title">Post a comment</h4>
+                <div class="comment-form-top">
+                    <h4 class="comment-form-top-title">Post a comment</h4>
+                    <div @click="showEmojis = !showEmojis" class="comment-form-top-emojis" :class="[{ opened: showEmojis }, { closed : !showEmojis }]">
+                        <i class="fas fa-info-circle" v-if="!this.showEmojis"></i>
+                        <i class="fas fa-times-circle" v-else-if="this.showEmojis"></i>
+                        <div class="emoji-info" v-if="this.showEmojis">
+                            <span v-for="(emoji, key) in this.emojis" :key="key" class="emoji-info-row">{{ key }} <i class="fas fa-arrow-alt-right"></i> {{ emoji }}</span>
+                        </div>
+                    </div>
+                </div>
                 <form @submit.prevent="submitComment(movieID)">
 
                     <div class="comment-above">
@@ -56,7 +65,7 @@
 
                     <div class="right-side">
                         <h5 class="comment-username">{{ item.username }}</h5>
-                        <p class="comment-text">{{ item.description }}</p>
+                        <p class="comment-text">{{ formatCommentEmojis(item.description) }}</p>
 
                         <div class="reaction_and_time">
                             <h5 class="comment-date">{{ item.created_at }}</h5>
@@ -86,6 +95,7 @@
 </template>
 
 <script>
+import Emojis from "@/assets/emojis.json";
 import Reactions from "@/components/user/Reactions.vue";
 import Axios from "axios";
 import { mapState, mapGetters } from "vuex";
@@ -98,9 +108,30 @@ import { mapState, mapGetters } from "vuex";
         data() {
             return {
                 comment: "",
+                commentParts: [],
+                emojis: {},
+                showEmojis: false
             }
         },
         props: ['movieID'],
+        watch:{
+            comment: function() {
+                // Convert the strings into emojis to display them in textarea
+                this.commentParts = this.comment.split(' ');
+                const emojiTexts = Object.keys(this.emojis);
+
+                this.commentParts.map((commentWord, index) => {
+                    emojiTexts.forEach(emojiText => {
+                        if (commentWord === emojiText) {
+                            commentWord = this.emojis[emojiText];
+                            this.commentParts[index] = commentWord;
+                        }
+                    });
+                });
+
+                this.comment = this.commentParts.join(' ');
+            }
+        },
         computed: {
             commentLength() {
                 return this.comment.length;
@@ -122,6 +153,22 @@ import { mapState, mapGetters } from "vuex";
             })
         },
         methods: {
+            formatCommentEmojis(text) {
+                // Convert the parts of the comment into emoji faces
+                let commentString = text.split(' ');
+                const emojiTexts = Object.keys(this.emojis);
+
+                commentString.map((commentWord, index) => {
+                    emojiTexts.forEach(emojiText => {
+                        if (commentWord === emojiText) {
+                            commentWord = this.emojis[emojiText];
+                            commentString[index] = commentWord;
+                        }
+                    });
+                });
+
+                return commentString.join(' ');
+            },
             cancelComment() {
                 this.comment = '';
             },
@@ -175,21 +222,34 @@ import { mapState, mapGetters } from "vuex";
 
             async submitComment(movie) {
                 if (!this.$store.state.isLoggedIn) {
-                    this.error = "Please sign in to write a comment!";
+                    this.$store.commit("SINGLE_ERROR", "Please sign in to write a comment!");
                     return;
                 }
 
                 else if (!this.comment) {
-                    this.error = "Don't leave the field empty!";
+                    this.$store.commit("SINGLE_ERROR", "Don't leave the field empty!");
                     return;
                 }
 
-                else if (this.comment > 250) {
-                    this.error = "Comment can not be longer than 250 characters!";
+                else if (this.comment > 500) {
+                    this.$store.commit("SINGLE_ERROR", "Comment can not be longer than 250 characters!");
                     return;
                 }
 
                 else {
+                    const emojiFaces = Object.values(this.emojis);
+
+                    // Convert emojis back to string before the comment will be posted
+                    this.commentParts.map((commentWord, index) => {
+                        emojiFaces.forEach(emojiFace => {
+                            if (commentWord === emojiFace) {
+                                commentWord = Object.keys(this.emojis).find(key => this.emojis[key] === emojiFace);
+                                this.commentParts[index] = commentWord;
+                            }
+                        });
+                    });
+                    this.comment = this.commentParts.join(' ');
+                    
                     await Axios.post(`${process.env.VUE_APP_API_URL}/movies/postcomment`, { comment: this.comment, movie: movie })
                     .then((response) => {
                         this.comment = '';
@@ -206,6 +266,9 @@ import { mapState, mapGetters } from "vuex";
         },
         created() {
             this.$store.dispatch("getComments", this.$props.movieID);
+            Emojis.map(item => {
+                this.emojis = item;
+            });
         }
     }
 </script>
@@ -289,14 +352,96 @@ import { mapState, mapGetters } from "vuex";
                     width: 100%;
                 }
 
-                .form-title {
-                    font-size: 22px;
-                    color: $c-white;
-                    letter-spacing: 0.5px;
+                &-top {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
                     margin: 10px 0;
 
                     @media #{$r-max-tablet} {
-                        text-align: center;
+                        justify-content: center;
+                    }
+
+                    &-title {
+                        font-size: 22px;
+                        color: $c-white;
+                        letter-spacing: 0.5px;
+                        margin: 10px 0;
+
+                        @media #{$r-max-tablet} {
+                            text-align: center;
+                        }
+                    }
+
+                    &-emojis {
+                        margin-left: 15px;
+                        position: relative;
+                        cursor: pointer;
+
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            bottom: 5px;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            border-style: solid;
+                            border-top: 15px solid $c-c;
+                            border-bottom: 20px solid transparent;
+                            border-left: 14px solid transparent;
+                            border-right: 14px solid transparent;
+                        }
+
+                        i {
+                            font-size: 20px;
+                        }
+
+                        .emoji-info {
+                            pointer-events: all;
+                            padding: 10px;
+                            position: absolute;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            bottom: 40px;
+                            width: 150px;
+                            height: 215px;
+                            overflow: auto;
+                            background-color: $c-c;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+
+                            &-row {
+                                margin: 7px 0;
+                                display: flex;
+                                font-weight: 700;
+                                align-items: center;
+
+                                i {
+                                    margin: 0 10px;
+                                    color: $c-green-theme;
+                                }
+                            }
+                        }
+                    }
+
+                    .opened {
+                        &::after {
+                            display: block;
+                        }
+
+                        .fa-times-circle {
+                            color: $c-error;
+                        }
+                    }
+
+                    .closed {
+                        &::after {
+                            display: none;
+                        }
+
+                        .fa-info-circle {
+                            color: $c-green-theme;
+                        }
                     }
                 }
 
@@ -509,7 +654,6 @@ import { mapState, mapGetters } from "vuex";
                         .comment-text {
                             padding-left: 10px;
                             margin: 0;
-                            text-align: justify;
                             line-height: 24px;
                         }
 
