@@ -57,8 +57,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 export default {
     name: "Filters",
     data() {
@@ -72,13 +70,6 @@ export default {
         }
     },
     props: { insideOf: String, clearButton: Number },
-    computed: {
-        ...mapState({
-            filteredMovies: state => state.filteredMovies,
-            filteredFavs: state => state.filteredFavs,
-            filteredMyList: state => state.filteredMyList
-        })
-    },
     methods: {
         checkFilters() {
             if (this.selectedCategories == 0) {
@@ -94,6 +85,10 @@ export default {
                 }
                 if (this.filterToYear > new Date().getFullYear()) {
                     this.filterError = `Nowdays it's ${new Date().getFullYear()}, and not ${this.filterToYear}`;
+                    return false;
+                }
+                if (this.filterFromYear < 1888) {
+                    this.filterError = `The first movie ever was made in 1888. So ${this.filterFromYear} is not the correct answer!`;
                     return false;
                 }
                 else {
