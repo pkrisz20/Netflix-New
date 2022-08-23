@@ -107,6 +107,12 @@ export default {
   mounted() {
     this.$store.dispatch("getLoginStatus");
     this.$store.state.httpStatus = 200; //need to be loaded
+  },
+  updated() {
+    if (this.activeUser) {
+      this.$store.dispatch('getFavourites');
+      this.$store.dispatch("getMyList");
+    }
   }
 }
 </script>
