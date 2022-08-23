@@ -145,11 +145,17 @@ import { mapState } from "vuex";
     .support {
         width: 100%;
         margin: 0 auto;
+        padding-bottom: 50px;
 
         .wrapper {
             padding: 5px 0 0;
             @include flexCenter();
             flex-direction: column;
+
+            @media #{$r-max-laptop-m} {
+                width: 100%;
+                padding: 0 15px;
+            }
         }
 
         &-form {
@@ -161,6 +167,14 @@ import { mapState } from "vuex";
             background-color: rgba($c-3, .75);
             width: 470px;
             border-radius: 5px;
+
+            @media #{$r-max-mobile-l} {
+                width: 100%;
+            }
+
+            @media #{$r-max-mobile-s} {
+                padding: 15px;
+            }
             
             &-msg {
                 width: 100%;
@@ -200,7 +214,7 @@ import { mapState } from "vuex";
                 }
 
                 @media #{$r-max-tablet} {
-                    height: 26px;
+                    height: 34px;
                     font-size: 16px;
                 }
 
@@ -220,6 +234,10 @@ import { mapState } from "vuex";
                 border-radius: 3px;
                 font-family: $c-main-font;
                 color: $c-3;
+
+                @media #{$r-max-mobile-s} {
+                    font-size: 12px;
+                }
             }
 
             &-characters {
@@ -247,7 +265,7 @@ import { mapState } from "vuex";
                 }
 
                 @media #{$r-max-tablet} {
-                    padding: 10px 0;
+                    padding: 10px;
                     font-size: 16px;
                     margin: 10px 0 5px;
                 }
