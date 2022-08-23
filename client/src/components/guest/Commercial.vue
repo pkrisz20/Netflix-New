@@ -19,7 +19,7 @@
                 return this.$store.getters.getCategoriesCount;
             },
             moviesCount() {
-                return this.$store.getters.getMoivesCount;
+                return this.$store.getters.getMoviesCount;
             }
         }
     }

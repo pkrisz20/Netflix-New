@@ -331,6 +331,20 @@ export default {
         });
     },
 
+    async searchForAdmin ({ commit }, [categories, fromYear, toYear]) {
+        this.state.filteredMovies = [];
+        this.state.httpStatus = 0;
+        await Axios.post(`${process.env.VUE_APP_API_URL}/admin/filter`, { selectedCategories: categories, yearFrom: fromYear, yearTo: toYear })
+        .then((response) => {
+            commit('FILTER_EACH', response.data);
+        })
+        .catch(function (error) {
+            if (error.response.status >= 500 && error.response.status <= 599) {
+                commit('SET_SERVER_ERROR_STATUS', error.response);
+            }
+        });
+    },
+
     async filterMyList ({ commit }, [categories, fromYear, toYear]) {
         this.state.filteredMyList = [];
         this.state.httpStatus = 0;

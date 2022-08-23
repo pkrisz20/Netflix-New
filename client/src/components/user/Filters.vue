@@ -117,6 +117,10 @@ export default {
                     else if (this.$props.insideOf == "All") {
                         this.$store.dispatch("searchMovies", [this.selectedCategories, this.filterFromYear, this.filterToYear]);
                     }
+                    //filtering each movie for admin
+                    else if (this.$props.insideOf == "AdminSearch") {
+                        this.$store.dispatch("searchForAdmin", [this.selectedCategories, this.filterFromYear, this.filterToYear]);
+                    }
                     // filtering my list
                     else if (this.$props.insideOf == "MyList") {
                         this.$store.dispatch("filterMyList", [this.selectedCategories, this.filterFromYear, this.filterToYear]);

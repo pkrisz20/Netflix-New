@@ -452,11 +452,12 @@ export default {
         }
 
         &_image {
-            transition: .3s;
             width: 100%;
             height: 100%;
+            overflow: hidden;
 
             img {
+                transition: .3s;
                 @include object-fit();
                 width: 100%;
                 height: 100%;
@@ -465,13 +466,13 @@ export default {
 
         &_title {
             transition: .3s;
-            font-size: 28px;
+            font-size: 22px;
             color: $c-3;
             text-align: center;
             margin: 15px 0 10px;
 
             @media #{$r-max-tablet} {
-                font-size: 22px;
+                font-size: 20px;
             }
         }
 
@@ -481,10 +482,10 @@ export default {
             text-align: center;
             margin: 5px 0;
             font-weight: 600;
-            font-size: 20px;
+            font-size: 18px;
 
             @media #{$r-max-tablet} {
-                font-size: 18px;
+                font-size: 16px;
             }
         }
 
@@ -499,22 +500,18 @@ export default {
 
             &-comments, &-likes, &-dislikes {
                 font-weight: 600;
-                font-size: 18px;
+                font-size: 14px;
                 margin: 0 10px;
                 display: flex;
                 align-items: center;
 
                 @media #{$r-max-tablet} {
-                    font-size: 14px;
+                    font-size: 13px;
                 }
 
                 i {
                     margin-right: 3px;
-                    font-size: 16px;
-
-                    @media #{$r-max-tablet} {
-                        font-size: 12px;
-                    }
+                    font-size: 14px;
                 }
             }
         }
@@ -522,7 +519,7 @@ export default {
         &:hover {
             background-color: $c-green-theme;
 
-            .card_image {
+            .card_image img {
                 transform: scale(1.1);
             }
 

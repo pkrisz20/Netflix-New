@@ -21,6 +21,7 @@ const { getEmails } = require("../admin/getEmails");
 const { deleteMessage } = require("../admin/deleteMessage");
 const { setMessageStatus } = require("../admin/setMessageStatus");
 const { filterEmailsByDates } = require("../admin/filterEmailsByDates");
+const { adminSearchMovies } = require("../admin/adminSearchMovies");
 
 const express = require("express");
 const adminRouter = express.Router();
@@ -47,5 +48,6 @@ getEmails(adminRouter, db);
 deleteMessage(adminRouter, db);
 setMessageStatus(adminRouter, db);
 filterEmailsByDates(adminRouter, db);
+adminSearchMovies(adminRouter, db);
 
 exports.adminRouter = adminRouter;

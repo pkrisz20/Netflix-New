@@ -95,7 +95,7 @@ export default {
     },
     ...mapGetters({
       categoriesCount: "getCategoriesCount",
-      moviesCount: "getMoivesCount",
+      moviesCount: "getMoviesCount",
     })
   },
   methods: {
@@ -149,7 +149,7 @@ export default {
 
   .countup {
     background-image: linear-gradient(to right bottom, $c-skyblue, $c-middleblue);
-    padding: 50px 0;
+    padding: 80px 0;
 
     .wrapper {
       @media #{$r-max-laptop-m} {

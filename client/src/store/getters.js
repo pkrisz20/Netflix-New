@@ -126,7 +126,7 @@ export default {
     getCategoriesCount(state) {
         return state.categories.length;
     },
-    getMoivesCount(state) {
+    getMoviesCount(state) {
         return state.list.length;
     },
     hasVideo(state) {

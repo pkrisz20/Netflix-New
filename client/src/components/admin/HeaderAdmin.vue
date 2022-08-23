@@ -430,7 +430,7 @@ Axios.defaults.withCredentials = true;
 
 .scrollup-button {
     position: fixed;
-    bottom: 150px;
+    bottom: 30px;
     right: 15px;
     @include flexCenter();
     border-radius: 50%;

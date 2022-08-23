@@ -6,9 +6,9 @@
         <div class="wrapper">
             <AdminSearchBar :searchTpye="'movies'" />
             <button @click="openInsertForm()" class="upload"><i class="fas fa-plus"></i> Add new movie</button>
-            <Filters :insideOf="'All'" @clearFiltering="clearFilter()" :clearButton=filteredMovies.length />
+            <Filters :insideOf="'AdminSearch'" @clearFiltering="clearFilter" :clearButton=filteredMovies.length />
             <div class="emptylist" v-if="notFound">Not found any movie like this</div>
-            <h4 class="count">Movies count: {{ $store.getters.getMoivesCount }}</h4>
+            <h4 class="count">Movies count: {{ $store.getters.getMoviesCount }}</h4>
         </div>
 
         <AdminMovieList
