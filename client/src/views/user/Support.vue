@@ -124,8 +124,6 @@ import { mapState } from "vuex";
         mounted() {
             this.$store.state.httpStatus = 200;
             this.$store.dispatch("getLoginStatus");
-        },
-        updated() {
             if (this.activeUser) {
                 this.$store.dispatch('getFavourites');
                 this.$store.dispatch("getMyList");
@@ -164,7 +162,7 @@ import { mapState } from "vuex";
             align-items: flex-start;
             flex-direction: column;
             padding: 30px;
-            background-color: rgba($c-3, .75);
+            background-color: $c-4;
             width: 470px;
             border-radius: 5px;
 

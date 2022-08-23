@@ -71,8 +71,6 @@ export default {
         this.$store.dispatch('getAllMovies');
         this.$store.dispatch("getEachComment");
         this.$store.dispatch('getLikes');
-    },
-    updated() {
         if (this.isActiveUser) {
             this.$store.dispatch('getFavourites');
             this.$store.dispatch("getMyList");
