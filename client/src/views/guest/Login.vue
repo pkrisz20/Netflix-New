@@ -211,6 +211,7 @@ Axios.defaults.withCredentials = true;
 
                         &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
                             top: -12px;
+                            left: 5px;
                             color: $c-green-theme;
                             font-size: 12px;
                         }
