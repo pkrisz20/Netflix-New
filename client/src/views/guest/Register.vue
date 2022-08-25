@@ -17,14 +17,12 @@
                     <input v-model="username" id="username" class="register-form-item-input" name="username" type="text" placeholder="Your username..."/>
                     <label for="username">Username</label>
                 </div>
-
-                <!-- <div class="register-form" :class="[{ password_weak :  passwordLength > 0 && passwordLength < 6 }, { password_medium : passwordLength >= 6 && passwordLength <= 11 }, { password_strong : passwordLength > 11 }]"></div> -->
                 <div class="register-form-item">
-                    <input v-model="password" id="pass" class="register-form-item-input" :class="{ password : passwordLength > 0 }" name="password" type="password" placeholder="Your password..."/>
+                    <input v-model="password" id="pass" class="register-form-item-input" :class="[{ weak :  passwordLength > 0 && passwordLength < 6 }, { medium : passwordLength >= 6 && passwordLength <= 11 }, { strong : passwordLength > 11 }]" name="password" type="password" placeholder="Your password..."/>
                     <label for="pass">Password</label>
                 </div>
                 <div class="register-form-item">
-                    <input v-model="passwordRepeat" id="pass-repeat" class="register-form-item-input" name="repeat-password" type="password" placeholder="Confirm password..."/>
+                    <input v-model="passwordRepeat" id="pass-repeat" class="register-form-item-input" :class="[{ strong : samePassword && repeatPasswordLength > 0 }, { weak : !samePassword && repeatPasswordLength > 0 }]" name="repeat-password" type="password" placeholder="Confirm password..."/>
                     <label for="pass-repeat">Password repeat</label>
                 </div>
 
@@ -132,6 +130,12 @@ import Axios from "axios";
         computed: {
             passwordLength() {
                 return this.password.length;
+            },
+            repeatPasswordLength() {
+                return this.passwordRepeat.length;
+            },
+            samePassword() {
+                return this.password === this.passwordRepeat ? true : false;
             }
         }
     }
@@ -226,27 +230,6 @@ import Axios from "axios";
                     }
                 }
 
-                .password_weak {
-                    height: 5px;
-                    width: 100%;
-                    margin-top: 8px;
-                    background-color: $c-red;
-                }
-
-                .password_medium {
-                    height: 5px;
-                    width: 100%;
-                    margin-top: 8px;
-                    background-color: $c-yellow;
-                }
-
-                .password_strong {
-                    height: 5px;
-                    width: 100%;
-                    margin-top: 8px;
-                    background-color: $c-green-theme;
-                }
-
                 &-item {
                     width: 100%;
                     position: relative;
@@ -298,8 +281,16 @@ import Axios from "axios";
                             opacity: 1;
                         }
 
-                        &.password {
-                            margin-top: 0;
+                        &.weak {
+                            background-color: rgba($c-red, .75);
+                        }
+
+                        &.medium {
+                            background-color: rgba($c-orange, .75);
+                        }
+
+                        &.strong {
+                            background-color: rgba($c-success, .75);
                         }
 
                         @media #{$r-max-tablet} {
