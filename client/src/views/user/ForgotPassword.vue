@@ -12,8 +12,10 @@
                 <div v-if="successMessage" class="success">
                     {{ successMessage }}
                 </div>
-
-                <input v-model="email" class="reset-form-input" name="email" type="text" placeholder="Email"/>
+                <div class="reset-form-item">
+                    <input v-model="email" class="reset-form-item-input" name="email" type="text" id="forgot" placeholder="Your email address..."/>
+                    <label for="forgot">Email</label>
+                </div>
                 <div class="reset-form_back">
                     <a href="login" class="reset-form_back--link">Back to Login</a>
                 </div>
@@ -134,21 +136,77 @@ import Axios from "axios";
                 width: 300px;
 
                 .error {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-red;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin-bottom: 15px;
                 }
 
                 .success {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-green-theme;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin-bottom: 15px;
+                }
+
+                &-item {
+                    width: 100%;
+                    position: relative;
+                    margin: 12px 0;
+
+                    label {
+                        position: absolute;
+                        z-index: 2;
+                        left: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        font-size: 16px;
+                        transition: all .2s ease-in-out;
+                        color: $c-9;
+                        pointer-events: none;
+                    }
+
+                    &-input {
+                        height: 40px;
+                        font-size: 16px;
+                        background-color: $c-3;
+                        font-family: $c-main-font;
+                        color: $c-white;
+                        padding: 5px 15px;
+                        border-radius: 3px;
+                        outline: none;
+                        border: none;
+                        width: 100%;
+                        margin: 0;
+
+                        &:focus, &:active {
+                            outline: 2px solid $c-green-theme;
+                        }
+
+                        &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
+                            top: -12px;
+                            left: 5px;
+                            color: $c-green-theme;
+                            font-size: 12px;
+                        }
+
+                        &::placeholder {
+                            opacity: 0;
+                            color: $c-9;
+                            transition: all .3s;
+                            font-family: $c-main-font;
+                        }
+
+                        &:focus::placeholder {
+                            opacity: 1;
+                        }
+                    }
                 }
 
                 &_back {
@@ -168,23 +226,6 @@ import Axios from "axios";
                         &:hover {
                             color: $c-white;
                         }
-                    }
-                }
-
-                &-input {
-                    height: 40px;
-                    font-size: 16px;
-                    background-color: $c-3;
-                    color: $c-white;
-                    padding: 5px 15px;
-                    border-radius: 3px;
-                    outline: none;
-                    border: none;
-                    width: calc(100% - 30px);
-                    margin: 8px 0;
-
-                    &::placeholder {
-                        color: $c-9;
                     }
                 }
 
