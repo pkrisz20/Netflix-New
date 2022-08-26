@@ -165,6 +165,7 @@ export default {
         cursor: pointer;
         transition: .3s;
         position: relative;
+        overflow: hidden;
         z-index: 1;
 
         &_stickers {
