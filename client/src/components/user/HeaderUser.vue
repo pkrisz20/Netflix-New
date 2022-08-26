@@ -273,10 +273,10 @@ Axios.defaults.withCredentials = true;
     width: 100vw;
     height: 60px;
     transition: .4s;
-    background-color: $c-dark-theme;
+    background-color: $c-darker;
 
     @media #{$r-laptop-s} {
-        background-color: rgba($c-dark-theme, 0.5);
+        background-color: rgba($c-darker, 0.5);
     }
 
     @media #{$r-max-laptop-s} {
@@ -334,7 +334,7 @@ Axios.defaults.withCredentials = true;
                     top: 85px;
                     width: 320px;
                     height: calc(100vh - 85px);
-                    background-color: $c-dark-theme;
+                    background-color: $c-darker;
                     z-index: 5;
                     display: flex;
                     justify-content: center;
@@ -450,7 +450,7 @@ Axios.defaults.withCredentials = true;
                             }
 
                             .sub-items {
-                                background-color: rgba($c-dark-theme, 0.5);
+                                background-color: rgba($c-darker, 0.5);
                                 position: absolute;
                                 top: calc(100% + 21px);
                                 max-height: 200px;
@@ -729,7 +729,7 @@ Axios.defaults.withCredentials = true;
                         }
 
                         &--title, &--date {
-                            color: $c-dark-theme;
+                            color: $c-darker;
                             font-size: 16px;
                             font-weight: 700;
                             text-align: center;
@@ -740,7 +740,7 @@ Axios.defaults.withCredentials = true;
                         }
 
                         &:hover {
-                            background-color: $c-dark-theme;
+                            background-color: $c-darker;
 
                             .container_box--title, .container_box--date {
                                 color: $c-white;
@@ -809,7 +809,7 @@ Axios.defaults.withCredentials = true;
         height: 85px;
 
         @media #{$r-laptop-s} {
-            background-color: rgba($c-dark-theme, 1);
+            background-color: rgba($c-darker, 1);
             height: 60px;
 
             .wrapper-user {
@@ -818,7 +818,7 @@ Axios.defaults.withCredentials = true;
                         .link {
                             &.submenu_user {
                                 .sub-items {
-                                    background-color: rgba($c-dark-theme, 1) !important;
+                                    background-color: rgba($c-darker, 1) !important;
                                 }
                             }
                         }

@@ -136,7 +136,7 @@ Axios.defaults.withCredentials = true;
     width: 100vw;
     height: 60px;
     transition: .4s;
-    background-color: rgba($c-dark-theme, 0.3);
+    background-color: rgba($c-darker, 0.3);
 
     .wrapper-user {
         height: 100%;
@@ -178,7 +178,7 @@ Axios.defaults.withCredentials = true;
                     top: 60px;
                     width: 320px;
                     height: calc(100vh - 60px);
-                    background-color: $c-dark-theme;
+                    background-color: $c-darker;
                     z-index: 5;
                     display: flex;
                     justify-content: center;
@@ -269,7 +269,7 @@ Axios.defaults.withCredentials = true;
                             }
 
                             .sub-items {
-                                background-color: rgba($c-dark-theme, 0.5);
+                                background-color: rgba($c-darker, 0.5);
                                 position: absolute;
                                 top: calc(100% + 21px);
                                 max-height: 200px;
@@ -420,7 +420,7 @@ Axios.defaults.withCredentials = true;
 }
 
 .sticky {
-    background-color: rgba($c-dark-theme, 1);
+    background-color: rgba($c-darker, 1);
 }
 
 .fade-enter,

@@ -195,21 +195,22 @@ import { mapState, mapGetters } from "vuex";
     height: auto;
     background-color: $c-dark-theme;
 
-    &::after {
-        position: absolute;
-        top: 0;
-        left: 0;
-        content: '';
-        width: 100%;
-        height: 100%;
-        background-color: $c-black;
-        opacity: 0.7;
-    }
-
     .container {
         width: 100%;
         height: 100vh;
         position: relative;
+        mask-image: linear-gradient(to bottom, rgba($c-dark-theme, 1) 60%, rgba($c-black, 0) 98%);
+
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            width: 100%;
+            height: 100%;
+            background-color: $c-black;
+            opacity: 0.7;
+        }
 
         @media #{$r-max-tablet} {
             min-height: 100%;
@@ -268,7 +269,6 @@ import { mapState, mapGetters } from "vuex";
             width: 100%;
             height: 100vh;
             @include object-fit();
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
         }
 
         .movie-details {

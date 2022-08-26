@@ -77,7 +77,7 @@ import { mapState } from "vuex";
         width: 100%;
         height: 100vh;
         position: relative;
-        mask-image: linear-gradient(to bottom, rgba($c-dark-theme, 1) 60%, rgba($c-black, 0) 100%);
+        mask-image: linear-gradient(to bottom, rgba($c-dark-theme, 1) 60%, rgba($c-black, 0) 98%);
 
         &::after {
             position: absolute;
@@ -94,7 +94,6 @@ import { mapState } from "vuex";
             width: 100%;
             height: 100vh;
             @include object-fit();
-            
         }
 
         .movie-details {

@@ -152,7 +152,7 @@ import { mapGetters } from "vuex";
     width: 100%;
     height: 90px;
     transition: .4s !important;
-    background-color: rgba($c-dark-theme, 0.4);
+    background-color: rgba($c-darker, 0.4);
 
     @media #{$r-max-laptop-m} {
         height: 60px;
@@ -249,7 +249,7 @@ import { mapGetters } from "vuex";
                 right: -320px;
                 height: 100vh;
                 width: 320px;
-                background-color: $c-dark-theme;
+                background-color: $c-darker;
                 z-index: 5;
                 display: flex;
                 justify-content: center;
@@ -339,7 +339,7 @@ import { mapGetters } from "vuex";
                         .sub-items {
                             max-height: 200px;
                             overflow-y: auto;
-                            background-color: rgba($c-dark-theme, 0.4);
+                            background-color: rgba($c-darker, 0.4);
                             top: 53px;
 
                             @media #{$r-max-laptop-m} {
@@ -444,7 +444,7 @@ import { mapGetters } from "vuex";
                         }
 
                         &--title, &--date {
-                            color: $c-dark-theme;
+                            color: $c-darker;
                             font-size: 16px;
                             font-weight: 700;
                             text-align: center;
@@ -455,7 +455,7 @@ import { mapGetters } from "vuex";
                         }
 
                         &:hover {
-                            background-color: $c-dark-theme;
+                            background-color: $c-darker;
 
                             .container_box--title, .container_box--date {
                                 color: $c-white;
@@ -521,7 +521,7 @@ import { mapGetters } from "vuex";
 }
 
 .sticky {
-    background: $c-dark-theme;
+    background: $c-darker;
     height: 60px;
 
     @media #{$r-laptop-m} {
@@ -541,7 +541,7 @@ import { mapGetters } from "vuex";
                         &.submenu {
                             
                             .sub-items {
-                                background-color: $c-dark-theme;
+                                background-color: $c-darker;
                                 top: 38px;
 
                                 .sub-row {
