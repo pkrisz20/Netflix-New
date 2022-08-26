@@ -10,12 +10,27 @@
                     <div class="support-form-msg error" v-if="errorMessage">{{ errorMessage }}</div>
                     <div class="support-form-msg success" v-if="successMessage">{{ successMessage }}</div>
 
-                    <input v-model="email" class="support-form-input" name="email" type="text" placeholder="Your email..." />
-                    <input v-if="this.activeUser" v-model="username" class="support-form-input" name="username" type="text" placeholder="Your username..." />
-                    <input v-model="fullName" class="support-form-input" name="fullname" type="text" placeholder="Your full name..." />
-                    <input v-model="subject" class="support-form-input" name="subject" type="text" placeholder="Subject" />
-                    <textarea class="support-form-textarea" maxlength="500" placeholder="Message..." v-model="userMessage" />
-                    <span class="support-form-characters">You have {{ charactersCount }} characters.</span>
+                    <div class="support-form-item">
+                        <input v-model="email" class="support-form-item-input" name="email" type="text" placeholder="Your email address..." id="email" />
+                        <label for="email">Email</label>
+                    </div>
+                    <div v-if="this.activeUser" class="support-form-item">
+                        <input id="username" v-model="username" class="support-form-item-input" name="username" type="text" placeholder="Your username..." />
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="support-form-item">
+                        <input v-model="fullName" id="fullname" class="support-form-item-input" name="fullname" type="text" placeholder="Your full name..." />
+                        <label for="fullname">Full name</label>
+                    </div>
+                    <div class="support-form-item">
+                        <input v-model="subject" id="subject" class="support-form-item-input" name="subject" type="text" placeholder="Subject..." />
+                        <label for="subject">Subject</label>
+                    </div>
+                    <div class="support-form-item">
+                        <textarea class="support-form-item-textarea" maxlength="500" placeholder="Write your message here..." v-model="userMessage" id="message" />
+                        <label class="textarea-label" for="message">Message</label>
+                        <span class="support-form-item-characters">You have {{ charactersCount }} characters.</span>
+                    </div>
 
                     <input type="submit" class="support-form_btn" value="SEND" />
                 </form>
@@ -180,6 +195,7 @@ import { mapState } from "vuex";
                 border-radius: 3px;
                 padding: 8px;
                 font-size: 15px;
+                margin-bottom: 12px;
 
                 @media #{$r-max-mobile-s} {
                     font-size: 12px;
@@ -194,54 +210,101 @@ import { mapState } from "vuex";
                 }
             }
 
-            &-input {
-                height: 40px;
-                font-family: $c-main-font;
-                font-size: 16px;
-                background-color: $c-e;
-                color: $c-3;
-                padding: 5px 15px;
-                border-radius: 3px;
-                outline: none;
-                border: none;
+            &-item {
                 width: 100%;
-                margin: 8px 0;
+                position: relative;
+                margin: 6px 0;
 
-                &::placeholder {
-                    color: $c-6;
-                }
-
-                @media #{$r-max-tablet} {
-                    height: 34px;
+                label {
+                    position: absolute;
+                    z-index: 2;
+                    left: 15px;
+                    top: 50%;
+                    transform: translateY(-50%);
                     font-size: 16px;
+                    transition: all .2s ease-in-out;
+                    color: $c-3;
+                    pointer-events: none;
+
+                    &.textarea-label {
+                        top: 20px;
+                        left: 14px;
+                        transform: translateY(0);
+                    }
                 }
 
-                @media #{$r-max-mobile-s} {
-                    font-size: 12px;
+                &-input {
+                    height: 40px;
+                    font-family: $c-main-font;
+                    font-size: 16px;
+                    background-color: $c-e;
+                    color: $c-3;
+                    padding: 5px 15px;
+                    border-radius: 3px;
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                    margin: 8px 0;
+
+                    @media #{$r-max-tablet} {
+                        height: 34px;
+                    }
+
+                    @media #{$r-max-mobile-s} {
+                        font-size: 12px;
+                    }
+
+                    &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
+                        top: -5px;
+                        left: 5px;
+                        color: $c-white;
+                        font-size: 12px;
+                    }
                 }
-            }
 
-            &-textarea {
-                width: 100%;
-                height: 200px;
-                margin: 10px 0;
-                font-size: 16px;
-                outline: none;
-                border: none;
-                padding: 5px 15px;
-                border-radius: 3px;
-                font-family: $c-main-font;
-                color: $c-3;
+                &-textarea {
+                    resize: none;
+                    width: 100%;
+                    height: 200px;
+                    margin: 10px 0;
+                    font-size: 16px;
+                    outline: none;
+                    border: none;
+                    padding: 10px 15px;
+                    border-radius: 3px;
+                    font-family: $c-main-font;
+                    color: $c-3;
 
-                @media #{$r-max-mobile-s} {
-                    font-size: 12px;
+                    &:focus + .textarea-label, &:not(:placeholder-shown) + .textarea-label, &:active + .textarea-label, &:-webkit-autofill + .textarea-label {
+                        top: -10px;
+                        left: 5px;
+                        color: $c-white;
+                        font-size: 12px;
+                    }
+
+                    @media #{$r-max-mobile-s} {
+                        font-size: 12px;
+                    }
                 }
-            }
 
-            &-characters {
-                color: $c-white;
-                font-size: 14px;
-                font-family: $c-main-font;
+                &-input, &-textarea {
+                    &::placeholder {
+                        opacity: 0;
+                        color: $c-3;
+                        transition: all .3s;
+                        font-family: $c-main-font;
+                    }
+
+                    &:focus::placeholder {
+                        opacity: 1;
+                    }
+                }
+
+                &-characters {
+                    color: $c-white;
+                    font-size: 14px;
+                    font-family: $c-main-font;
+                }
             }
 
             &_btn {

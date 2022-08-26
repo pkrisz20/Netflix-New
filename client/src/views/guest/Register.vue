@@ -6,21 +6,26 @@
             <h2 class="register-title">Registration</h2>
 
             <form class="register-form" @submit.prevent="submitRegistration">
-                <div v-if="errorMessage" class="error">
-                    {{ errorMessage }}
+                <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
+                <div v-if="successMessage" class="success">{{ successMessage }}</div>
+
+                <div class="register-form-item">
+                    <input v-model="email" class="register-form-item-input" id="email" name="email" type="text" placeholder="Email address..."/>
+                    <label for="email">Email</label>
                 </div>
-                <div v-if="successMessage" class="success">
-                    {{ successMessage }}
+                <div class="register-form-item">
+                    <input v-model="username" id="username" class="register-form-item-input" name="username" type="text" placeholder="Your username..."/>
+                    <label for="username">Username</label>
+                </div>
+                <div class="register-form-item">
+                    <input v-model="password" id="pass" class="register-form-item-input" :class="[{ weak :  passwordLength > 0 && passwordLength < 6 }, { medium : passwordLength >= 6 && passwordLength <= 11 }, { strong : passwordLength > 11 }]" name="password" type="password" placeholder="Your password..."/>
+                    <label for="pass">Password</label>
+                </div>
+                <div class="register-form-item">
+                    <input v-model="passwordRepeat" id="pass-repeat" class="register-form-item-input" :class="[{ strong : samePassword && repeatPasswordLength > 0 }, { weak : !samePassword && repeatPasswordLength > 0 }]" name="repeat-password" type="password" placeholder="Confirm password..."/>
+                    <label for="pass-repeat">Password repeat</label>
                 </div>
 
-                <input v-model="email" class="register-form-input" name="email" type="text" placeholder="Email address"/>
-                <input v-model="username" class="register-form-input" name="username" type="text" placeholder="Username"/>
-
-                <div class="register-form" :class="[{ password_weak :  passwordLength > 0 && passwordLength < 6 }, { password_medium : passwordLength >= 6 && passwordLength <= 11 }, { password_strong : passwordLength > 11 }]"></div>
-
-                <input v-model="password" class="register-form-input" :class="{ password : passwordLength > 0 }" name="password" type="password" placeholder="Password"/>
-                <input v-model="passwordRepeat" class="register-form-input" name="repeat-password" type="password" placeholder="Confirm password"/>
-                
                 <input type="submit" class="register-form-submit_btn" value="SIGN UP"/>
                 
                 <div class="register-form-checkbox">
@@ -125,6 +130,12 @@ import Axios from "axios";
         computed: {
             passwordLength() {
                 return this.password.length;
+            },
+            repeatPasswordLength() {
+                return this.passwordRepeat.length;
+            },
+            samePassword() {
+                return this.password === this.passwordRepeat ? true : false;
             }
         }
     }
@@ -192,12 +203,13 @@ import Axios from "axios";
                 width: 300px;
 
                 .error {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-red;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin: 0 0 15px;
 
                     @media #{$r-max-mobile-s} {
                         font-size: 12px;
@@ -205,66 +217,90 @@ import Axios from "axios";
                 }
 
                 .success {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-success;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin: 0 0 15px;
 
                     @media #{$r-max-mobile-s} {
                         font-size: 12px;
                     }
                 }
 
-                .password_weak {
-                    height: 5px;
-                    width: calc(100% - 30px);
-                    margin-top: 8px;
-                    background-color: $c-red;
-                }
+                &-item {
+                    width: 100%;
+                    position: relative;
+                    margin: 12px 0;
 
-                .password_medium {
-                    height: 5px;
-                    width: calc(100% - 30px);
-                    margin-top: 8px;
-                    background-color: $c-yellow;
-                }
-
-                .password_strong {
-                    height: 5px;
-                    width: calc(100% - 30px);
-                    margin-top: 8px;
-                    background-color: $c-green-theme;
-                }
-
-                &-input {
-                    height: 40px;
-                    font-size: 16px;
-                    background-color: $c-3;
-                    color: $c-white;
-                    padding: 5px 15px;
-                    border-radius: 3px;
-                    outline: none;
-                    border: none;
-                    width: calc(100% - 30px);
-                    margin: 8px 0;
-
-                    &::placeholder {
-                        color: $c-9;
-                    }
-
-                    &.password {
-                        margin-top: 0;
-                    }
-
-                    @media #{$r-max-tablet} {
-                        height: 26px;
+                    label {
+                        position: absolute;
+                        z-index: 2;
+                        left: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
                         font-size: 16px;
+                        transition: all .2s ease-in-out;
+                        color: $c-9;
+                        pointer-events: none;
                     }
 
-                    @media #{$r-max-mobile-s} {
-                        font-size: 12px;
+                    &-input {
+                        height: 40px;
+                        font-size: 16px;
+                        background-color: $c-3;
+                        color: $c-white;
+                        padding: 0 15px;
+                        border-radius: 3px;
+                        outline: none;
+                        border: none;
+                        width: 100%;
+                        margin: 0;
+
+                        &:focus, &:active {
+                            outline: 2px solid $c-green-theme;
+                        }
+
+                        &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
+                            top: -12px;
+                            left: 5px;
+                            color: $c-green-theme;
+                            font-size: 12px;
+                        }
+
+                        &::placeholder {
+                            opacity: 0;
+                            color: $c-9;
+                            transition: all .3s;
+                            font-family: $c-main-font;
+                        }
+
+                        &:focus::placeholder {
+                            opacity: 1;
+                        }
+
+                        &.weak {
+                            background-color: rgba($c-red, .75);
+                        }
+
+                        &.medium {
+                            background-color: rgba($c-orange, .75);
+                        }
+
+                        &.strong {
+                            background-color: rgba($c-success, .75);
+                        }
+
+                        @media #{$r-max-tablet} {
+                            height: 26px;
+                            font-size: 16px;
+                        }
+
+                        @media #{$r-max-mobile-s} {
+                            font-size: 12px;
+                        }
                     }
                 }
 

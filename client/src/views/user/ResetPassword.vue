@@ -9,10 +9,22 @@
                 <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
                 <div v-if="successMessage" class="success">{{ successMessage }}</div>
 
-                <input v-model="email" class="reset-form-input" name="email" type="email" placeholder="Email"/>
-                <input v-model="password" class="reset-form-input" name="password" type="password" placeholder="Password"/>
-                <input v-model="passwordRepeat" class="reset-form-input" name="password-again" type="password" placeholder="Confirm password"/>
-                <input v-model="code" class="reset-form-input" name="code" type="text" placeholder="Your code"/>
+                <div class="reset-form-item">
+                    <input v-model="email" class="reset-form-item-input" name="email" id="email" type="email" placeholder="Your email address..."/>
+                    <label for="email">Email</label>
+                </div>
+                <div class="reset-form-item">
+                    <input v-model="password" class="reset-form-item-input" id="pass" name="password" :class="[{ weak :  passwordLength > 0 && passwordLength < 6 }, { medium : passwordLength >= 6 && passwordLength <= 11 }, { strong : passwordLength > 11 }]" type="password" placeholder="New password..."/>
+                    <label for="pass">Password</label>
+                </div>
+                <div class="reset-form-item">
+                    <input v-model="passwordRepeat" class="reset-form-item-input" id="pass-again" :class="[{ strong : samePassword && repeatPasswordLength > 0 }, { weak : !samePassword && repeatPasswordLength > 0 }]" name="password-again" type="password" placeholder="Password again..."/>
+                    <label for="pass-again">Confirm password</label>
+                </div>
+                <div class="reset-form-item">
+                    <input v-model="code" class="reset-form-item-input" name="code" id="code" type="text" placeholder="Your code..."/>
+                    <label for="code">Code</label>
+                </div>
 
                 <input type="submit" class="reset-form-submit_btn" value="SAVE"/>
             </form>
@@ -33,6 +45,17 @@ import Axios from "axios";
                 code: null,
                 passwordRepeat: "",
                 password: ""
+            }
+        },
+        computed: {
+            passwordLength() {
+                return this.password.length;
+            },
+            repeatPasswordLength() {
+                return this.passwordRepeat.length;
+            },
+            samePassword() {
+                return this.password === this.passwordRepeat ? true : false;
             }
         },
         methods: {
@@ -156,37 +179,87 @@ import Axios from "axios";
                 width: 300px;
 
                 .error {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-red;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin-bottom: 15px;
                 }
 
                 .success {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-green-theme;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin-bottom: 15px;
                 }
 
-                &-input {
-                    height: 40px;
-                    font-size: 16px;
-                    background-color: $c-3;
-                    color: $c-white;
-                    padding: 5px 15px;
-                    border-radius: 3px;
-                    outline: none;
-                    border: none;
-                    width: calc(100% - 30px);
-                    margin: 8px 0;
+                &-item {
+                    position: relative;
+                    width: 100%;
+                    margin: 12px 0;
 
-                    &::placeholder {
+                    label {
+                        position: absolute;
+                        z-index: 2;
+                        left: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        font-size: 16px;
+                        transition: all .2s ease-in-out;
                         color: $c-9;
+                        pointer-events: none;
+                    }
+
+                    &-input {
+                        height: 40px;
+                        font-size: 16px;
+                        background-color: $c-3;
+                        color: $c-white;
+                        padding: 5px 15px;
+                        border-radius: 3px;
+                        outline: none;
+                        border: none;
+                        width: 100%;
+                        margin: 0;
+
+                        &:focus, &:active {
+                            outline: 2px solid $c-green-theme;
+                        }
+
+                        &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
+                            top: -12px;
+                            left: 5px;
+                            color: $c-green-theme;
+                            font-size: 12px;
+                        }
+
+                        &::placeholder {
+                            opacity: 0;
+                            color: $c-9;
+                            transition: all .3s;
+                            font-family: $c-main-font;
+                        }
+
+                        &:focus::placeholder {
+                            opacity: 1;
+                        }
+
+                        &.weak {
+                            background-color: rgba($c-red, .75);
+                        }
+
+                        &.medium {
+                            background-color: rgba($c-orange, .75);
+                        }
+
+                        &.strong {
+                            background-color: rgba($c-success, .75);
+                        }
                     }
                 }
 
