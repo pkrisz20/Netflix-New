@@ -33,29 +33,30 @@ export default {
     //if the user session is expired => redirect to login page
     '$store.state.isLoggedIn': function() {
       if (!this.isLoggedIn) {
-        console.log('test FALSE case');
+        // console.log('test FALSE case');
         this.$router.push("/login").catch(() => { return; });
       }
       else if (this.isLoggedIn) {
-        console.log('test TRUE case');
+        // console.log('test TRUE case');
+        return;
       }
 
       //if the value is null either redirect to author
       if (!this.isLoggedIn && this.$route.path == "/author") {
         this.$router.push("/author").catch(() => { return; });
-        console.log('SPECIFIC IF');
+        // console.log('SPECIFIC IF');
       }
 
       //if the value is null either redirect to support
       if (!this.isLoggedIn && this.$route.path == "/support") {
         this.$router.push("/support").catch(() => { return; });
-        console.log('SPECIFIC IF');
+        // console.log('SPECIFIC IF');
       }
 
       //if the page does not exist => redirect to notfound page
       if (!this.isLoggedIn && this.$route.name == "NotFound") {
         this.$router.push({ name: "NotFound" }).catch(() => { return; });
-        console.log('SPECIFIC IF');
+        // console.log('SPECIFIC IF');
       }
     },
 
@@ -94,7 +95,7 @@ export default {
       }
 
       if (to.path === '/userinterface' && !this.isLoggedIn) {
-        console.log('router FALSE case');
+        // console.log('router FALSE case');
         this.$router.push({ name: 'Login'}).catch(() => { return; });
       }
     }

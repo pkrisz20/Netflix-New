@@ -11,11 +11,11 @@
                     <div class="support-form-msg success" v-if="successMessage">{{ successMessage }}</div>
 
                     <div class="support-form-item">
-                        <input v-model="email" class="support-form-item-input" name="email" type="text" placeholder="Your email address..." id="email" />
+                        <input v-model="email" :disabled="this.email" class="support-form-item-input" name="email" type="text" placeholder="Your email address..." id="email" />
                         <label for="email">Email</label>
                     </div>
                     <div v-if="this.activeUser" class="support-form-item">
-                        <input id="username" v-model="username" class="support-form-item-input" name="username" type="text" placeholder="Your username..." />
+                        <input id="username" v-model="username" :disabled="this.username != null" class="support-form-item-input" name="username" type="text" placeholder="Your username..." />
                         <label for="username">Username</label>
                     </div>
                     <div class="support-form-item">
@@ -41,7 +41,7 @@
 
 <script>
 import Axios from "axios";
-import  BlockTitle from "@/components/global/BlockTitle.vue";
+import BlockTitle from "@/components/global/BlockTitle.vue";
 import Header from "@/components/guest/Header.vue";
 import HeaderUser from "@/components/user/HeaderUser.vue";
 import Footer from "@/components/global/Footer.vue";
@@ -57,7 +57,9 @@ import { mapState } from "vuex";
         },
         computed: {
             ...mapState({
-                activeUser: state => state.isLoggedIn
+                activeUser: state => state.isLoggedIn,
+                activeUsername: state => state.actualUserData.username,
+                activeEmailAddress: state => state.actualUserData.email,
             }),
             charactersCount() {
                 return 500 - this.userMessage.length;
@@ -139,10 +141,14 @@ import { mapState } from "vuex";
         mounted() {
             this.$store.state.httpStatus = 200;
             this.$store.dispatch("getLoginStatus");
-            if (this.activeUser) {
-                this.$store.dispatch('getFavourites');
-                this.$store.dispatch("getMyList");
-            }
+            setTimeout(() => {
+                if (this.activeUser) {
+                    this.$store.dispatch('getFavourites');
+                    this.$store.dispatch("getMyList");
+                    this.username = this.activeUsername;
+                    this.email = this.activeEmailAddress;
+                }
+            }, 250);
         }
     }
 </script>
