@@ -10,9 +10,15 @@
                     {{ adminErrorMessage }}
                 </div>
 
-                <input v-model="adminUsername" class="admin-form-input" name="username" type="text" placeholder="Username"/>
-                <input v-model="adminPassword" class="admin-form-input" name="password" type="password" placeholder="Password"/>
+                <div class="admin-form-item">
+                    <input v-model="adminUsername" class="admin-form-item-input" name="username" id="username-admin" type="text" placeholder="Your username..."/>
+                    <label for="username-admin">Username</label>
+                </div>
 
+                <div class="admin-form-item">
+                    <input v-model="adminPassword" class="admin-form-item-input" name="password" id="admin-pass" type="password" placeholder="Your password..."/>
+                    <label for="admin-pass">Password</label>
+                </div>
                 <div class="forgot-pass">
                     <a target="blank" href="forgotpassword" class="forgot-link">Forgot your password?</a>
                 </div>
@@ -182,41 +188,75 @@ Axios.defaults.withCredentials = true;
                 width: 300px;
 
                 .error {
-                    width: calc(100% - 16px);
+                    width: 100%;
                     background-color: $c-red;
                     color: $c-white;
                     border-radius: 3px;
                     padding: 8px;
                     font-size: 15px;
+                    margin: 0 0 15px;
 
                     @media #{$r-max-mobile-s} {
                         font-size: 12px;
                     }
                 }
 
-                &-input {
-                    height: 40px;
-                    font-size: 16px;
-                    background-color: $c-3;
-                    color: $c-white;
-                    padding: 5px 15px;
-                    border-radius: 3px;
-                    outline: none;
-                    border: none;
-                    width: calc(100% - 30px);
-                    margin: 8px 0;
+                &-item {
+                    position: relative;
+                    width: 100%;
+                    margin: 12px 0;
 
-                    &::placeholder {
-                        color: $c-9;
-                    }
-
-                    @media #{$r-max-tablet} {
-                        height: 26px;
+                    label {
+                        position: absolute;
+                        z-index: 2;
+                        left: 15px;
+                        top: 50%;
+                        transform: translateY(-50%);
                         font-size: 16px;
+                        transition: all .2s ease-in-out;
+                        color: $c-9;
+                        pointer-events: none;
                     }
+                    
+                    &-input {
+                        font-family: $c-main-font;
+                        height: 40px;
+                        font-size: 16px;
+                        background-color: $c-3;
+                        color: $c-white;
+                        padding: 5px 15px;
+                        border-radius: 3px;
+                        outline: none;
+                        border: none;
+                        width: 100%;
+                        margin: 0;
 
-                    @media #{$r-max-mobile-s} {
-                        font-size: 12px;
+                        &:focus, &:active {
+                            outline: 2px solid $c-green-theme;
+                        }
+
+                        &:focus + label, &:not(:placeholder-shown) + label, &:active + label, &:-webkit-autofill + label {
+                            top: -12px;
+                            left: 5px;
+                            color: $c-green-theme;
+                            font-size: 12px;
+                        }
+
+                        &::placeholder {
+                            opacity: 0;
+                            color: $c-9;
+                            transition: all .3s;
+                            font-family: $c-main-font;
+                        }
+
+                        @media #{$r-max-tablet} {
+                            height: 26px;
+                            font-size: 16px;
+                        }
+
+                        @media #{$r-max-mobile-s} {
+                            font-size: 12px;
+                        }
                     }
                 }
 

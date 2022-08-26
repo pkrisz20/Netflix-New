@@ -226,6 +226,7 @@ import Axios from "axios";
                         border: none;
                         width: 100%;
                         margin: 0;
+                        font-family: $c-main-font;
 
                         &:focus, &:active {
                             outline: 2px solid $c-green-theme;

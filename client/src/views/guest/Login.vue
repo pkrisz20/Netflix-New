@@ -195,6 +195,7 @@ Axios.defaults.withCredentials = true;
 
                     &-input {
                         height: 40px;
+                        font-family: $c-main-font;
                         font-size: 16px;
                         background-color: $c-3;
                         color: $c-white;
