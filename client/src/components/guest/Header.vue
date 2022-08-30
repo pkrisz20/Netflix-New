@@ -585,7 +585,7 @@ import { mapGetters } from "vuex";
 
 .scrollup-button {
     position: fixed;
-    bottom: 30px;
+    bottom: 60px;
     right: 15px;
     @include flexCenter();
     border-radius: 50%;

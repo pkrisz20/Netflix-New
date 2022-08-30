@@ -30,7 +30,7 @@
                         <h2 class="cols-title">Quick Links</h2>
                         <a href="/userinterface" class="cols-quick-site">Home</a>
                         <a href="/favourites" class="cols-quick-site">Favourites</a>
-                        <a href="/mylist" class="cols-quick-site">List</a>
+                        <a href="/mylist" class="cols-quick-site">My List</a>
                         <a href="/profile" class="cols-quick-site">Profile</a>
                     </div>
 
@@ -43,25 +43,11 @@
                     </div>
 
                     <div class="cols-news">
-                        <h2 class="cols-title">Most popular</h2>
+                        <h2 class="cols-title">Most Popular</h2>
                         <div class="cols-news-grid">
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
-                            </div>
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
-                            </div>
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
-                            </div>
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
-                            </div>
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
-                            </div>
-                            <div class="cols-news-grid-item">
-                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            <div class="cols-news-grid-item" @click="routeToDetails(movie.id)" v-for="(movie, index) in this.popularMovies" :key="index">
+                                <img alt="popular movie" class="pic" :src="getImagePath(movie.image)">
+                                <i class="fas fa-eye"></i>
                             </div>
                         </div>
                     </div>
@@ -82,6 +68,7 @@
 
 <script>
 import { mapState } from "vuex";
+import Axios from "axios";
 
     export default {
         name: "Footer",
@@ -90,6 +77,38 @@ import { mapState } from "vuex";
                 isActiveUser: state => state.isLoggedIn
             })
         },
+        data(){
+            return {
+                popularMovies: []
+            }
+        },
+        methods: {
+            async getTopMovies() {
+                await Axios.get(`${process.env.VUE_APP_API_URL}/movies/footermovies`)
+                .then(response => {
+                    if (response.data.status) {
+                        this.popularMovies = response.data.result;
+                    }
+                    else if (!response.data.status) {
+                        console.log("Error movie carousels with top movies request");
+                    }
+                })
+                .catch(error => {
+                    if (error.response.status >= 500 && error.response.status <= 599) {
+                        this.$store.commit('SET_SERVER_ERROR_STATUS', error.response);
+                    }
+                });
+            },
+            getImagePath (image) {
+                return require('../../../../server/uploads/movies/' + image);
+            },
+            routeToDetails(movieId) {
+                this.isActiveUser ? this.$router.push({ path: `/detailsuser/${movieId}` }) : this.$router.push({ path: `/detailsguest/${movieId}` });
+            }
+        },
+        mounted() {
+            this.getTopMovies();
+        }
     }
 </script>
 
@@ -100,6 +119,11 @@ import { mapState } from "vuex";
     bottom: 0;
     left: 0;
     z-index: -1;
+
+    @media #{$r-max-laptop-s} {
+        position: relative;
+        z-index: 0;
+    }
 
     .wrapper {
         @media #{$r-max-laptop-m} {
@@ -113,15 +137,21 @@ import { mapState } from "vuex";
         background-size: cover;
         width: 100%;
         position: relative;
-        padding: 80px 0;
+        padding: 100px 0;
+
+        @media #{$r-max-laptop-s} {
+            padding: 30px 0; 
+        }
 
         &::after {
             position: absolute;
+            content: "";
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba($c-black, .5);
+            background-color: rgba($c-darker, .8);
+            z-index: 0;
         }
 
         .cols {
@@ -131,16 +161,56 @@ import { mapState } from "vuex";
             gap: 15px;
             justify-content: center;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+
+            @media #{$r-max-laptop-s} {
+                grid-template-columns: repeat(2, 50%);
+                gap: 0;
+                row-gap: 40px;
+            }
+
+            @media #{$r-max-tablet} {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
 
             &-title {
                 font-size: 26px;
                 color: $c-d;
                 margin: 0 0 40px;
                 font-family: $c-main-font;
+                position: relative;
+
+                @media #{$r-max-laptop-s} {
+                    font-size: 22px;
+                    text-align: center;
+                    margin: 0 0 25px;
+                }
+
+                &::before {
+                    position: absolute;
+                    content: "";
+                    bottom: -10px;
+                    left: 0;
+                    width: 40px;
+                    height: 2px;
+                    background-color: $c-green-theme;
+
+                    @media #{$r-max-laptop-s} {
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                }
             }
 
             &-overall {
                 width: 100%;
+
+                @media #{$r-max-laptop-s} {
+                    text-align: center;
+                }
 
                 &-link {
                     width: 100%;
@@ -150,6 +220,14 @@ import { mapState } from "vuex";
                         width: 80%;
                         height: auto;
                         @include object-fit();
+
+                        @media #{$r-max-laptop-s} {
+                            width: 60%;
+                        }
+
+                        @media #{$r-max-tablet} {
+                            width: 50%;
+                        }
                     }
                 }
 
@@ -157,6 +235,11 @@ import { mapState } from "vuex";
                     font-size: 16px;
                     color: $c-c;
                     margin: 40px 0;
+                    line-height: 30px;
+
+                    @media #{$r-max-laptop-s} {
+                        margin: 20px 0;
+                    }
                 }
 
                 &-socials {
@@ -164,6 +247,10 @@ import { mapState } from "vuex";
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
+
+                    @media #{$r-max-laptop-s} {
+                        justify-content: center;
+                    }
 
                     .icon {
                         @include flexCenter();
@@ -199,6 +286,10 @@ import { mapState } from "vuex";
                 flex-direction: column;
                 align-items: flex-start;
 
+                @media #{$r-max-laptop-s} {
+                    align-items: center;
+                }
+
                 &-site {
                     margin: 5px 0;
                     text-decoration: none;
@@ -218,17 +309,58 @@ import { mapState } from "vuex";
                     display: grid;
                     grid-template-columns: repeat(2, calc(50% - 10px));
                     gap: 10px;
+                    justify-content: center;
                     width: 100%;
 
+                    @media #{$r-max-laptop-s} {
+                        grid-template-columns: repeat(2, auto);
+                    }
+
                     &-item {
+                        @include flexCenter();
                         width: 100%;
                         height: 80px;
                         cursor: pointer;
+                        position: relative;
+
+                        &::after {
+                            position: absolute;
+                            content: "";
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background-color: rgba($c-black, 0);
+                            transition: background-color .2s ease-in-out;
+                        }
 
                         .pic {
                             @include object-fit();
                             width: 100%;
                             height: 100%;
+                        }
+
+                        i {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            font-size: 30px;
+                            color: $c-e;
+                            opacity: 0;
+                            pointer-events: none;
+                            transition: opacity .2s ease-in-out;
+                            z-index: 1;
+                        }
+
+                        &:hover::after {
+                            background-color: rgba($c-black, .85);
+                        }
+
+                        &:hover {
+                            i {
+                                opacity: 1;
+                            }
                         }
                     }
                 }
@@ -238,7 +370,6 @@ import { mapState } from "vuex";
 
     &_bottom {
         padding: 25px 0;
-        box-shadow: 0px -1px 12px rgba($c-white, 1);
         background-color: $c-black;
 
         &-row {
@@ -246,7 +377,7 @@ import { mapState } from "vuex";
             justify-content: space-between;
             align-items: center;
 
-            @media #{$r-max-tablet} {
+            @media (max-width: 800px) {
                 flex-direction: column;
             }
 
@@ -255,7 +386,7 @@ import { mapState } from "vuex";
             }
 
             .left {
-                color: $c-8;
+                color: $c-b;
                 margin: 0;
 
                 @media #{$r-max-tablet} {
@@ -272,7 +403,7 @@ import { mapState } from "vuex";
             }
 
             .right {
-                color: $c-8;
+                color: $c-b;
                 margin: 0;
 
                 @media #{$r-max-tablet} {
@@ -293,7 +424,7 @@ import { mapState } from "vuex";
                     transition: .3s ease;
 
                     &:hover {
-                        color: $c-yellow;
+                        color: $c-orange;
                     }
                 }
             }
