@@ -1,35 +1,70 @@
 <template>
     <footer class="footer">
         <div class="footer_top">
-            <div class="wrapper top">
-                <div class="footer_top-socials">
-                    <div class="icon"><i class="fab fa-facebook-f"></i></div>
-                    <div class="icon"><i class="fab fa-twitter"></i></div>
-                    <div class="icon"><i class="fab fa-reddit-alien"></i></div>
-                    <div class="icon"><i class="fab fa-instagram"></i></div>
-                    <div class="icon"><i class="fab fa-github"></i></div>
-                </div>
+            <div class="wrapper">
+                <div class="cols">
+                    <div class="cols-overall">
+                        <a class="cols-overall-link" href="/">
+                            <img alt="logo" class="cols-overall-link-img" src="../../assets/images/logo.png">
+                        </a>
+                        <p class="cols-overall-desc">Here are the heart and community of movies. Getting started as soon as possible. Don't miss the newest movies, sign up!</p>
 
-                <div v-if="!this.isActiveUser || this.isActiveUser == null" class="footer_top-sites">
-                    <a href="/" class="site">Home</a>
-                    <a href="/author" class="site">About author</a>
-                    <a href="/register" class="site">Sign Up</a>
-                    <a href="login" class="site">Sign In</a>
-                </div>
+                        <div class="cols-overall-socials">
+                            <a class="icon"><i class="fab fa-facebook-f"></i></a>
+                            <a class="icon"><i class="fab fa-twitter"></i></a>
+                            <a class="icon"><i class="fab fa-reddit-alien"></i></a>
+                            <a class="icon"><i class="fab fa-instagram"></i></a>
+                            <a class="icon"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
 
-                <div v-else-if="this.isActiveUser" class="footer_top-sites">
-                    <a href="/userinterface" class="site">Home</a>
-                    <a href="/favourites" class="site">Favourites</a>
-                    <a href="/mylist" class="site">List</a>
-                    <a href="/profile" class="site">Profile</a>
-                </div>
+                    <div v-if="!this.isActiveUser || this.isActiveUser == null" class="cols-quick">
+                        <h2 class="cols-title">Quick Links</h2>
+                        <a href="/" class="cols-quick-site">Home</a>
+                        <a href="/author" class="cols-quick-site">About author</a>
+                        <a href="/register" class="cols-quick-site">Sign Up</a>
+                        <a href="login" class="cols-quick-site">Sign In</a>
+                    </div>
 
-                <div class="footer_top-policy">
-                    <a href="#" class="info">Privacy policy</a>
-                    <span>|</span>
-                    <a href="#" class="info">FAQ</a>
-                    <span>|</span>
-                    <a href="/support" class="info">Support</a>
+                    <div v-else-if="this.isActiveUser" class="cols-quick">
+                        <h2 class="cols-title">Quick Links</h2>
+                        <a href="/userinterface" class="cols-quick-site">Home</a>
+                        <a href="/favourites" class="cols-quick-site">Favourites</a>
+                        <a href="/mylist" class="cols-quick-site">List</a>
+                        <a href="/profile" class="cols-quick-site">Profile</a>
+                    </div>
+
+                    <div class="cols-policy">
+                        <h2 class="cols-title">Rights & Help</h2>
+                        <a href="#" class="cols-policy-site">Privacy policy</a>
+                        <a href="#" class="cols-policy-site">Terms of use</a>
+                        <a href="#" class="cols-policy-site">FAQ</a>
+                        <a href="/support" class="cols-policy-site">Support</a>
+                    </div>
+
+                    <div class="cols-news">
+                        <h2 class="cols-title">Most popular</h2>
+                        <div class="cols-news-grid">
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                            <div class="cols-news-grid-item">
+                                <img alt="popular movie" class="pic" src="../../assets/images/narcos.jpg">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,7 +72,7 @@
         <div class="footer_bottom">
             <div class="wrapper">
                 <div class="footer_bottom-row">
-                    <h4 class="left">Green Netflix &copy; {{ new Date().getFullYear() }}. All rights reserved.</h4>
+                    <h4 class="left">Christian's MoviePlatform &copy; {{ new Date().getFullYear() }}. All rights reserved.</h4>
                     <h4 class="right">Designed & coded by <a class="right_link" href="/author">the Author <i class="fas fa-crown"></i></a></h4>
                 </div>
             </div>
@@ -68,95 +103,134 @@ import { mapState } from "vuex";
 
     .wrapper {
         @media #{$r-max-laptop-m} {
-            width: calc(100% - 30px);
-        }
-
-        &.top {
-            @media #{$r-max-mobile-s} {
-                display: grid;
-                grid-template-columns: repeat(3, auto);
-                justify-content: center;
-            }
+            width: 100%;
         }
     }
     
     &_top {
-        background-color: $c-black;
+        background-image: url("../../assets/images/footer.jpg");
+        background-position: center;
+        background-size: cover;
         width: 100%;
-        padding: 20px 0;
+        position: relative;
+        padding: 80px 0;
 
-        &-socials, &-sites, &-policy {
-            @include flexCenter();
-            margin: 15px 0;
+        &::after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba($c-black, .5);
+        }
 
-            @media #{$r-max-mobile-s} {
+        .cols {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, calc(25% - 11.25px));
+            gap: 15px;
+            justify-content: center;
+            margin: 0 auto;
+
+            &-title {
+                font-size: 26px;
+                color: $c-d;
+                margin: 0 0 40px;
+                font-family: $c-main-font;
+            }
+
+            &-overall {
+                width: 100%;
+
+                &-link {
+                    width: 100%;
+                    height: 100%;
+
+                    &-img {
+                        width: 80%;
+                        height: auto;
+                        @include object-fit();
+                    }
+                }
+
+                &-desc {
+                    font-size: 16px;
+                    color: $c-c;
+                    margin: 40px 0;
+                }
+
+                &-socials {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    .icon {
+                        @include flexCenter();
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        margin: 0 7px;
+                        background-color: transparent;
+                        outline: 1px solid $c-d;
+                        cursor: pointer;
+                        transition: .2s ease-in-out;
+
+                        i {
+                            font-size: 16px;
+                            color: $c-d;
+                            transition: .2s ease-in-out;
+                        }
+
+                        &:hover {
+                            background-color: $c-d;
+
+                            i {
+                                color: $c-black;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &-quick, &-policy {
+                width: 100%;
+                display: flex;
                 flex-direction: column;
-                margin: 0 12px;
-            }
+                align-items: flex-start;
 
-            .icon {
-                margin: 0 15px;
-                border: 1px solid $c-white;
-                width: 35px;
-                height: 35px;
-                border-radius: 50%;
-                @include flexCenter();
-                cursor: pointer;
-                transition: .3s ease;
-
-                @media #{$r-max-mobile-s} {
-                    flex-direction: column;
+                &-site {
                     margin: 5px 0;
-                    width: 25px;
-                    height: 25px;
-                }
+                    text-decoration: none;
+                    color: $c-c;
+                    transition: .3s ease-in-out;
 
-                i {
-                    font-size: 18px;
-                    color: $c-white;
-                    transition: .3s ease;
-
-                    @media #{$r-max-mobile-s} {
-                        font-size: 15px;
-                    }
-                }
-
-                &:hover {
-                    background-color: $c-white;
-
-                    i {
-                        color: $c-black;
+                    &:hover {
+                        color: $c-orange;
                     }
                 }
             }
 
-            .site, .info {
-                margin: 0 15px;
-                text-decoration: none;
-                color: $c-white;
-                transition: .3s ease;
-                
-                @media #{$r-max-mobile-l} {
-                    font-size: 15px;
-                }
+            &-news {
+                width: 100%;
 
-                @media #{$r-max-mobile-s} {
-                    flex-direction: column;
-                    margin: 10px 0;
-                    font-size: 13px;
-                }
+                &-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, calc(50% - 10px));
+                    gap: 10px;
+                    width: 100%;
 
-                &:hover {
-                    color: $c-yellow;
-                }
-            }
+                    &-item {
+                        width: 100%;
+                        height: 80px;
+                        cursor: pointer;
 
-            span {
-                color: $c-white;
-                pointer-events: none;
-
-                @media #{$r-max-mobile-s} {
-                    display: none;
+                        .pic {
+                            @include object-fit();
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
                 }
             }
         }
