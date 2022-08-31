@@ -40,9 +40,9 @@ export const store = new Vuex.Store({
         httpStatus: 0,
         favourites: [],
         mylist: [],
-        filteredFavs: [],    //result of search from favourite movies
-        filteredMovies: [], //result of search from each movie
-        filteredMyList: []  //result of search from my list
+        filteredFavs: [],
+        filteredMovies: [],
+        filteredMyList: []
     },
     getters: getters,
     mutations: mutations,

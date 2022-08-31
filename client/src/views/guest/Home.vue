@@ -77,7 +77,7 @@ export default {
     return {
       heroImages: [],
       coffeNumber: 375,
-      ideasNumber: 84
+      ideasNumber: 48
     }
   },
   computed: {

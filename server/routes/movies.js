@@ -26,6 +26,7 @@ const { getHeroVideo } = require("../movies/getHeroVideo");
 const { getCarouselMovies } = require("../movies/getCarouselMovies");
 const { getTopMovies } = require("../movies/getTopMovies");
 const { getHeroImages } = require("../movies/getHeroImages");
+const { getFooterMovies } = require("../movies/getFooterMovies");
 
 const express = require("express");
 const moviesRouter = express.Router();
@@ -57,5 +58,6 @@ getHeroVideo(moviesRouter, db);
 getCarouselMovies(moviesRouter, db);
 getTopMovies(moviesRouter, db);
 getHeroImages(moviesRouter, db);
+getFooterMovies(moviesRouter, db);
 
 exports.moviesRouter = moviesRouter;
