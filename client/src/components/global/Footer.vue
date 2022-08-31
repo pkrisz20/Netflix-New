@@ -7,7 +7,9 @@
                         <a class="cols-overall-link" href="/">
                             <img alt="logo" class="cols-overall-link-img" src="../../assets/images/logo.png">
                         </a>
-                        <p class="cols-overall-desc">Here are the heart and community of movies. Getting started as soon as possible. Don't miss the newest movies, sign up!</p>
+
+                        <p v-if="this.isActiveUser" class="cols-overall-desc">If you have any question or problem about the application, you can tell us at <a class="bold" href="/support">our support</a>!</p>
+                        <p v-else-if="!this.isActiveUser || this.isActiveUser == null" class="cols-overall-desc">Here is the heart of movies. Getting started as soon as possible. Don't miss the newest movies, <a class="bold" href="/register">sign up</a>!</p>
 
                         <div class="cols-overall-socials">
                             <a class="icon"><i class="fab fa-facebook-f"></i></a>
@@ -77,7 +79,7 @@ import Axios from "axios";
                 isActiveUser: state => state.isLoggedIn
             })
         },
-        data(){
+        data() {
             return {
                 popularMovies: []
             }
@@ -237,6 +239,17 @@ import Axios from "axios";
                     margin: 40px 0;
                     line-height: 30px;
 
+                    .bold {
+                        transition: .2s ease-in-out;
+                        text-decoration: none;
+                        color: $c-green-theme;
+                        font-weight: 700;
+
+                        &:hover {
+                            color: $c-orange;
+                        }
+                    }
+
                     @media #{$r-max-laptop-s} {
                         margin: 20px 0;
                     }
@@ -354,7 +367,7 @@ import Axios from "axios";
                         }
 
                         &:hover::after {
-                            background-color: rgba($c-black, .85);
+                            background-color: rgba($c-success, .8);
                         }
 
                         &:hover {
