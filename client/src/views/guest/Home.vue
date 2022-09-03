@@ -41,6 +41,7 @@
       </div>
     </section>
     <Commercial />
+    <Pricing />
     <BlockTitle :title="'All categories'"/>
     <MovieList :movies=$store.state.list />
     <Footer />
@@ -54,6 +55,7 @@ Vue.use(SimpleCountUp);
 
 import Header from '@/components/guest/Header.vue';
 import Commercial from "@/components/guest/Commercial.vue";
+import Pricing from "@/components/guest/Pricing.vue";
 import BlockTitle from "@/components/global/BlockTitle.vue";
 import Hero from "@/components/guest/Hero.vue";
 import MovieList from "@/components/global/MovieList.vue";
@@ -68,6 +70,7 @@ export default {
     Header,
     Hero,
     MovieList,
+    Pricing,
     BlockTitle,
     Footer,
     Commercial,
