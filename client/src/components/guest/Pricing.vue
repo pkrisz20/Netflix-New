@@ -3,7 +3,7 @@
     <BlockTitle :title="'Pricing'" />
     <div class="wrapper">
 
-        <div class="pricing-table">
+        <div class="pricing-table" data-aos="fade-up">
             <div class="pricing-table-col">
                 <h2 class="pricing-table-col_title">Basic</h2>
                 <h1 class="pricing-table-col-price">9€<span>/Month</span></h1>
