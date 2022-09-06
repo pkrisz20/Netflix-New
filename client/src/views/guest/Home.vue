@@ -127,7 +127,6 @@ export default {
 
     const countUpElement = document.querySelector(".countup-container");
     inViewport(countUpElement, () => {
-      console.log("Earn countup element");
       this.simpleCountCategories.start();
       this.simpleCountUpCoffe.start();
       this.simpleCountUpMovies.start();

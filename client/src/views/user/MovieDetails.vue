@@ -2,21 +2,19 @@
     <div class="details">
         <HeaderUser />
         <BackButton />
+        <div v-if="canLoadVideo" class="video-container">
+            <div class="video-container-player" v-show="isWatching">
+                <VideoPlayer
+                    @close="closePlayer()"
+                    :videoSource="getMoviePath(getMovieVideoSource)"
+                    :videoPoster="getImagePath(getMoviePoster)"
+                />
+            </div>
+        </div>
         <div class="bg-linear">
             <div class="container" v-for="item in getMovieDetails" :key="item.id">
                 <img v-if="item.image != null" class="cover-image" alt="background" :src="getImagePath(item.image)">
                 <img v-else-if="item.image == null" class="cover-image" alt="background" src="../../assets/images/black_bg.jpg">
-
-                <div v-if="item.video != null" class="container_video">
-                    <div class="container_video-player" v-show="isWatching">
-                        <VideoPlayer
-                            @close="closePlayer()"
-                            :videoSource="getMoviePath(item.video)"
-                            :videoPoster="getImagePath(item.image)"
-                        />
-                    </div>
-                </div>
-
                 <div class="movie-details">
                     <h1 class="movie-title">{{ item.movieName }}</h1>
                     <div class="movie-info-box">
@@ -75,12 +73,31 @@ import { mapState, mapGetters } from "vuex";
             return {
                 movieId: this.$route.params.movieId,
                 isWatching: false,
+                canLoadVideo: false
+            }
+        },
+        computed: {
+            ...mapState({
+                getMovieDetails: state => state.movieDetails,
+                getCategories: state => state.categoriesDetails,
+                videoDuration: state => state.videoDuration,
+                getMoviePoster: state => state.movieDetails[0].image,
+                getMovieVideoSource: state => state.movieDetails[0].video
+            }),
+            ...mapGetters({
+                isLiked: 'isLikedMovie',
+                isDisliked: 'isDislikedMovie',
+                isOnMyList: 'isOnMyList',
+                hasVideo: 'hasVideo'
+            }),
+            formatDuration() {
+                const seconds = Math.floor(this.videoDuration % 60);
+                const minutes = Math.floor(this.videoDuration / 60) % 60;
+                const hours = Math.floor(this.videoDuration / 3600);
+                return hours == 0 ? `${minutes}m ${seconds}s` : `${hours}h ${minutes}m`;
             }
         },
         methods: {
-            scrollToTop() {
-                window.scrollTo(0, 0);
-            },
             getImagePath (image) {
                 return require('../../../../server/uploads/movies/' + image);
             },
@@ -139,6 +156,7 @@ import { mapState, mapGetters } from "vuex";
             },
             showMovie() {
                 if (this.hasVideo(this.movieId)) {
+                    window.scrollTo({ top: 0 });
                     this.isWatching = true;
                     document.body.style.overflowY = 'hidden';
                 }
@@ -151,30 +169,6 @@ import { mapState, mapGetters } from "vuex";
                 document.body.style.overflowY = 'scroll';
             }
         },
-        computed: {
-            ...mapState({
-                getMovieDetails: state => state.movieDetails,
-                getCategories: state => state.categoriesDetails,
-                videoDuration: state => state.videoDuration
-            }),
-            ...mapGetters({
-                isLiked: 'isLikedMovie',
-                isDisliked: 'isDislikedMovie',
-                isOnMyList: 'isOnMyList',
-                hasVideo: 'hasVideo'
-            }),
-            formatDuration() {
-                const seconds = Math.floor(this.videoDuration % 60);
-                const minutes = Math.floor(this.videoDuration / 60) % 60;
-                const hours = Math.floor(this.videoDuration / 3600);
-                if (hours == 0) {
-                    return `${minutes}m ${seconds}s`;
-                }
-                else {
-                    return `${hours}h ${minutes}m`;
-                }
-            }
-        },
         created() {
             this.$store.dispatch("getMovieDetails", this.movieId);
             this.$store.dispatch("getLikes");
@@ -182,353 +176,356 @@ import { mapState, mapGetters } from "vuex";
             this.$store.dispatch("getMyList");
             this.$store.dispatch("getAllMovies");
             setTimeout(() => {
-                this.scrollToTop();
-            }, 150);
+                this.hasVideo(this.movieId) ? this.canLoadVideo = true : this.canLoadVideo = false;
+                window.scrollTo(0, 0);
+            }, 200);
         }
     }
 </script>
 
 <style lang="scss" scoped>
-.bg-linear {
-    position: relative;
-    width: 100%;
-    height: auto;
-    background-color: $c-dark-theme;
+.details {
+    .video-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
 
-    .container {
-        width: 100%;
-        height: 100vh;
-        position: relative;
-        mask-image: linear-gradient(to bottom, rgba($c-dark-theme, 1) 60%, rgba($c-black, 0) 98%);
+        &-player {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
 
-        &::after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            content: '';
-            width: 100%;
-            height: 100%;
-            background-color: $c-black;
-            opacity: 0.7;
-        }
-
-        @media #{$r-max-tablet} {
-            min-height: 100%;
-        }
-
-        &_video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 15;
-
-            &-player {
-                position: relative;
-                width: 100vw;
-                height: 100vh;
-                overflow: hidden;
-
-                &::after {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    content: "";
-                    background-color: $c-black;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-
-        .fav-success {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 8;
-            padding: 14px 20px;
-            border-radius: 5px;
-            font-size: 18px;
-            color: $c-white;
-            background: $c-green-theme;
-            text-align: center;
-            display: flex;
-
-            i {
-                cursor: pointer;
-                font-size: 25px;
-                margin-left: 8px;
-            }
-
-            @media #{$r-max-tablet} {
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: "";
+                background-color: $c-black;
                 width: 100%;
+                height: 100%;
             }
         }
+    }
 
-        .cover-image {
+    .bg-linear {
+        position: relative;
+        width: 100%;
+        height: auto;
+        background-color: $c-dark-theme;
+
+        .container {
             width: 100%;
             height: 100vh;
-            @include object-fit();
-        }
+            position: relative;
+            mask-image: linear-gradient(to bottom, rgba($c-dark-theme, 1) 60%, rgba($c-black, 0) 98%);
 
-        .movie-details {
-            width: 1170px;
-            padding: 0 15px;
-            margin: 0 auto;
-            @include absoluteCenter();
-            z-index: 6;
-
-            @media #{$r-max-laptop-m} {
+            &::after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                content: '';
                 width: 100%;
-                padding-top: 50px;
-            }
-
-            @media #{$r-max-laptop-s} {
-                padding: 0 30px;
-            }
-
-            @media #{$r-max-mobile-s} {
-                padding-top: 160px;
+                height: 100%;
+                background-color: $c-black;
+                opacity: 0.7;
             }
 
             @media #{$r-max-tablet} {
-                padding-top: 70px;
+                min-height: 100%;
             }
 
-            .movie {
-                &-title {
-                    color: $c-white;
-                    font-size: 40px;
-                    letter-spacing: 4px;
+            .fav-success {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 8;
+                padding: 14px 20px;
+                border-radius: 5px;
+                font-size: 18px;
+                color: $c-white;
+                background: $c-green-theme;
+                text-align: center;
+                display: flex;
 
-                    @media #{$r-max-laptop-s} {
-                        text-align: center;
+                i {
+                    cursor: pointer;
+                    font-size: 25px;
+                    margin-left: 8px;
+                }
+
+                @media #{$r-max-tablet} {
+                    width: 100%;
+                }
+            }
+
+            .cover-image {
+                width: 100%;
+                height: 100vh;
+                @include object-fit();
+            }
+
+            .movie-details {
+                width: 1170px;
+                padding: 0 15px;
+                margin: 0 auto;
+                @include absoluteCenter();
+                z-index: 6;
+
+                @media #{$r-max-laptop-m} {
+                    width: 100%;
+                    padding-top: 50px;
+                }
+
+                @media #{$r-max-laptop-s} {
+                    padding: 0 30px;
+                }
+
+                @media #{$r-max-mobile-s} {
+                    padding-top: 160px;
+                }
+
+                @media #{$r-max-tablet} {
+                    padding-top: 70px;
+                }
+
+                .movie {
+                    &-title {
+                        color: $c-white;
+                        font-size: 40px;
+                        letter-spacing: 4px;
+
+                        @media #{$r-max-laptop-s} {
+                            text-align: center;
+                        }
+
+                        @media #{$r-max-mobile-l} {
+                            font-size: 32px;
+                        }
+
+                        @media #{$r-max-mobile-s} {
+                            letter-spacing: 2px;
+                            font-size: 26px;
+                            margin: 5px 0;
+                        }
                     }
 
-                    @media #{$r-max-mobile-l} {
-                        font-size: 32px;
+                    &-info-box {
+                        color: $c-white;
+                        display: flex;
+                        align-items: center;
+
+                        @media #{$r-max-laptop-s} {
+                            flex-direction: column;
+                            align-items: flex-start;
+                        }
+
+                        .info {
+                            display: flex;
+                            align-items: center;
+                            flex-wrap: wrap;
+                            font-weight: 700;
+                            font-size: 24px;
+
+                            i {
+                                margin-right: 5px;
+                            }
+
+                            @media #{$r-laptop-s} {
+                                &:nth-child(2) {
+                                    margin: 0 30px;
+                                }
+                            }
+
+                            span {
+                                margin: 0 8px;
+                            }
+
+                            @media #{$r-max-laptop-s} {
+                                margin: 10px 0;
+                            }
+
+                            @media #{$r-max-mobile-l} {
+                                font-size: 20px;
+                            }
+
+                            @media #{$r-max-mobile-s} {
+                                font-size: 18px;
+                                margin: 5px 0;
+                            }
+
+                            svg {
+                                width: 40px;
+                                height: 40px;
+                                margin-bottom: -8px;
+                                margin-right: 5px;
+                                fill: $c-white;
+                            }
+                        }
                     }
 
-                    @media #{$r-max-mobile-s} {
-                        letter-spacing: 2px;
-                        font-size: 26px;
-                        margin: 5px 0;
+                    &-desc {
+                        color: $c-white;
+                        font-size: 18px;
+                        text-align: justify;
+
+                        @media #{$r-max-tablet} {
+                            margin: 5px 0;
+                        }
+
+                        @media #{$r-max-mobile-l} {
+                            font-size: 15px;
+                        }
                     }
                 }
 
-                &-info-box {
-                    color: $c-white;
+                .btns {
+                    margin-left: 40px;
                     display: flex;
                     align-items: center;
 
                     @media #{$r-max-laptop-s} {
-                        flex-direction: column;
-                        align-items: flex-start;
+                        margin-left: 0;
                     }
 
-                    .info {
+                    @media #{$r-max-tablet} {
+                        display: grid;
+                        grid-template-columns: repeat(3, auto);
+                        row-gap: 10px;
+                    }
+
+                    @media #{$r-max-mobile-l} {
                         display: flex;
-                        align-items: center;
-                        flex-wrap: wrap;
-                        font-weight: 700;
-                        font-size: 24px;
+                        flex-direction: column;
+                        max-width: 200px;
+                        margin: 0 auto;
+                    }
 
-                        i {
-                            margin-right: 5px;
-                        }
-
-                        @media #{$r-laptop-s} {
-                            &:nth-child(2) {
-                                margin: 0 30px;
-                            }
-                        }
-
-                        span {
-                            margin: 0 8px;
-                        }
+                    .btn {
+                        padding: 16px 24px;
+                        color: $c-dark-theme;
+                        margin: 0 20px;
+                        font-size: 18px;
+                        border-radius: 3px;
+                        border: none;
+                        cursor: pointer;
+                        transition: .3s;
 
                         @media #{$r-max-laptop-s} {
-                            margin: 10px 0;
+                            margin: 0 10px;
+                            font-size: 15px;
                         }
 
                         @media #{$r-max-mobile-l} {
-                            font-size: 20px;
+                            width: 100%;
                         }
 
-                        @media #{$r-max-mobile-s} {
+                        &.watch {
+                            background-color: $c-green-theme;
+
+                            &:hover {
+                                background-color: $c-success;
+                                color: $c-white;
+                            }
+                        }
+
+                        &.add {
+                            background-color: $c-white;
+
+                            &:hover {
+                                background-color: $c-b;
+                            }
+                        }
+                    }
+
+                    &-favourite {
+                        border: none;
+                        cursor: pointer;
+                        transition: all .3s;
+                        margin: 0 20px;
+                        font-size: 35px;
+                        background-color: transparent;
+                        color: $c-white;
+
+                        @media #{$r-max-laptop-s} {
+                            margin: 0 10px;
+                            font-size: 28px;
+                        }
+
+                        &:hover {
+                            color: $c-red;
+                            transform: scale(1.2);
+                        }
+                    }
+
+                    &_likes {
+                        @include flexCenter();
+                        color: $c-white;
+                        font-size: 24px;
+                        font-family: $c-main-font;
+                        border: none;
+                        background-color: transparent;
+                        margin: 0 15px;
+                        cursor: pointer;
+                        padding: 10px 20px;
+                        border-radius: 3px;
+                        transition: all .3s ease-in-out;
+
+                        @media #{$r-max-laptop-s} {
+                            margin: 0 10px;
                             font-size: 18px;
-                            margin: 5px 0;
+                        }
+
+                        @media #{$r-max-mobile-l} {
+                            width: 100%;
                         }
 
                         svg {
-                            width: 40px;
-                            height: 40px;
-                            margin-bottom: -8px;
-                            margin-right: 5px;
+                            width: 26px;
+                            height: 26px;
                             fill: $c-white;
+                            margin-right: 5px;
+
+                            @media #{$r-max-laptop-s} {
+                                width: 22px;
+                                height: 22px;
+                            }
                         }
-                    }
-                }
-
-                &-desc {
-                    color: $c-white;
-                    font-size: 18px;
-                    text-align: justify;
-
-                    @media #{$r-max-tablet} {
-                        margin: 5px 0;
-                    }
-
-                    @media #{$r-max-mobile-l} {
-                        font-size: 15px;
-                    }
-                }
-            }
-
-            .btns {
-                margin-left: 40px;
-                display: flex;
-                align-items: center;
-
-                @media #{$r-max-laptop-s} {
-                    margin-left: 0;
-                }
-
-                @media #{$r-max-tablet} {
-                    display: grid;
-                    grid-template-columns: repeat(3, auto);
-                    row-gap: 10px;
-                }
-
-                @media #{$r-max-mobile-l} {
-                    display: flex;
-                    flex-direction: column;
-                    max-width: 200px;
-                    margin: 0 auto;
-                }
-
-                .btn {
-                    padding: 16px 24px;
-                    color: $c-dark-theme;
-                    margin: 0 20px;
-                    font-size: 18px;
-                    border-radius: 3px;
-                    border: none;
-                    cursor: pointer;
-                    transition: .3s;
-
-                    @media #{$r-max-laptop-s} {
-                        margin: 0 10px;
-                        font-size: 15px;
-                    }
-
-                    @media #{$r-max-mobile-l} {
-                        width: 100%;
-                    }
-
-                    &.watch {
-                        background-color: $c-green-theme;
 
                         &:hover {
-                            background-color: $c-success;
-                            color: $c-white;
-                        }
-                    }
+                            transform: scale(1.1);
 
-                    &.add {
-                        background-color: $c-white;
+                            @media #{$r-max-tablet} {
+                                transform: scale(1);
+                            }
 
-                        &:hover {
-                            background-color: $c-b;
-                        }
-                    }
-                }
+                            &.like {
+                                background-color: $c-blue;
+                            }
 
-                &-favourite {
-                    border: none;
-                    cursor: pointer;
-                    transition: all .3s;
-                    margin: 0 20px;
-                    font-size: 35px;
-                    background-color: transparent;
-                    color: $c-white;
-
-                    @media #{$r-max-laptop-s} {
-                        margin: 0 10px;
-                        font-size: 28px;
-                    }
-
-                    &:hover {
-                        color: $c-red;
-                        transform: scale(1.2);
-                    }
-                }
-
-                &_likes {
-                    @include flexCenter();
-                    color: $c-white;
-                    font-size: 24px;
-                    font-family: $c-main-font;
-                    border: none;
-                    background-color: transparent;
-                    margin: 0 15px;
-                    cursor: pointer;
-                    padding: 10px 20px;
-                    border-radius: 3px;
-                    transition: all .3s ease-in-out;
-
-                    @media #{$r-max-laptop-s} {
-                        margin: 0 10px;
-                        font-size: 18px;
-                    }
-
-                    @media #{$r-max-mobile-l} {
-                        width: 100%;
-                    }
-
-                    svg {
-                        width: 26px;
-                        height: 26px;
-                        fill: $c-white;
-                        margin-right: 5px;
-
-                        @media #{$r-max-laptop-s} {
-                            width: 22px;
-                            height: 22px;
-                        }
-                    }
-
-                    &:hover {
-                        transform: scale(1.1);
-
-                        @media #{$r-max-tablet} {
-                            transform: scale(1);
+                            &.dislike {
+                                background-color: $c-error;
+                            }
                         }
 
-                        &.like {
+                        &.active_like {
+                            transform: scale(1.1);
                             background-color: $c-blue;
+
+                            @media #{$r-max-tablet} {
+                                transform: scale(1);
+                            }
                         }
 
-                        &.dislike {
+                        &.active_dislike {
+                            transform: scale(1.1);
                             background-color: $c-error;
-                        }
-                    }
 
-                    &.active_like {
-                        transform: scale(1.1);
-                        background-color: $c-blue;
-
-                        @media #{$r-max-tablet} {
-                            transform: scale(1);
-                        }
-                    }
-
-                    &.active_dislike {
-                        transform: scale(1.1);
-                        background-color: $c-error;
-
-                        @media #{$r-max-tablet} {
-                            transform: scale(1);
+                            @media #{$r-max-tablet} {
+                                transform: scale(1);
+                            }
                         }
                     }
                 }
