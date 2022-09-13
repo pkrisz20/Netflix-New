@@ -46,7 +46,7 @@
                         :class="{ open_search : openSearchBar }"
                         v-model="searchText"
                         class="search-field"
-                        placeholder="Type here to search..." type="text" name="search"
+                        placeholder="Search by title..." type="text" name="search"
                     />
                 </form>
 
@@ -84,7 +84,7 @@
                         :class="{ open_search : openSearchBar }"
                         v-model="searchText"
                         class="search-field"
-                        placeholder="Type here to search..." type="text" name="search"
+                        placeholder="Search by title..." type="text" name="search"
                     />
                 </form>
 

@@ -40,7 +40,7 @@
                         class="search-field"
                         v-model="searchText"
                         :class="{ open_search : openSearchBar }"
-                        placeholder="Type here to search..." type="text" name="search"
+                        placeholder="Search by title..." type="text" name="search"
                     />
                 </form>
 
