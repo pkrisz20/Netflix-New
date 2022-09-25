@@ -11,7 +11,7 @@
                     <div class="support-form-msg success" v-if="successMessage">{{ successMessage }}</div>
 
                     <div class="support-form-item">
-                        <input v-model="email" :disabled="this.email" class="support-form-item-input" name="email" type="text" placeholder="Your email address..." id="email" />
+                        <input v-model="email" :disabled="this.email != null" class="support-form-item-input" name="email" type="text" placeholder="Your email address..." id="email" />
                         <label for="email">Email</label>
                     </div>
                     <div v-if="this.activeUser" class="support-form-item">
@@ -69,7 +69,7 @@ import { mapState } from "vuex";
             return {
                 successMessage: "",
                 errorMessage: "",
-                email: "",
+                email: null,
                 username: null,
                 subject: "",
                 fullName: "",
@@ -126,7 +126,7 @@ import { mapState } from "vuex";
 
                         this.subject = "";
                         this.fullName = "";
-                        this.email = "";
+                        this.email = null;
                         this.userMessage = "";
                         this.username = null;
                     })
